@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New Gloriana Choir Music Library</title>
+    <link rel="stylesheet" href="styling/main.css">
+</head>
+<body>
+    <h1 class="heading1">New Gloriana Choir music library</h1>
+
+    <section class="section-addEdit">
+        <div class="addEdit">
+<!--        "name" parameters must match those from the ListEntry class for successful creation of ListEntry object after submission of this foorm-->
+            <form action="#" class="form" id="addEditForm">
+
+                <div class="u-margin-bottom-medium">
+                    <h2 class="heading-secondary">
+                        Add entry
+                    </h2>
+                </div>
+
+                <div class="form__group">
+                    <input type="hidden" step="1" class="form__input" placeholder="id" id="id" name="id" value="-1">
+                    <label for="id" class="form__label" style="display:none">id</label>
+                </div>
+
+                <div class="form__group">
+                    <input type="text" class="form__input" placeholder="Title" id="title" name="title">
+                    <label for="title" class="form__label">Title</label>
+                </div>
+
+                <div class="form__group">
+                    <input type="text" class="form__input" placeholder="Composer first name" id="composerFirstName" name="composerFirstName">
+                    <label for="composerFirstName" class="form__label">Composer first name</label>
+                </div>
+
+                <div class="form__group">
+                    <input type="text" class="form__input" placeholder="Composer last name" id="composerLastName" name="composerLastName">
+                    <label for="composerLastName" class="form__label">Composer last name</label>
+                </div>
+
+                <div class="form__group">
+                    <input type="text" class="form__input" placeholder="Arranger" id="arranger" name="arranger">
+                    <label for="arranger" class="form__label">Arranger</label>
+                </div>
+
+                <div class="form__group">
+                    <input type="text" class="form__input" placeholder="Voice parts" id="voiceParts" name="voiceParts">
+                    <label for="voiceParts" class="form__label">Voice parts</label>
+                </div>
+
+                <div class="form__group">
+                    <input type="text" class="form__input" placeholder="Season" id="season" name="season">
+                    <label for="season" class="form__label">Season</label>
+                </div>
+
+                <div class="form__group">
+                    <input type="text" class="form__input" placeholder="Season (additional)" id="seasonAdditional" name="seasonAdditional">
+                    <label for="seasonAdditional" class="form__label">Season (additional)</label>
+                </div>
+
+                <div class="form__group">
+                    <input type="text" class="form__input" placeholder="Location" id="location" name="location">
+                    <label for="location" class="form__label">Location</label>
+                </div>
+
+                <div class="form__group">
+                    <input type="text" class="form__input" placeholder="Collection" id="collection" name="collection">
+                    <label for="collection" class="form__label">Collection</label>
+                </div>
+
+                <div class="form__group">
+                    <label for="accompanied">Accompanied</label>
+                    <select name="accompanied" id="accompanied">
+                            <option value="Accompanied">Unaccompanied</option>
+                            <option value="Unaccompanied">Accompanied</option>
+                            <option value="">Unknown</option>
+                    </select>
+                </div>
+
+
+                <div class="form__group">
+                    <button class="btn btn--green" id="btn_newEntry" type="submit">Add entry &rarr;</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section class="section-table">
+        <table class="table table_all" id="table_all">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>Title</th>
+                    <th>Composer first name</th>
+                    <th>Composer last name</th>
+                    <th>Arranger</th>
+                    <th>Voice parts</th>
+                    <th>Accompanied</th>
+                    <th>Season</th>
+                    <th>Season (additional info)</th>
+                    <th>Location</th>
+                    <th>Collection</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr></tr>
+
+            </tbody>
+        </table>
+    </section>
+
+
+
+        <script type="text/javascript" src="/javascript/index.js"></script>
+</body>
+</html>
+

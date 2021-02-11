@@ -1,0 +1,37 @@
+/*Universal declaration - will apply these settings to all elements, also select all before and after pseudoelements - prevents strange behaviour*/
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+  /*forcing inheritance on each element from body - this is considered good practice*/
+}
+
+html {
+  font-size: 62.5%;
+  /*We want default size of 10px to make our lives easier - now we know that 1rem = 10px*/
+  /*Therefore, we assume that default font size is 16px, and set the font-size to the appropriate % so that 1rem = 10px (10/16)*/
+}
+
+body {
+  box-sizing: border-box;
+  /*changes box model so that borders and paddings are not added to total width/height specified for a box*/
+  padding: 3rem;
+  /* padding around body - not inherited to other elements*/
+}
+
+body {
+  font-family: "Nunito", sans-serif;
+  font-weight: 400;
+  line-height: 1.7;
+  color: #393739;
+}
+
+.heading1 {
+  color: #101d2c;
+  text-transform: uppercase;
+  margin-bottom: 6rem;
+}
+
+/*# sourceMappingURL=main.css.map */
