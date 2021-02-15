@@ -179,24 +179,4 @@ final class LibraryEntry {
 
 }
 
-class LibraryEntryNode{
-    LibraryEntry le;
-    boolean deleted;
 
-    LibraryEntryNode(LibraryEntry le) {
-        this.le = le;
-        this.deleted = false;
-    }
-
-    public LibraryEntry getLe() {
-        return le;
-    }
-
-    public boolean isDeleted() {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted) {
-        this.deleted = deleted;
-    }
-}

@@ -12,13 +12,13 @@ import com.google.gson.Gson;
 @SpringBootApplication
 @RestController
 public class GlorianaApplication {
-    QueryLibraryMemory qlm = new QueryLibraryMemory();
-    Gson gson = new Gson();
+    private static final Gson gson = new Gson();
+
+    private final QueryLibraryMemory qlm = new QueryLibraryMemory();
 
     public static void main(String[] args) {
         SpringApplication.run(GlorianaApplication.class, args);
     }
-
 
     @GetMapping("/entries")
     public String entries() {
@@ -31,7 +31,8 @@ public class GlorianaApplication {
         return gson.toJson(result);
     }
 
-    @PostMapping(value="/newentry", consumes = MediaType.APPLICATION_JSON_VALUE,
+    @PostMapping(value="/newentry",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = {MediaType.APPLICATION_JSON_VALUE})
     public String newEntry(@RequestBody LibraryEntry le) {
         qlm.addEntry(le);

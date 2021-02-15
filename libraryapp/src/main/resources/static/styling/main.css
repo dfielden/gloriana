@@ -1,3 +1,26 @@
+.flex__half {
+  flex: 50%;
+  margin: 0 1rem;
+}
+
+.flex__full {
+  flex: 100%;
+  margin: 0 1rem;
+}
+
+.flex__third {
+  flex: 33.33333%;
+  margin: 0 1rem;
+}
+
+.flexwrapper {
+  display: flex;
+  justify-content: space-around;
+}
+.flexwrapper__vertical {
+  flex-direction: column;
+}
+
 /*Universal declaration - will apply these settings to all elements, also select all before and after pseudoelements - prevents strange behaviour*/
 *,
 *::after,
@@ -21,6 +44,225 @@ body {
   /* padding around body - not inherited to other elements*/
 }
 
+.btn, .btn:link, .btn:visited {
+  text-transform: uppercase;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 10rem;
+  transition: all 0.2s;
+  position: relative;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+}
+.btn--table {
+  width: 8rem;
+  font-size: 1rem;
+  line-height: 1rem;
+  padding: 0.5rem 2rem;
+  margin: 0.5rem 0.5rem;
+}
+.btn--form {
+  width: 20rem;
+  font-size: 1.3rem;
+  line-height: 1.3rem;
+  padding: 1rem 2rem;
+  margin: 0 1rem;
+}
+.btn:hover {
+  filter: brightness(0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
+}
+.btn:active {
+  filter: brightness(1.1);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+  transform: translateY(-1px);
+}
+.btn:focus {
+  outline: none;
+}
+.btn--primary {
+  background-image: linear-gradient(to right bottom, #035cff, #039bff);
+  color: #ffffff;
+}
+.btn--primary::after {
+  background-image: linear-gradient(to right bottom, #035cff, #039bff);
+}
+.btn--secondary {
+  background-image: linear-gradient(to right bottom, #e53508, #f1641f);
+  color: #ffffff;
+}
+.btn--secondary::after {
+  background-image: linear-gradient(to right bottom, #e53508, #f1641f);
+}
+.btn--grey {
+  background-image: linear-gradient(to right bottom, #969496, #f3f3f3);
+  color: #393739;
+}
+.btn--grey::after {
+  background-image: linear-gradient(to right bottom, #969496, #f3f3f3);
+}
+.btn::after {
+  content: "";
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  border-radius: 10rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  transition: all 0.4s;
+}
+.btn--animated {
+  animation: moveInBottom 0.5s ease-out 0.75s;
+  animation-fill-mode: backwards;
+}
+
+.addEdit {
+  height: 100vh;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s;
+}
+@supports (-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px)) {
+  .addEdit {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+}
+.addEdit:target {
+  opacity: 1;
+  visibility: visible;
+}
+.addEdit:target .addEdit__content {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+.addEdit__content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  margin: 2rem;
+  background-image: url("/images/choirstalls.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.25);
+  transition: all 0.5s 0.2s;
+}
+.addEdit__content .form {
+  background-color: rgba(150, 148, 150, 0.75);
+  display: flex;
+  flex-direction: column;
+  margin: 2rem;
+  max-width: 60rem;
+}
+.addEdit__content .form__group:not(:last-child) {
+  margin-bottom: 1rem;
+}
+.addEdit__content .form__input {
+  font-size: 1.5rem;
+  font-family: inherit;
+  color: inherit;
+  padding: 1.5rem 1rem;
+  border-radius: 2px;
+  background-color: #ffffff;
+  border: none;
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s;
+  margin-top: 1rem;
+  width: 100%;
+}
+.addEdit__content .form__input:focus {
+  outline: none;
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+  border-bottom: 3px solid #035cff;
+  background-color: #ffffff;
+}
+.addEdit__content .form__input::-webkit-input-placeholder {
+  color: #969496;
+}
+.addEdit__content .form__close:link, .addEdit__content .form__close:visited {
+  color: #393739;
+  padding: 2rem;
+  font-size: 3rem;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.2s;
+  line-height: 1;
+  align-self: flex-end;
+}
+.addEdit__content .form__close:hover {
+  color: #035cff;
+}
+.addEdit__content .form__label {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-left: 2rem;
+  margin-top: 0.5rem;
+  display: block;
+  transition: all 0.3s;
+}
+.addEdit__content .form__input:placeholder-shown + .form__label {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4rem);
+}
+.addEdit__content .form__btn {
+  display: flex;
+  align-self: center;
+  padding: 2rem;
+}
+
+.nav {
+  display: flex;
+}
+
+.table {
+  border-collapse: collapse;
+}
+.table__head {
+  background-color: #001647;
+  color: #ffffff;
+  text-align: left;
+}
+.table__head .row {
+  line-height: 3.5rem;
+}
+.table__head .row .cell {
+  padding: 1.5rem;
+}
+.table__body .row {
+  background-color: #ffffff;
+  color: #393739;
+}
+.table__body .row:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+.table__body .row:hover {
+  color: #035cff;
+}
+.table__body .row .cell {
+  padding: 1rem;
+}
+
 body {
   font-family: "Nunito", sans-serif;
   font-weight: 400;
@@ -29,9 +271,17 @@ body {
 }
 
 .heading1 {
-  color: #101d2c;
+  color: #001647;
   text-transform: uppercase;
   margin-bottom: 6rem;
+  font-size: 3rem;
+}
+
+.heading_form {
+  color: #001647;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 2rem;
 }
 
 /*# sourceMappingURL=main.css.map */

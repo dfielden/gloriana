@@ -10,8 +10,9 @@ Use Event bubbling to add event listeners to current and future button elements 
  */
 //TODO: Make single button click function and pass in edit/delete/update param
 document.addEventListener('click',function(e) {
-    if (e.target.classList.contains('btn--delete')) {
-        let id = getBtnId(e.target.id);
+
+    if (getBtnIdDescription(e.target.id) === ('delete')) {
+        let id = getBtnIdNum(e.target.id);
         let xhr = new XMLHttpRequest();
         let url = '/delete/' + id;
         xhr.open('POST', url, true);
@@ -31,8 +32,8 @@ document.addEventListener('click',function(e) {
 
 
 document.addEventListener('click',function(e) {
-    if (e.target.classList.contains('btn--edit')) {
-        let id = getBtnId(e.target.id);
+    if (getBtnIdDescription(e.target.id) === ('edit')) {
+        let id = getBtnIdNum(e.target.id);
         let url = '/entry/' + id;
 
         ajax_get(url, function(data) {
@@ -53,28 +54,29 @@ document.addEventListener('click',function(e) {
 
 
 function populateMainTable(data) {
+    let table = document.getElementById('table_all');
     for (let i = 0; i < data.length; i++) {
-        addEditRowMain(document.getElementById('table_all').insertRow(), data[i]);
+        addEditRowMain(table.insertRow(), data[i]);
+        table.rows[table.rows.length - 1 ].classList.add('row', 'row--body');
     }
 }
 
 
 function addEditRowMain(row, data) {
-   // let newRow = document.getElementById('table_all').insertRow();
-    let rowContent = "<td>" + data.id + "</td>";
-        rowContent += "<td>" + data.title + "</td>";
-        rowContent += "<td>" + data.composerFirstName + "</td>";
-        rowContent += "<td>" + data.composerLastName + "</td>";
-        rowContent += "<td>" + data.arranger + "</td>";
-        rowContent += "<td>" + data.voiceParts + "</td>";
-        rowContent += "<td>" + data.accompanied + "</td>";
-        rowContent += "<td>" + data.season + "</td>";
-        rowContent += "<td>" + data.seasonAdditional + "</td>";
-        rowContent += "<td>" + data.location + "</td>";
-        rowContent += "<td>" + data.collection + "</td>";
-        rowContent += "<td>" +
-            "<button class='btn btn--green btn--edit' id='edit_" + data.id + "'>Edit</button>" +
-            "<button class='btn btn--green btn--delete' id='delete_" + data.id + "'>Delete</button>"
+    let rowContent = "<td class='cell'>" + data.id + "</td>";
+        rowContent += "<td class='cell'>" + data.title + "</td>";
+        rowContent += "<td class='cell'>" + data.composerFirstName + "</td>";
+        rowContent += "<td class='cell'>" + data.composerLastName + "</td>";
+        rowContent += "<td class='cell'>" + data.arranger + "</td>";
+        rowContent += "<td class='cell'>" + data.voiceParts + "</td>";
+        rowContent += "<td class='cell'>" + data.accompanied + "</td>";
+        rowContent += "<td class='cell'>" + data.season + "</td>";
+        rowContent += "<td class='cell'>" + data.seasonAdditional + "</td>";
+        rowContent += "<td class='cell'>" + data.location + "</td>";
+        rowContent += "<td class='cell'>" + data.collection + "</td>";
+        rowContent += "<td class='cell flexwrapper'>" +
+            "<a href='#addEdit' class='btn btn--primary btn--table' id='edit_" + data.id + "'>Edit</a>" +
+            "<button class='btn btn--secondary btn--table' id='delete_" + data.id + "'>Delete</button>"
             + "</td>"
     row.innerHTML = '';
     row.innerHTML = rowContent;
@@ -83,7 +85,7 @@ function addEditRowMain(row, data) {
 function clearNewEntryForm() {
     document.getElementById('addEditForm').reset();
     document.getElementById('id').value = -1;
-
+    window.location = '/';
 }
 
 
@@ -109,8 +111,10 @@ function ajax_get(url, callback) {
     xhr.send();
 }
 
+//TODO: Tidy this function up.
 document.getElementById('addEditForm').addEventListener("submit", function (e) {
     e.preventDefault();
+
 
     let formData = new FormData(this);
     let object = {};
@@ -131,11 +135,13 @@ document.getElementById('addEditForm').addEventListener("submit", function (e) {
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 let data = JSON.parse(xhr.responseText);
-                addEditRowMain(document.getElementById('table_all').insertRow(), data)
+                console.log(data);
+                let table = document.getElementById('table_all');
+                addEditRowMain(table.insertRow(), data);
+                table.rows[table.rows.length - 1 ].classList.add('row', 'row--body');
                 clearNewEntryForm();
             }
         }
-
     } else {
         // CODE FOR UPDATING ENTRY
         console.log(object.id);
@@ -157,8 +163,17 @@ document.getElementById('addEditForm').addEventListener("submit", function (e) {
     xhr.send(json);
 });
 
-function getBtnId(string) {
+document.getElementById('btn_cancelNewEntry').addEventListener('click', function() {
+    clearNewEntryForm();
+    window.location.assign('/');
+})
+
+function getBtnIdNum(string) {
     return string.split('_')[1];
+}
+
+function getBtnIdDescription(string) {
+    return string.split('_')[0];
 }
 
 function deleteRowOfBtnClick(btn) {
@@ -170,3 +185,5 @@ function updateRowOfBtnClick(btn, data) {
     let row = btn.parentNode.parentNode;
     addEditRowMain(row, data);
 }
+
+

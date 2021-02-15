@@ -7,8 +7,8 @@ This interface defines the CRUD methods for editing the music library
 import java.util.Map;
 
 public interface QueryLibrary {
-    /*
-    Adds a single new entry to the music library.
+    /**
+     * Adds a single new entry to the music library.
      */
     void addEntry(LibraryEntry entry);
 

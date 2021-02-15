@@ -6,16 +6,31 @@
     <link rel="stylesheet" href="styling/main.css">
 </head>
 <body>
+<div class="nav">
     <h1 class="heading1">New Gloriana Choir music library</h1>
+    <div class="newEntryWrapper">
+        <a href='#addEdit'><button class="btn btn--primary btn--form" id="btn_createNewEntry">Create new entry</button></a>
+     </div>
+    <div class="search">
+        <input type="text" class="search__input" placeholder="Search music">
+<!--            <button class="search__button">-->
+<!--                <svg class="search__icon">-->
+<!--                    <use xlink:href="img/sprite.svg#icon-magnifying-glass"></use>-->
+<!--                </svg>-->
+<!--            </button>-->
+        </form>
+    </div>
+</div>
 
-    <section class="section-addEdit">
-        <div class="addEdit">
-<!--        "name" parameters must match those from the ListEntry class for successful creation of ListEntry object after submission of this foorm-->
+<section class="section-addEdit">
+    <div class="addEdit" id="addEdit">
+        <div class="addEdit__content">
+<!--        "name" parameters must match those from the ListEntry class for successful creation of ListEntry object after submission of this form-->
             <form action="#" class="form" id="addEditForm">
-
+                <a href="#" class="form__close" id="form__close">&times;</a>
                 <div class="u-margin-bottom-medium">
-                    <h2 class="heading-secondary">
-                        Add entry
+                    <h2 class="heading_form">
+                        Add new entry
                     </h2>
                 </div>
 
@@ -24,96 +39,113 @@
                     <label for="id" class="form__label" style="display:none">id</label>
                 </div>
 
-                <div class="form__group">
-                    <input type="text" class="form__input" placeholder="Title" id="title" name="title">
-                    <label for="title" class="form__label">Title</label>
+                <div class="flexwrapper">
+                    <div class="form__group flex__full flexwrapper__vertical">
+                        <input type="text" autocomplete="off" class="form__input" placeholder="Title" id="title" name="title">
+                        <label for="title" class="form__label">Title</label>
+                    </div>
                 </div>
 
-                <div class="form__group">
-                    <input type="text" class="form__input" placeholder="Composer first name" id="composerFirstName" name="composerFirstName">
-                    <label for="composerFirstName" class="form__label">Composer first name</label>
+                <div class="flexwrapper">
+                    <div class="form__group flex__half flexwrapper__vertical">
+                        <input type="text" autocomplete="off" class="form__input" placeholder="Composer first name" id="composerFirstName" name="composerFirstName">
+                        <label for="composerFirstName" class="form__label">Composer first name</label>
+                    </div>
+
+                    <div class="form__group flex__half flexwrapper__vertical">
+                        <input type="text" autocomplete="off" class="form__input" placeholder="Composer last name" id="composerLastName" name="composerLastName">
+                        <label for="composerLastName" class="form__label">Composer last name</label>
+                    </div>
                 </div>
 
-                <div class="form__group">
-                    <input type="text" class="form__input" placeholder="Composer last name" id="composerLastName" name="composerLastName">
-                    <label for="composerLastName" class="form__label">Composer last name</label>
+                <div class="flexwrapper">
+                    <div class="form__group flex__third flexwrapper__vertical">
+                        <input type="text" autocomplete="off" class="form__input" placeholder="Arranger" id="arranger" name="arranger">
+                        <label for="arranger" class="form__label">Arranger</label>
+                    </div>
+
+                    <div class="form__group flex__third flexwrapper__vertical">
+                        <input type="text" class="form__input" placeholder="Voice parts" id="voiceParts" name="voiceParts">
+                        <label for="voiceParts" class="form__label">Voice parts</label>
+                    </div>
+
+                    <div class="form__group flex__third flexwrapper__vertical">
+                        <input type="text" autocomplete="off" class="form__input" placeholder="Season" id="season" name="season">
+                        <label for="season" class="form__label">Season</label>
+                    </div>
                 </div>
 
-                <div class="form__group">
-                    <input type="text" class="form__input" placeholder="Arranger" id="arranger" name="arranger">
-                    <label for="arranger" class="form__label">Arranger</label>
+
+                <div class="flexwrapper">
+                    <div class="form__group flex__full flexwrapper__vertical">
+                        <input type="text" autocomplete="off" class="form__input" placeholder="Season (additional)" id="seasonAdditional" name="seasonAdditional">
+                        <label for="seasonAdditional" class="form__label">Season (additional)</label>
+                    </div>
                 </div>
 
-                <div class="form__group">
-                    <input type="text" class="form__input" placeholder="Voice parts" id="voiceParts" name="voiceParts">
-                    <label for="voiceParts" class="form__label">Voice parts</label>
-                </div>
+                <div class="flexwrapper">
+                    <div class="form__group flex__third flexwrapper__vertical">
+                        <input type="text" autocomplete="off" class="form__input" placeholder="Location" id="location" name="location">
+                        <label for="location" class="form__label">Location</label>
+                    </div>
 
-                <div class="form__group">
-                    <input type="text" class="form__input" placeholder="Season" id="season" name="season">
-                    <label for="season" class="form__label">Season</label>
-                </div>
+                    <div class="form__group flex__third flexwrapper__vertical">
+                        <input type="text" autocomplete="off" class="form__input" placeholder="Collection" id="collection" name="collection">
+                        <label for="collection" class="form__label">Collection</label>
+                    </div>
 
-                <div class="form__group">
-                    <input type="text" class="form__input" placeholder="Season (additional)" id="seasonAdditional" name="seasonAdditional">
-                    <label for="seasonAdditional" class="form__label">Season (additional)</label>
-                </div>
-
-                <div class="form__group">
-                    <input type="text" class="form__input" placeholder="Location" id="location" name="location">
-                    <label for="location" class="form__label">Location</label>
-                </div>
-
-                <div class="form__group">
-                    <input type="text" class="form__input" placeholder="Collection" id="collection" name="collection">
-                    <label for="collection" class="form__label">Collection</label>
-                </div>
-
-                <div class="form__group">
-                    <label for="accompanied">Accompanied</label>
-                    <select name="accompanied" id="accompanied">
+                    <div class="form__group flex__third flexwrapper__vertical">
+                        <select name="accompanied" class="form__input" id="accompanied">
+                            <option value="" selected disabled hidden>Accompanied?</option>
                             <option value="Accompanied">Unaccompanied</option>
                             <option value="Unaccompanied">Accompanied</option>
-                            <option value="">Unknown</option>
-                    </select>
+                            <option value="Unknown">Unknown</option>
+                        </select>
+                        <label for="accompanied">Accompanied?</label>
+                    </div>
                 </div>
 
-
-                <div class="form__group">
-                    <button class="btn btn--green" id="btn_newEntry" type="submit">Add entry &rarr;</button>
+                <div class="form__group form__btn">
+                    <button class="btn btn--grey btn--form" id="btn_cancelNewEntry">Cancel</button>
+                    <a href="/">
+                    <button class="btn btn--primary btn--form" id="btn_newEntry" type="submit">Add entry &rarr;</button>
+                    </a>
                 </div>
             </form>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section class="section-table">
-        <table class="table table_all" id="table_all">
-            <thead>
-                <tr>
-                    <th>id</th>
-                    <th>Title</th>
-                    <th>Composer first name</th>
-                    <th>Composer last name</th>
-                    <th>Arranger</th>
-                    <th>Voice parts</th>
-                    <th>Accompanied</th>
-                    <th>Season</th>
-                    <th>Season (additional info)</th>
-                    <th>Location</th>
-                    <th>Collection</th>
-                    <th>Action</th>
+<section class="section-table">
+    <div class="flexwrapper">
+        <table class="table" id="table_all">
+            <thead class="table__head">
+                <tr class="row row--head">
+                    <th class="cell">id</th>
+                    <th class="cell">Title</th>
+                    <th class="cell">Composer first name</th>
+                    <th class="cell">Composer last name</th>
+                    <th class="cell">Arranger</th>
+                    <th class="cell">Voice parts</th>
+                    <th class="cell">Accompanied</th>
+                    <th class="cell">Season</th>
+                    <th class="cell">Season (additional info)</th>
+                    <th class="cell">Location</th>
+                    <th class="cell">Collection</th>
+                    <th class="cell">Action</th>
                 </tr>
             </thead>
-            <tbody>
-            <tr></tr>
+            <tbody class="table__body">
+            <tr class="row row--body"></tr>
 
             </tbody>
         </table>
-    </section>
+    </div>
+</section>
 
 
 
-        <script type="text/javascript" src="/javascript/index.js"></script>
+    <script type="text/javascript" src="/javascript/index.js"></script>
 </body>
 </html>
 

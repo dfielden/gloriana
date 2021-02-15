@@ -1,0 +1,24 @@
+.flex__half {
+  flex: 50%;
+  margin: 0 1rem;
+}
+
+.flex__full {
+  flex: 100%;
+  margin: 0 1rem;
+}
+
+.flex__third {
+  flex: 33.33333%;
+  margin: 0 1rem;
+}
+
+.flexwrapper {
+  display: flex;
+  justify-content: space-around;
+
+  &__vertical {
+    flex-direction: column;
+  }
+}
+

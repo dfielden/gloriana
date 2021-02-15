@@ -1,0 +1,38 @@
+.table {
+  border-collapse: collapse;
+
+  &__head {
+    background-color: $color-primary-dark;
+    color: $color-white;
+    text-align: left;
+
+    .row {
+      line-height: 3.5rem;
+
+      .cell {
+        padding: 1.5rem;
+      }
+    }
+  }
+
+  &__body {
+
+    .row {
+      background-color: $color-white;
+      color: $color-grey-dark;
+
+
+      &:nth-of-type(even) {
+          background-color: $color-grey-light;
+      }
+
+      &:hover {
+        color: $color-primary;
+      }
+
+      .cell {
+        padding: 1rem;
+      }
+    }
+  }
+}

@@ -1,0 +1,131 @@
+.addEdit {
+  height: 100vh;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba($color-black, .8);
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all .3s;
+
+  @supports (-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px)) {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    background-color: rgba($color-black, .3);
+  }
+
+  //Open states
+  &:target {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &:target &__content {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  &__content {
+    @include absCenter;
+
+    width: 100%;
+    margin: 2rem;
+    background-image: url('/images/choirstalls.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    box-shadow: 0 2rem 4rem rgba($color-black, .2);
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(.25);
+    transition: all .5s .2s;
+
+
+    .form {
+      background-color: rgba($color-grey-medium, 0.75);
+      display: flex;
+      flex-direction: column;
+      margin: 2rem;
+      max-width: 60rem;
+      //justify-content: center;
+
+
+      &__group:not(:last-child) {
+        margin-bottom: 1rem;
+      }
+
+      &__input {
+        font-size: 1.5rem;
+        font-family: inherit;
+        color: inherit;
+        padding: 1.5rem 1rem;
+        border-radius: 2px;
+        background-color: $color-white;
+        border: none;
+        border-bottom: 3px solid transparent;
+        transition: all .3s;
+        margin-top: 1rem;
+        width: 100%;
+
+
+        &:focus {
+          outline: none;
+          box-shadow: 0 1rem 2rem rgba($color-black, .1);
+          border-bottom: 3px solid $color-primary;
+          background-color: $color-white;
+
+        }
+
+        &::-webkit-input-placeholder {
+          color: $color-grey-medium;
+        }
+      }
+
+      &__close {
+        &:link,
+        &:visited {
+          color: $color-grey-dark;
+          padding: 2rem;
+          font-size: 3rem;
+          text-decoration: none;
+          display: inline-block;
+          transition: all .2s;
+          line-height: 1;
+          align-self: flex-end;
+        }
+
+        &:hover {
+          color: $color-primary;
+        }
+      }
+
+
+      &__label {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-left: 2rem;
+        margin-top: .5rem;
+        display: block; // needed for animation to work
+        transition: all .3s;
+      }
+
+      &__input:placeholder-shown + .form__label {
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-4rem);
+
+      }
+
+      &__btn {
+        display: flex;
+        align-self: center;
+        padding: 2rem;
+      }
+    }
+  }
+}
