@@ -77,7 +77,7 @@ final class LibraryEntry {
         this.voiceParts = voiceParts;
     }
 
-    public String isAccompanied() {
+    public String getAccompanied() {
         return accompanied;
     }
 
@@ -159,7 +159,7 @@ final class LibraryEntry {
         o.addProperty("composerLastName", getComposerLastName());
         o.addProperty("arranger", getArranger());
         o.addProperty("voiceParts", getVoiceParts());
-        o.addProperty("accompanied", isAccompanied());
+        o.addProperty("accompanied", getAccompanied());
         o.addProperty("season", getSeason());
         o.addProperty("seasonAdditional", getSeasonAdditional());
         o.addProperty("location", getLocation());
