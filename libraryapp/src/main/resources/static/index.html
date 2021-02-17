@@ -12,13 +12,16 @@
         <a href='#addEdit'><button class="btn btn--primary btn--form" id="btn_createNewEntry">Create new entry</button></a>
      </div>
     <div class="search">
-        <input type="text" class="search__input" placeholder="Search music">
-<!--            <button class="search__button">-->
-<!--                <svg class="search__icon">-->
-<!--                    <use xlink:href="img/sprite.svg#icon-magnifying-glass"></use>-->
-<!--                </svg>-->
-<!--            </button>-->
+        <form action="#" class="form" id="searchForm">
+            <input type="text" class="search__input" id="search__input" autocomplete="off" placeholder="Search music">
+            <button class="search__button" id="search__button" type="submit">
+            <div class="search__icon">
+                <embed src="/images/magnifying-glass.svg">
+            </div>
+            </button>
+            <a href="#" class="search__clear" id="search__clear">&times;</a>
         </form>
+
     </div>
 </div>
 
@@ -29,7 +32,7 @@
             <form action="#" class="form" id="addEditForm">
                 <a href="#" class="form__close" id="form__close">&times;</a>
                 <div class="u-margin-bottom-medium">
-                    <h2 class="heading_form">
+                    <h2 class="heading__form" id="heading__form">
                         Add new entry
                     </h2>
                 </div>
@@ -65,7 +68,7 @@
                     </div>
 
                     <div class="form__group flex__third flexwrapper__vertical">
-                        <input type="text" class="form__input" placeholder="Voice parts" id="voiceParts" name="voiceParts">
+                        <input type="text" autocomplete="off" class="form__input" placeholder="Voice parts" id="voiceParts" name="voiceParts">
                         <label for="voiceParts" class="form__label">Voice parts</label>
                     </div>
 
@@ -74,7 +77,6 @@
                         <label for="season" class="form__label">Season</label>
                     </div>
                 </div>
-
 
                 <div class="flexwrapper">
                     <div class="form__group flex__full flexwrapper__vertical">
@@ -95,21 +97,21 @@
                     </div>
 
                     <div class="form__group flex__third flexwrapper__vertical">
-                        <select name="accompanied" class="form__input" id="accompanied">
-                            <option value="" selected disabled hidden>Accompanied?</option>
-                            <option value="Accompanied">Unaccompanied</option>
-                            <option value="Unaccompanied">Accompanied</option>
+                        <select name="accompanied" class="form__input select-text-default" id="accompanied">
+                            <option value="-1" selected disabled hidden>Accompanied?</option>
+                            <option value="Accompanied">Accompanied</option>
+                            <option value="Unaccompanied">Unaccompanied</option>
                             <option value="Unknown">Unknown</option>
                         </select>
-                        <label for="accompanied">Accompanied?</label>
+<!--                        <label for="accompanied">Accompanied?</label>-->
                     </div>
                 </div>
 
                 <div class="form__group form__btn">
-                    <button class="btn btn--grey btn--form" id="btn_cancelNewEntry">Cancel</button>
-                    <a href="/">
+                    <button class="btn btn--grey btn--form" id="btn_cancelNewEntry" type="button">Cancel</button>
+<!--                    <a href="/">-->
                     <button class="btn btn--primary btn--form" id="btn_newEntry" type="submit">Add entry &rarr;</button>
-                    </a>
+<!--                    </a>-->
                 </div>
             </form>
         </div>

@@ -21,9 +21,6 @@ public class QueryLibraryMemory implements QueryLibrary {
 
     @Override
     public void addEntry(LibraryEntry entry) {
-//        if (entry.getId() == -1L) {
-//            entry.setId(getNextUnusedID());
-//        }
         if (entry.getId() != -1) {
             throw new IllegalArgumentException("ID must be -1 for new insertion");
         }
@@ -68,6 +65,11 @@ public class QueryLibraryMemory implements QueryLibrary {
         return node.getLe();
     }
 
+    @Override
+    public Map<Long, LibraryEntry> searchEntries(String searchTerm) throws Exception {
+        return null;
+    }
+
     private long getNextUnusedID() {
         Set<Long> keys = map.keySet();
         long checkKey = 0L;
@@ -82,7 +84,6 @@ public class QueryLibraryMemory implements QueryLibrary {
             }
         }
     }
-
 
     private static final class LibraryEntryNode {
         private LibraryEntry le;

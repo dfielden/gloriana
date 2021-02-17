@@ -23,11 +23,15 @@
 
 
       &:nth-of-type(even) {
-          background-color: $color-grey-light;
+          background-color: $color-grey-lightest;
       }
 
       &:hover {
         color: $color-primary;
+      }
+
+      &:last-of-type {
+        border-bottom: thin solid $color-primary-dark;
       }
 
       .cell {
