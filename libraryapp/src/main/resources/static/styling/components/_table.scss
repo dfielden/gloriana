@@ -1,5 +1,6 @@
 .table {
   border-collapse: collapse;
+  width: 100%;
 
   &__head {
     background-color: $color-primary-dark;
@@ -7,7 +8,7 @@
     text-align: left;
 
     .row {
-      line-height: 3.5rem;
+      line-height: 2rem;
 
       .cell {
         padding: 1.5rem;

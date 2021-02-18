@@ -5,6 +5,9 @@ public class Search {
         for (int i = 0; i < searchTerm.length; i++) {
             System.out.println(le.toString());
             String term = searchTerm[i];
+            if (le.getAccompanied() == null) {
+                le.setAccompanied("");
+            }
             if (!objectPartMatchesQuery(le.getTitle(), term) &&
                     !le.getComposerFirstName().toLowerCase().contains(term) &&
                     !le.getComposerLastName().toLowerCase().contains(term) &&

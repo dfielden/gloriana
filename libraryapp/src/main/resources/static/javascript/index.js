@@ -57,7 +57,7 @@ document.addEventListener('click',function(e) {
             document.getElementById('seasonAdditional').value = data.seasonAdditional;
             document.getElementById('location').value = data.location;
             document.getElementById('collection').value = data.collection;
-            document.getElementById('accompanied').value = data.accompanied == null ? -1 : data.accompanied;
+            document.getElementById('accompanied').value = data.accompanied == null ? '-1' : data.accompanied;
 
             toggleLabelPlaceholderStyle(document.getElementById('accompanied'));
             toggleAddEditText();
@@ -75,30 +75,29 @@ function populateMainTable(data) {
 }
 
 function addEditRowMain(row, data) {
-    let accompanied = data.accompanied === undefined ? ' ' : data.accompanied;
+    console.log(data);
+    console.log(Object.keys(data).length);
 
-    let rowContent = "<td class='cell'>" + data.id + "</td>";
-        rowContent += "<td class='cell'>" + data.title + "</td>";
-        rowContent += "<td class='cell'>" + data.composerFirstName + "</td>";
-        rowContent += "<td class='cell'>" + data.composerLastName + "</td>";
-        rowContent += "<td class='cell'>" + data.arranger + "</td>";
-        rowContent += "<td class='cell'>" + data.voiceParts + "</td>";
-        rowContent += "<td class='cell'>" + accompanied + "</td>";
-        rowContent += "<td class='cell'>" + data.season + "</td>";
-        rowContent += "<td class='cell'>" + data.seasonAdditional + "</td>";
-        rowContent += "<td class='cell'>" + data.location + "</td>";
-        rowContent += "<td class='cell'>" + data.collection + "</td>";
-        rowContent += "<td class='cell flexwrapper'>" +
-            "<a href='#addEdit' class='btn btn--primary btn--table' id='edit_" + data.id + "'>Edit</a>" +
-            "<button class='btn btn--secondary btn--table' id='delete_" + data.id + "'>Delete</button>"
-            + "</td>"
-    row.innerHTML = '';
-    row.innerHTML = rowContent;
+    for (let i = 0; i < Object.keys(data).length; i++) {
+        row.insertCell().classList.add('cell');
+
+        let input = data[Object.keys(data)[i]];
+        if (input === undefined) {
+            row.cells[row.cells.length - 1].innerText = ' ';
+        } else {
+            row.cells[row.cells.length - 1].innerText = data[Object.keys(data)[i]];
+        }
+    }
+    row.insertCell().classList.add('cell');
+    row.cells[row.cells.length - 1].innerHTML =
+        "<div class='flexwrapper'><a href='#addEdit' class='btn btn--primary btn--table' id='edit_" + data.id + "'>Edit</a>" +
+        "<button class='btn btn--secondary btn--table' id='delete_" + data.id + "'>Delete</button></div>";
+
 }
 
 function clearNewEntryForm() {
     document.getElementById('addEditForm').reset();
-    document.getElementById('id').value = -1;
+    document.getElementById('id').value = '-1';
     window.location = '/';
 }
 

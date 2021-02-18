@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1"/>
     <title>New Gloriana Choir Music Library</title>
     <link rel="stylesheet" href="styling/main.css">
 </head>
 <body>
 <div class="nav">
-    <h1 class="heading1">New Gloriana Choir music library</h1>
-    <div class="newEntryWrapper">
-        <a href='#addEdit'><button class="btn btn--primary btn--form" id="btn_createNewEntry">Create new entry</button></a>
-     </div>
+    <div class="heading__wrapper">
+        <h1 class="heading1">New Gloriana Choir music library</h1>
+        <div class="newEntryWrapper">
+            <a href='#addEdit'><button class="btn btn--primary btn--form" id="btn_createNewEntry">Create new entry</button></a>
+         </div>
+    </div>
     <div class="search">
         <form action="#" class="form" id="searchForm">
             <input type="text" class="search__input" id="search__input" autocomplete="off" placeholder="Search music">
@@ -21,8 +23,8 @@
             </button>
             <a href="#" class="search__clear" id="search__clear">&times;</a>
         </form>
-
     </div>
+
 </div>
 
 <section class="section-addEdit">
@@ -42,14 +44,14 @@
                     <label for="id" class="form__label" style="display:none">id</label>
                 </div>
 
-                <div class="flexwrapper">
+                <div class="flexwrapper flexwrapper--form">
                     <div class="form__group flex__full flexwrapper__vertical">
                         <input type="text" autocomplete="off" class="form__input" placeholder="Title" id="title" name="title">
                         <label for="title" class="form__label">Title</label>
                     </div>
                 </div>
 
-                <div class="flexwrapper">
+                <div class="flexwrapper flexwrapper--form">
                     <div class="form__group flex__half flexwrapper__vertical">
                         <input type="text" autocomplete="off" class="form__input" placeholder="Composer first name" id="composerFirstName" name="composerFirstName">
                         <label for="composerFirstName" class="form__label">Composer first name</label>
@@ -61,7 +63,7 @@
                     </div>
                 </div>
 
-                <div class="flexwrapper">
+                <div class="flexwrapper flexwrapper--form">
                     <div class="form__group flex__third flexwrapper__vertical">
                         <input type="text" autocomplete="off" class="form__input" placeholder="Arranger" id="arranger" name="arranger">
                         <label for="arranger" class="form__label">Arranger</label>
@@ -78,14 +80,14 @@
                     </div>
                 </div>
 
-                <div class="flexwrapper">
+                <div class="flexwrapper flexwrapper--form">
                     <div class="form__group flex__full flexwrapper__vertical">
                         <input type="text" autocomplete="off" class="form__input" placeholder="Season (additional)" id="seasonAdditional" name="seasonAdditional">
                         <label for="seasonAdditional" class="form__label">Season (additional)</label>
                     </div>
                 </div>
 
-                <div class="flexwrapper">
+                <div class="flexwrapper flexwrapper--form">
                     <div class="form__group flex__third flexwrapper__vertical">
                         <input type="text" autocomplete="off" class="form__input" placeholder="Location" id="location" name="location">
                         <label for="location" class="form__label">Location</label>
@@ -107,7 +109,7 @@
                     </div>
                 </div>
 
-                <div class="form__group form__btn">
+                <div class="flexwrapper form__group form__btn">
                     <button class="btn btn--grey btn--form" id="btn_cancelNewEntry" type="button">Cancel</button>
 <!--                    <a href="/">-->
                     <button class="btn btn--primary btn--form" id="btn_newEntry" type="submit">Add entry &rarr;</button>

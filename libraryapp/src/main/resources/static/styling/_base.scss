@@ -16,6 +16,13 @@ $color-grey-dark: #393739;
 $color-white: #ffffff;
 $color-black: #000000;
 
+// BREAK POINTS
+$break-smallest: 400px;
+$break-small: 750px;
+$break-medium: 1000px;
+$break-large: 1260px;
+$break-largest: 1500px;
+
 
 // FONT VARIABLES
 $font-primary: 'Nunito', sans-serif;
@@ -41,5 +48,11 @@ html {
 body {
   box-sizing: border-box; /*changes box model so that borders and paddings are not added to total width/height specified for a box*/
   padding: 3rem; /* padding around body - not inherited to other elements*/
+
+  @media only screen and (max-width: $break-medium) {
+    padding: 0;
+  ;
+  }
+
 
 }

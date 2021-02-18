@@ -7,10 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import com.google.gson.Gson;
-
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+
 
 
 @SpringBootApplication
@@ -31,6 +29,9 @@ public class GlorianaApplication {
     public String entries() throws Exception{
         JsonArray entries = new JsonArray();
         for (LibraryEntry le : ql.getAllEntries().values()) {
+            if (le.getAccompanied() == null) {
+                le.setAccompanied("");
+            }
             entries.add(le.toJson());
         }
         JsonObject result = new JsonObject();
@@ -42,6 +43,9 @@ public class GlorianaApplication {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public String newEntry(@RequestBody LibraryEntry le) throws Exception {
+        if (le.getAccompanied() == null) {
+            le.setAccompanied("");
+        }
         ql.addEntry(le);
         return le.toJson().toString();
     }
@@ -69,9 +73,11 @@ public class GlorianaApplication {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public String searchEntries(@RequestBody String s) throws Exception {
-        System.out.println("helo");
         JsonArray entries = new JsonArray();
         for (LibraryEntry le : ql.searchEntries(s).values()) {
+            if (le.getAccompanied() == null) {
+                le.setAccompanied("");
+            }
             entries.add(le.toJson());
         }
         JsonObject result = new JsonObject();

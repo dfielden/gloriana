@@ -29,7 +29,11 @@
     font-size: 1.3rem;
     line-height: 1.3rem;
     padding: 1rem 2rem;
-    margin: 0 1rem;
+    margin: 0.5rem 3rem;
+
+    @media only screen and (max-width: $break-small) {
+      width: 15rem;
+    }
 
   }
 
@@ -93,5 +97,7 @@
     animation: moveInBottom .5s ease-out .75s;
     animation-fill-mode: backwards;
   }
+
+
 }
 

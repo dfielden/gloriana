@@ -9,6 +9,22 @@ body {
   color: $color-primary-dark;
   text-transform: uppercase;
   font-size: 3rem;
+  padding-left: 3rem;
+
+  @media only screen and (max-width: $break-large) {
+    font-size: 2.5rem;
+  }
+  @media only screen and (max-width: $break-medium) {
+    font-size: 2rem;
+    padding-right: 3rem;
+
+  }
+  @media only screen and (max-width: $break-small) {
+    font-size: 2.5rem;
+  }
+  @media only screen and (max-width: $break-smallest) {
+    font-size: 2rem;
+  }
 }
 
 .heading__form {
