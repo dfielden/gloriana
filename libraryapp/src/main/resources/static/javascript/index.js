@@ -67,33 +67,92 @@ document.addEventListener('click',function(e) {
 
 
 function populateMainTable(data) {
-    let table = document.getElementById('table_all');
+    let tableBody = document.getElementById('table__body');
     for (let i = 0; i < data.length; i++) {
-        addEditRowMain(table.insertRow(), data[i]);
-        table.rows[table.rows.length - 1 ].classList.add('row', 'row--body', 'row--visible');
+        addEditRowMain(tableBody, data[i]);
     }
 }
 
-function addEditRowMain(row, data) {
-    console.log(data);
-    console.log(Object.keys(data).length);
+function addEditRowMain(tableBody, data) {
+    let row = document.createElement('div');
+    row.classList.add('row', 'row--body', 'row--visible');
+    let containerDiv;
+    tableBody.appendChild(row);
 
     for (let i = 0; i < Object.keys(data).length; i++) {
-        row.insertCell().classList.add('cell');
+
+        if (i === 0) {
+            // containerDiv = document.createElement('div')
+            // containerDiv.classList.add('table--id', 'flex__oneTwelth');
+            // row.appendChild(containerDiv);
+
+            // id = do not add to table
+            continue;
+        }
+        if (i === 1) {
+            containerDiv = document.createElement('div')
+            containerDiv.classList.add('table--name', 'flex__oneSixth', 'name');
+            row.appendChild(containerDiv);
+        }
+        if (i === 2) {
+            containerDiv = document.createElement('div')
+            containerDiv.classList.add('table--composer', 'flex__quarter');
+            row.appendChild(containerDiv);
+        }
+        if (i === 5) {
+            containerDiv = document.createElement('div')
+            containerDiv.classList.add('table--voice', 'flex__oneSixth');
+            row.appendChild(containerDiv);
+        }
+        if (i === 7) {
+            containerDiv = document.createElement('div')
+            containerDiv.classList.add('table--season', 'flex__oneSixth');
+            row.appendChild(containerDiv);
+        }
+        if (i === 9) {
+            containerDiv = document.createElement('div')
+            containerDiv.classList.add('table--location', 'flex__oneSixth');
+            row.appendChild(containerDiv);
+        }
+
+
+        let cell = document.createElement('div');
+        cell.classList.add('cell', 'flex__full');
+        cell.classList.add(tableParameters[i]);
+
+        containerDiv.appendChild(cell);
 
         let input = data[Object.keys(data)[i]];
         if (input === undefined) {
-            row.cells[row.cells.length - 1].innerText = ' ';
+            cell.innerText = ' ';
         } else {
-            row.cells[row.cells.length - 1].innerText = data[Object.keys(data)[i]];
+            cell.innerText = input;
         }
     }
-    row.insertCell().classList.add('cell');
-    row.cells[row.cells.length - 1].innerHTML =
-        "<div class='flexwrapper'><a href='#addEdit' class='btn btn--primary btn--table' id='edit_" + data.id + "'>Edit</a>" +
-        "<button class='btn btn--secondary btn--table' id='delete_" + data.id + "'>Delete</button></div>";
 
+
+    containerDiv = document.createElement('div')
+    containerDiv.classList.add('table--action', 'flex__oneTwelth');
+    row.appendChild(containerDiv);
+
+    let buttonDiv = document.createElement('div');
+    buttonDiv.classList.add('cell', 'flex__wrap');
+    containerDiv.appendChild(buttonDiv);
+
+    let editBtn = document.createElement('a');
+    editBtn.classList.add('btn', 'btn--primary', 'btn--table');
+    editBtn.id = "edit_" + data.id;
+    editBtn.innerText = "Edit";
+    editBtn.setAttribute("href", "#addEdit");
+    buttonDiv.appendChild(editBtn);
+
+    let deleteBtn = document.createElement('a');
+    deleteBtn.classList.add('btn', 'btn--secondary', 'btn--table');
+    deleteBtn.id = "delete_" + data.id;
+    deleteBtn.innerText = "Delete";
+    buttonDiv.appendChild(deleteBtn);
 }
+
 
 function clearNewEntryForm() {
     document.getElementById('addEditForm').reset();
@@ -148,9 +207,8 @@ document.getElementById('addEditForm').addEventListener("submit", function (e) {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 let data = JSON.parse(xhr.responseText);
                 console.log(data);
-                let table = document.getElementById('table_all');
-                addEditRowMain(table.insertRow(), data);
-                table.rows[table.rows.length - 1 ].classList.add('row', 'row--body', 'row--visible');
+                let tableBody = document.getElementById('table__body');
+                addEditRowMain(tableBody, data);
                 clearNewEntryForm();
             }
         }
@@ -194,9 +252,7 @@ document.getElementById('search__button').addEventListener("click", function (e)
         if (xhr.readyState === 4 && xhr.status === 200) {
             let data = JSON.parse(xhr.responseText);
             console.log(data);
-            // clear table
             clearClassFromDOM('row--visible');
-            //add search data to table
             populateMainTable(data.library_entries);
 
         }
@@ -257,3 +313,8 @@ document.getElementById('search__clear').addEventListener('click', function() {
     document.getElementById('searchForm').reset();
     window.location = '/';
 })
+
+const tableParameters = ["pseudo--ID", "pseudo--title", "pseudo--firstName", "pseudo--lastName", "pseudo--arranger",
+    "pseudo--voiceParts", "pseudo--accompanied", "pseudo--season", "pseudo--seasonAdditional", "pseudo--location",
+    "pseudo--collection", "pseudo--action"];
+

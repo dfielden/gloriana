@@ -45,60 +45,60 @@
                 </div>
 
                 <div class="flexwrapper flexwrapper--form">
-                    <div class="form__group flex__full flexwrapper__vertical">
+                    <div class="form__group flex__full--form flexwrapper__vertical">
                         <input type="text" autocomplete="off" class="form__input" placeholder="Title" id="title" name="title">
                         <label for="title" class="form__label">Title</label>
                     </div>
                 </div>
 
                 <div class="flexwrapper flexwrapper--form">
-                    <div class="form__group flex__half flexwrapper__vertical">
+                    <div class="form__group flex__half--form flexwrapper__vertical">
                         <input type="text" autocomplete="off" class="form__input" placeholder="Composer first name" id="composerFirstName" name="composerFirstName">
                         <label for="composerFirstName" class="form__label">Composer first name</label>
                     </div>
 
-                    <div class="form__group flex__half flexwrapper__vertical">
+                    <div class="form__group flex__half--form flexwrapper__vertical">
                         <input type="text" autocomplete="off" class="form__input" placeholder="Composer last name" id="composerLastName" name="composerLastName">
                         <label for="composerLastName" class="form__label">Composer last name</label>
                     </div>
                 </div>
 
                 <div class="flexwrapper flexwrapper--form">
-                    <div class="form__group flex__third flexwrapper__vertical">
+                    <div class="form__group flex__third--form flexwrapper__vertical">
                         <input type="text" autocomplete="off" class="form__input" placeholder="Arranger" id="arranger" name="arranger">
                         <label for="arranger" class="form__label">Arranger</label>
                     </div>
 
-                    <div class="form__group flex__third flexwrapper__vertical">
+                    <div class="form__group flex__third--form flexwrapper__vertical">
                         <input type="text" autocomplete="off" class="form__input" placeholder="Voice parts" id="voiceParts" name="voiceParts">
                         <label for="voiceParts" class="form__label">Voice parts</label>
                     </div>
 
-                    <div class="form__group flex__third flexwrapper__vertical">
+                    <div class="form__group flex__third--form flexwrapper__vertical">
                         <input type="text" autocomplete="off" class="form__input" placeholder="Season" id="season" name="season">
                         <label for="season" class="form__label">Season</label>
                     </div>
                 </div>
 
                 <div class="flexwrapper flexwrapper--form">
-                    <div class="form__group flex__full flexwrapper__vertical">
+                    <div class="form__group flex__full--form flexwrapper__vertical">
                         <input type="text" autocomplete="off" class="form__input" placeholder="Season (additional)" id="seasonAdditional" name="seasonAdditional">
                         <label for="seasonAdditional" class="form__label">Season (additional)</label>
                     </div>
                 </div>
 
                 <div class="flexwrapper flexwrapper--form">
-                    <div class="form__group flex__third flexwrapper__vertical">
+                    <div class="form__group flex__third--form flexwrapper__vertical">
                         <input type="text" autocomplete="off" class="form__input" placeholder="Location" id="location" name="location">
                         <label for="location" class="form__label">Location</label>
                     </div>
 
-                    <div class="form__group flex__third flexwrapper__vertical">
+                    <div class="form__group flex__third--form flexwrapper__vertical">
                         <input type="text" autocomplete="off" class="form__input" placeholder="Collection" id="collection" name="collection">
                         <label for="collection" class="form__label">Collection</label>
                     </div>
 
-                    <div class="form__group flex__third flexwrapper__vertical">
+                    <div class="form__group flex__third--form flexwrapper__vertical">
                         <select name="accompanied" class="form__input select-text-default" id="accompanied">
                             <option value="-1" selected disabled hidden>Accompanied?</option>
                             <option value="Accompanied">Accompanied</option>
@@ -122,30 +122,71 @@
 
 <section class="section-table">
     <div class="flexwrapper">
-        <table class="table" id="table_all">
-            <thead class="table__head">
-                <tr class="row row--head">
-                    <th class="cell">id</th>
-                    <th class="cell">Title</th>
-                    <th class="cell">Composer first name</th>
-                    <th class="cell">Composer last name</th>
-                    <th class="cell">Arranger</th>
-                    <th class="cell">Voice parts</th>
-                    <th class="cell">Accompanied</th>
-                    <th class="cell">Season</th>
-                    <th class="cell">Season (additional info)</th>
-                    <th class="cell">Location</th>
-                    <th class="cell">Collection</th>
-                    <th class="cell">Action</th>
-                </tr>
-            </thead>
-            <tbody class="table__body">
-            <tr class="row row--body"></tr>
+        <div class="table" id="table_all">
+            <div class="table__head" id="table__head">
+                <div class="row row--head">
+<!--                    <div class="cell">id</div>-->
+                    <div class="table--name flex__oneSixth">
+                        <div class="cell flex__full">Title</div>
+                    </div>
+                    <div class="table--composer flex__quarter">
+                        <div class="cell flex__full">Composer first name</div>
+                        <div class="cell flex__full">Composer last name</div>
+                        <div class="cell flex__full">Arranger</div>
+                    </div>
+                    <div class="table--voice flex__oneSixth">
+                        <div class="cell flex__full">Voice parts</div>
+                        <div class="cell flex__full">Accompanied</div>
+                    </div>
+                    <div class="table--season flex__oneSixth">
+                        <div class="cell flex__full">Season</div>
+                        <div class="cell flex__full">Season (additional info)</div>
+                    </div>
+                    <div class="table--location flex__oneSixth">
+                        <div class="cell flex__full">Location</div>
+                        <div class="cell flex__full">Collection</div>
+                    </div>
+                    <div class="table--action flex__oneTwelth">
+                        <div class="cell flex__full">Action</div>
+                    </div>
+                </div>
+            </div>
+            <div class="table__body" id="table__body">
+            <div class="row row--body"></div>
 
-            </tbody>
-        </table>
+            </div>
+        </div>
     </div>
 </section>
+
+
+
+<!--<section class="section-table">-->
+<!--    <div class="flexwrapper">-->
+<!--        <table class="table" id="table_all">-->
+<!--            <thead class="table__head">-->
+<!--            <tr class="row row&#45;&#45;head">-->
+<!--                <th class="cell">id</th>-->
+<!--                <th class="cell">Title</th>-->
+<!--                <th class="cell">Composer first name</th>-->
+<!--                <th class="cell">Composer last name</th>-->
+<!--                <th class="cell">Arranger</th>-->
+<!--                <th class="cell">Voice parts</th>-->
+<!--                <th class="cell">Accompanied</th>-->
+<!--                <th class="cell">Season</th>-->
+<!--                <th class="cell">Season (additional info)</th>-->
+<!--                <th class="cell">Location</th>-->
+<!--                <th class="cell">Collection</th>-->
+<!--                <th class="cell">Action</th>-->
+<!--            </tr>-->
+<!--            </thead>-->
+<!--            <tbody class="table__body">-->
+<!--            <tr class="row row&#45;&#45;body"></tr>-->
+
+<!--            </tbody>-->
+<!--        </table>-->
+<!--    </div>-->
+<!--</section>-->
 
 
 

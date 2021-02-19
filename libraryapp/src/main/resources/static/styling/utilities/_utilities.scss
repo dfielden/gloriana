@@ -1,17 +1,27 @@
 .flex__half {
-  flex: 50%;
-  margin: 0 1rem;
+  flex: 0 0 50%;
 }
 
 .flex__full {
-  flex: 100%;
-  margin: 0 1rem;
+  flex: 0 0 100%;
 }
 
 .flex__third {
-  flex: 33.33333%;
-  margin: 0 1rem;
+  flex: 0 0 calc(100% / 3);
 }
+
+.flex__quarter {
+  flex: 0 0 calc(100% / 4);
+}
+
+.flex__oneTwelth {
+  flex: 0 0 (100% * (1/12));
+}
+
+.flex__oneSixth {
+  flex: 0 0 calc(100% * (1/6));
+}
+
 
 .flexwrapper {
   display: flex;
@@ -23,9 +33,27 @@
     }
   }
 
-
   &__vertical {
     flex-direction: column;
   }
 }
 
+.flex__wrap {
+  flex-wrap: wrap;
+}
+
+
+.flex__half--form {
+  flex: 50%;
+  margin: 0 1rem;
+}
+
+.flex__full--form {
+  flex: 100%;
+  margin: 0 1rem;
+}
+
+.flex__third--form{
+  flex: 33.33333%;
+  margin: 0 1rem;
+}
