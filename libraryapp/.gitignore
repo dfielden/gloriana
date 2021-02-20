@@ -1,5 +1,7 @@
 # Ignore all .css - it is derived/compiled from .scss.
-*.css
+# For now, check the CSS in.
+# TODO: Remove this, and work out how to build the css when we deploy.
+#*.css
 
 target/
 !.mvn/wrapper/maven-wrapper.jar
