@@ -89,29 +89,41 @@ function addEditRowMain(tableBody, data) {
             // id = do not add to table
             continue;
         }
+        // if (i === 1) {
+        //     containerDiv = document.createElement('div')
+        //     containerDiv.classList.add('table--name', 'flex__oneSixth', 'flex__oneSixthAtMediumBreak');
+        //     row.appendChild(containerDiv);
+        // }
+        // if (i === 2) {
+        //     containerDiv = document.createElement('div')
+        //     containerDiv.classList.add('table--composer', 'flex__quarter', 'flex__oneSixthAtMediumBreak');
+        //     row.appendChild(containerDiv);
+        // }
+        // if (i === 5) {
+        //     containerDiv = document.createElement('div')
+        //     containerDiv.classList.add('table--voice', 'flex__oneSixth', 'flex__oneSixthAtMediumBreak');
+        //     row.appendChild(containerDiv);
+        // }
+        // if (i === 7) {
+        //     containerDiv = document.createElement('div')
+        //     containerDiv.classList.add('table--season', 'flex__oneSixth', 'flex__oneSixthAtMediumBreak');
+        //     row.appendChild(containerDiv);
+        // }
+        // if (i === 9) {
+        //     containerDiv = document.createElement('div')
+        //     containerDiv.classList.add('table--location', 'flex__oneSixth', 'flex__oneSixthAtMediumBreak');
+        //     row.appendChild(containerDiv);
+        // }
+
         if (i === 1) {
             containerDiv = document.createElement('div')
-            containerDiv.classList.add('table--name', 'flex__oneSixth', 'name');
+            containerDiv.classList.add('table--name', 'flex__fiveElevenths', 'flex__oneHalfAtMediumBreak');
             row.appendChild(containerDiv);
         }
-        if (i === 2) {
+
+        if (i === 6) {
             containerDiv = document.createElement('div')
-            containerDiv.classList.add('table--composer', 'flex__quarter');
-            row.appendChild(containerDiv);
-        }
-        if (i === 5) {
-            containerDiv = document.createElement('div')
-            containerDiv.classList.add('table--voice', 'flex__oneSixth');
-            row.appendChild(containerDiv);
-        }
-        if (i === 7) {
-            containerDiv = document.createElement('div')
-            containerDiv.classList.add('table--season', 'flex__oneSixth');
-            row.appendChild(containerDiv);
-        }
-        if (i === 9) {
-            containerDiv = document.createElement('div')
-            containerDiv.classList.add('table--location', 'flex__oneSixth');
+            containerDiv.classList.add('table--accompanied', 'flex__fiveElevenths', 'flex__oneHalfAtMediumBreak');
             row.appendChild(containerDiv);
         }
 
@@ -132,11 +144,11 @@ function addEditRowMain(tableBody, data) {
 
 
     containerDiv = document.createElement('div')
-    containerDiv.classList.add('table--action', 'flex__oneTwelth');
+    containerDiv.classList.add('table--action', 'flex__oneEleventh');
     row.appendChild(containerDiv);
 
     let buttonDiv = document.createElement('div');
-    buttonDiv.classList.add('cell', 'flex__wrap');
+    buttonDiv.classList.add('cell', 'cell--action', 'flex__wrap');
     containerDiv.appendChild(buttonDiv);
 
     let editBtn = document.createElement('a');

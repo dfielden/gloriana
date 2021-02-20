@@ -12,6 +12,7 @@
         <div class="newEntryWrapper">
             <a href='#addEdit'><button class="btn btn--primary btn--form" id="btn_createNewEntry">Create new entry</button></a>
          </div>
+
     </div>
     <div class="search">
         <form action="#" class="form" id="searchForm">
@@ -23,6 +24,10 @@
             </button>
             <a href="#" class="search__clear" id="search__clear">&times;</a>
         </form>
+    </div>
+
+    <div class="nav--burger">
+        <span></span>
     </div>
 
 </div>
@@ -125,29 +130,22 @@
         <div class="table" id="table_all">
             <div class="table__head" id="table__head">
                 <div class="row row--head">
-<!--                    <div class="cell">id</div>-->
-                    <div class="table--name flex__oneSixth">
+                    <div class="table--name flex__fiveElevenths flex__oneHalfAtMediumBreak">
                         <div class="cell flex__full">Title</div>
-                    </div>
-                    <div class="table--composer flex__quarter">
                         <div class="cell flex__full">Composer first name</div>
                         <div class="cell flex__full">Composer last name</div>
                         <div class="cell flex__full">Arranger</div>
-                    </div>
-                    <div class="table--voice flex__oneSixth">
                         <div class="cell flex__full">Voice parts</div>
-                        <div class="cell flex__full">Accompanied</div>
                     </div>
-                    <div class="table--season flex__oneSixth">
+                    <div class="table--accompanied flex__fiveElevenths flex__oneHalfAtMediumBreak">
+                        <div class="cell flex__full">Accompanied</div>
                         <div class="cell flex__full">Season</div>
                         <div class="cell flex__full">Season (additional info)</div>
-                    </div>
-                    <div class="table--location flex__oneSixth">
                         <div class="cell flex__full">Location</div>
                         <div class="cell flex__full">Collection</div>
                     </div>
-                    <div class="table--action flex__oneTwelth">
-                        <div class="cell flex__full">Action</div>
+                    <div class="table--action flex__oneEleventh">
+                        <div class="cell flex__full cell--action">Action</div>
                     </div>
                 </div>
             </div>
@@ -163,28 +161,40 @@
 
 <!--<section class="section-table">-->
 <!--    <div class="flexwrapper">-->
-<!--        <table class="table" id="table_all">-->
-<!--            <thead class="table__head">-->
-<!--            <tr class="row row&#45;&#45;head">-->
-<!--                <th class="cell">id</th>-->
-<!--                <th class="cell">Title</th>-->
-<!--                <th class="cell">Composer first name</th>-->
-<!--                <th class="cell">Composer last name</th>-->
-<!--                <th class="cell">Arranger</th>-->
-<!--                <th class="cell">Voice parts</th>-->
-<!--                <th class="cell">Accompanied</th>-->
-<!--                <th class="cell">Season</th>-->
-<!--                <th class="cell">Season (additional info)</th>-->
-<!--                <th class="cell">Location</th>-->
-<!--                <th class="cell">Collection</th>-->
-<!--                <th class="cell">Action</th>-->
-<!--            </tr>-->
-<!--            </thead>-->
-<!--            <tbody class="table__body">-->
-<!--            <tr class="row row&#45;&#45;body"></tr>-->
+<!--        <div class="table" id="table_all">-->
+<!--            <div class="table__head" id="table__head">-->
+<!--                <div class="row row&#45;&#45;head">-->
+<!--                    &lt;!&ndash;                    <div class="cell">id</div>&ndash;&gt;-->
+<!--                    <div class="table&#45;&#45;name flex__oneSixth flex__oneSixthAtMediumBreak">-->
+<!--                        <div class="cell flex__full">Title</div>-->
+<!--                    </div>-->
+<!--                    <div class="table&#45;&#45;composer flex__quarter flex__oneSixthAtMediumBreak">-->
+<!--                        <div class="cell flex__full">Composer first name</div>-->
+<!--                        <div class="cell flex__full">Composer last name</div>-->
+<!--                        <div class="cell flex__full">Arranger</div>-->
+<!--                    </div>-->
+<!--                    <div class="table&#45;&#45;voice flex__oneSixth flex__oneSixthAtMediumBreak">-->
+<!--                        <div class="cell flex__full">Voice parts</div>-->
+<!--                        <div class="cell flex__full">Accompanied</div>-->
+<!--                    </div>-->
+<!--                    <div class="table&#45;&#45;season flex__oneSixth flex__oneSixthAtMediumBreak">-->
+<!--                        <div class="cell flex__full">Season</div>-->
+<!--                        <div class="cell flex__full">Season (additional info)</div>-->
+<!--                    </div>-->
+<!--                    <div class="table&#45;&#45;location flex__oneSixth flex__oneSixthAtMediumBreak">-->
+<!--                        <div class="cell flex__full">Location</div>-->
+<!--                        <div class="cell flex__full">Collection</div>-->
+<!--                    </div>-->
+<!--                    <div class="table&#45;&#45;action flex__oneTwelth flex__oneSixthAtMediumBreak">-->
+<!--                        <div class="cell flex__full">Action</div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="table__body" id="table__body">-->
+<!--                <div class="row row&#45;&#45;body"></div>-->
 
-<!--            </tbody>-->
-<!--        </table>-->
+<!--            </div>-->
+<!--        </div>-->
 <!--    </div>-->
 <!--</section>-->
 

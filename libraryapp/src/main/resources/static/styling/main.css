@@ -44,18 +44,28 @@ body {
 }
 
 .flex__oneTwelth {
-  flex: 0 0 8.3333333333%;
+  flex: 0 0 9.0909090909%;
 }
 
-.flex__oneSixth {
-  flex: 0 0 calc(100% * (1/6));
+.flex__oneEleventh {
+  flex: 0 0 calc(100% * (1/11));
+}
+
+.flex__fiveElevenths {
+  flex: 0 0 calc(100% * (5/11));
+}
+
+@media only screen and (max-width: 1000px) {
+  .flex__oneHalfAtMediumBreak {
+    flex: 0 0 calc(50%);
+  }
 }
 
 .flexwrapper {
   display: flex;
   justify-content: space-around;
 }
-@media only screen and (max-width: 750px) {
+@media only screen and (max-width: 760px) {
   .flexwrapper--form {
     flex-direction: column;
   }
@@ -102,16 +112,29 @@ body {
   padding: 0.5rem 0rem;
   margin: 0.5rem 0.5rem;
 }
+@media only screen and (max-width: 1000px) and (max-width: 1000px) {
+  .btn--table {
+    width: 20%;
+    margin: 0.5rem 2.5rem;
+  }
+}
+@media only screen and (max-width: 760px) {
+  .btn--table {
+    width: 20%;
+    min-width: 10rem;
+    margin: 0.5rem 2.5rem;
+  }
+}
 .btn--form {
   width: 20rem;
-  font-size: 1.3rem;
   line-height: 1.3rem;
   padding: 1rem 2rem;
   margin: 0.5rem 3rem;
 }
-@media only screen and (max-width: 750px) {
+@media only screen and (max-width: 760px) {
   .btn--form {
-    width: 15rem;
+    width: 16rem;
+    margin: 0.5rem 1rem;
   }
 }
 .btn:hover {
@@ -217,7 +240,7 @@ body {
   transform: translate(-50%, -50%) scale(0.25);
   transition: all 0.5s 0.2s;
 }
-@media only screen and (max-width: 750px) {
+@media only screen and (max-width: 760px) {
   .addEdit__content {
     width: 100%;
   }
@@ -229,7 +252,7 @@ body {
   margin: 2rem;
   max-width: 60rem;
 }
-@media only screen and (max-width: 750px) {
+@media only screen and (max-width: 760px) {
   .addEdit__content .form {
     max-width: 100%;
     height: 100vh;
@@ -239,7 +262,7 @@ body {
 .addEdit__content .form__group:not(:last-child) {
   margin-bottom: 1rem;
 }
-@media only screen and (max-width: 750px) {
+@media only screen and (max-width: 760px) {
   .addEdit__content .form__group:not(:last-child) {
     margin-bottom: 0;
   }
@@ -257,7 +280,7 @@ body {
   margin-top: 1rem;
   width: 100%;
 }
-@media only screen and (max-width: 750px) {
+@media only screen and (max-width: 760px) {
   .addEdit__content .form__input {
     margin-top: 0.5rem;
   }
@@ -292,7 +315,7 @@ body {
   display: block;
   transition: all 0.3s;
 }
-@media only screen and (max-width: 750px) {
+@media only screen and (max-width: 760px) {
   .addEdit__content .form__label {
     display: none;
   }
@@ -320,15 +343,69 @@ body {
   justify-content: space-between;
   height: 10rem;
 }
+.nav--burger {
+  display: none;
+  width: 4rem;
+  height: 2rem;
+  justify-content: center;
+  margin: 2rem;
+  cursor: pointer;
+}
+@media only screen and (max-width: 760px) {
+  .nav--burger {
+    display: flex;
+  }
+}
+.nav--burger span {
+  background-color: #393739;
+  width: 3rem;
+  height: 0.3rem;
+}
+.nav--burger span::before {
+  content: "";
+  width: inherit;
+  height: inherit;
+  background-color: inherit;
+  display: block;
+  margin: -1rem 0;
+  transition: all 0.2s;
+}
+.nav--burger span::after {
+  content: "";
+  width: inherit;
+  height: inherit;
+  background-color: inherit;
+  display: block;
+  margin: 2.8rem 0;
+  transition: all 0.2s;
+}
+.nav--burger:hover span {
+  filter: brightness(0.9);
+}
+.nav--burger:hover span::before {
+  transform: translateY(-1px);
+}
+.nav--burger:hover span::after {
+  transform: translateY(1px);
+}
+.nav--burger:active span {
+  filter: brightness(1.1);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+}
+.nav--burger:active span::before {
+  transform: translateY(1px);
+}
+.nav--burger:active span::after {
+  transform: translateY(-1px);
+}
 
 .heading__wrapper {
   display: flex;
-  align-items: center;
   flex-direction: column;
   align-items: flex-start;
 }
 
-@media only screen and (max-width: 750px) {
+@media only screen and (max-width: 760px) {
   .newEntryWrapper {
     display: none;
   }
@@ -395,7 +472,7 @@ body {
 .search__clear:link:hover, .search__clear:visited:hover {
   color: #035cff;
 }
-@media only screen and (max-width: 750px) {
+@media only screen and (max-width: 760px) {
   .search {
     display: none;
   }
@@ -411,12 +488,23 @@ svg, embed {
   display: flex;
   flex-direction: column;
 }
-.table--id, .table--name, .table--composer, .table--voice, .table--season, .table--location, .table--action {
+.table--id, .table--name, .table--season, .table--accompanied, .table--composer, .table--voice, .table--season, .table--location, .table--action {
   display: flex;
 }
 @media only screen and (max-width: 1000px) {
-  .table--id, .table--name, .table--composer, .table--voice, .table--season, .table--location, .table--action {
+  .table--id, .table--name, .table--season, .table--accompanied, .table--composer, .table--voice, .table--season, .table--location, .table--action {
     flex-direction: column;
+  }
+}
+@media only screen and (max-width: 1000px) {
+  .table--action {
+    flex: 0 0 100%;
+  }
+}
+@media only screen and (max-width: 420px) {
+  .table--action {
+    align-self: center;
+    margin: 1.5rem 0;
   }
 }
 .table__head {
@@ -437,18 +525,24 @@ svg, embed {
   flex: 1;
   flex-basis: calc(100% / 12);
 }
+@media only screen and (max-width: 1000px) {
+  .table__head {
+    display: none;
+  }
+}
 .table__body {
   display: flex;
   flex-direction: column;
 }
 .table__body .row {
-  background-color: #ffffff;
+  background-color: #f3f3f3;
   color: #393739;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 }
 .table__body .row:nth-of-type(even) {
-  background-color: #f3f3f3;
+  background-color: #ffffff;
 }
 .table__body .row:hover {
   color: #035cff;
@@ -462,6 +556,31 @@ svg, embed {
   flex: 1;
   flex-basis: calc(100% / 12);
 }
+@media only screen and (max-width: 1000px) {
+  .table__body .row .cell {
+    padding: 0.5rem 0 0.5rem 2rem;
+    flex-wrap: wrap;
+  }
+}
+@media only screen and (max-width: 420px) {
+  .table__body .row .cell {
+    padding: 0.3rem 0.5rem;
+  }
+}
+@media only screen and (max-width: 1000px) {
+  .table__body .row .cell--action {
+    flex-direction: column;
+    align-content: center;
+    padding: 0.5rem 0 0.5rem 0;
+  }
+}
+@media only screen and (max-width: 420px) {
+  .table__body .row {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 1rem;
+  }
+}
 
 .pseudo--title::before {
   display: none;
@@ -469,8 +588,9 @@ svg, embed {
 @media only screen and (max-width: 1000px) {
   .pseudo--title::before {
     display: flex;
+    padding: 0 0.5rem 0 0;
     font-weight: 700;
-    content: "Title: ";
+    content: "Title: \a";
   }
 }
 
@@ -480,8 +600,9 @@ svg, embed {
 @media only screen and (max-width: 1000px) {
   .pseudo--firstName::before {
     display: flex;
+    padding: 0 0.5rem 0 0;
     font-weight: 700;
-    content: "Composer first name: ";
+    content: "Composer first name:\a ";
   }
 }
 
@@ -491,8 +612,9 @@ svg, embed {
 @media only screen and (max-width: 1000px) {
   .pseudo--lastName::before {
     display: flex;
+    padding: 0 0.5rem 0 0;
     font-weight: 700;
-    content: "Composer last name: ";
+    content: "Composer last name:\a ";
   }
 }
 
@@ -502,8 +624,9 @@ svg, embed {
 @media only screen and (max-width: 1000px) {
   .pseudo--arranger::before {
     display: flex;
+    padding: 0 0.5rem 0 0;
     font-weight: 700;
-    content: "Arranger: ";
+    content: "Arranger: \a";
   }
 }
 
@@ -513,8 +636,9 @@ svg, embed {
 @media only screen and (max-width: 1000px) {
   .pseudo--voiceParts::before {
     display: flex;
+    padding: 0 0.5rem 0 0;
     font-weight: 700;
-    content: "Voice parts: ";
+    content: "Voice parts:\a";
   }
 }
 
@@ -524,8 +648,9 @@ svg, embed {
 @media only screen and (max-width: 1000px) {
   .pseudo--accompanied::before {
     display: flex;
+    padding: 0 0.5rem 0 0;
     font-weight: 700;
-    content: "Accompanied: ";
+    content: "Accompanied:\a";
   }
 }
 
@@ -535,8 +660,9 @@ svg, embed {
 @media only screen and (max-width: 1000px) {
   .pseudo--season::before {
     display: flex;
+    padding: 0 0.5rem 0 0;
     font-weight: 700;
-    content: "Season: ";
+    content: "Season:\a";
   }
 }
 
@@ -546,8 +672,9 @@ svg, embed {
 @media only screen and (max-width: 1000px) {
   .pseudo--seasonAdditional::before {
     display: flex;
+    padding: 0 0.5rem 0 0;
     font-weight: 700;
-    content: "Season (additional): ";
+    content: "Season (additional):\a";
   }
 }
 
@@ -557,8 +684,9 @@ svg, embed {
 @media only screen and (max-width: 1000px) {
   .pseudo--location::before {
     display: flex;
+    padding: 0 0.5rem 0 0;
     font-weight: 700;
-    content: "Location: ";
+    content: "Location:\a";
   }
 }
 
@@ -568,8 +696,9 @@ svg, embed {
 @media only screen and (max-width: 1000px) {
   .pseudo--collection::before {
     display: flex;
+    padding: 0 0.5rem 0 0;
     font-weight: 700;
-    content: "Collection: ";
+    content: "Collection:\a\a";
   }
 }
 
@@ -579,8 +708,9 @@ svg, embed {
 @media only screen and (max-width: 1000px) {
   .pseudo--action::before {
     display: flex;
+    padding: 0 0.5rem 0 0;
     font-weight: 700;
-    content: "Action: ";
+    content: "Action:\a";
   }
 }
 
@@ -589,6 +719,36 @@ body {
   font-weight: 400;
   line-height: 1.7;
   color: #393739;
+}
+@media only screen and (max-width: 1500px) {
+  body {
+    font-size: 1rem;
+  }
+}
+@media only screen and (max-width: 1260px) {
+  body {
+    font-size: 1rem;
+  }
+}
+@media only screen and (max-width: 1000px) {
+  body {
+    font-size: 1.4rem;
+  }
+}
+@media only screen and (max-width: 760px) {
+  body {
+    font-size: 1.2rem;
+  }
+}
+@media only screen and (max-width: 420px) {
+  body {
+    font-size: 1.5rem;
+  }
+}
+@media only screen and (max-width: 250px) {
+  body {
+    font-size: 1rem;
+  }
 }
 
 .heading1 {
@@ -608,12 +768,12 @@ body {
     padding-right: 3rem;
   }
 }
-@media only screen and (max-width: 750px) {
+@media only screen and (max-width: 760px) {
   .heading1 {
     font-size: 2.5rem;
   }
 }
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 420px) {
   .heading1 {
     font-size: 2rem;
   }

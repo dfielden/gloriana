@@ -4,13 +4,27 @@
   display: flex;
   flex-direction: column;
 
-  &--id, &--name, &--composer, &--voice, &--season, &--location, &--action {
+
+
+
+  &--id, &--name, &--season, &--accompanied, &--composer, &--voice, &--season, &--location, &--action {
     display: flex;
 
     @media only screen and (max-width: $break-medium) {
       flex-direction: column;
     }
 
+  }
+
+  &--action {
+    @media only screen and (max-width: $break-medium) {
+      flex: 0 0 100%;
+    }
+
+    @media only screen and (max-width: $break-smallest) {
+      align-self: center;
+      margin: 1.5rem 0;
+    }
   }
 
   &__head {
@@ -30,10 +44,14 @@
         padding: 1rem;
         display: flex;
         flex: 1;
-        flex-basis: calc(100% / 12)
-
+        flex-basis: calc(100% / 12);
       }
     }
+
+    @media only screen and (max-width: $break-medium) {
+      display: none;
+    }
+
   }
 
   &__body {
@@ -41,14 +59,15 @@
     flex-direction: column;
 
     .row {
-      background-color: $color-white;
+      background-color: $color-grey-lightest;
       color: $color-grey-dark;
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
 
 
       &:nth-of-type(even) {
-          background-color: $color-grey-lightest;
+          background-color: $color-white;
       }
 
       &:hover {
@@ -63,21 +82,44 @@
         padding: 1rem;
         display: flex;
         flex: 1;
-        flex-basis: calc(100% / 12)
+        flex-basis: calc(100% / 12);
+
+        @media only screen and (max-width: $break-medium) {
+          padding: 0.5rem 0 0.5rem 2rem;
+          flex-wrap: wrap;
+        }
+
+        @media only screen and (max-width: $break-smallest) {
+          padding: 0.3rem 0.5rem;
+        }
+
+        &--action {
+          @media only screen and (max-width: $break-medium) {
+            //justify-content: center;
+            flex-direction: column;
+            align-content: center;
+            padding: 0.5rem 0 0.5rem 0;
+          }
+        }
+      }
+
+      @media only screen and (max-width: $break-smallest) {
+        flex-direction: column;
+        align-items: flex-start;
+        //font-size: 1.5rem;
+        padding: 0 1rem;
       }
     }
   }
 }
-
 
 .pseudo--title {
   &::before {
     display: none;
 
     @media only screen and (max-width: $break-medium) {
-      display: flex;
-      font-weight: 700;
-      content: "Title:\00A0";
+      @include pseudoElement--before;
+      content: "Title: " + "\00000a";
     }
   }
 }
@@ -87,9 +129,8 @@
     display: none;
 
     @media only screen and (max-width: $break-medium) {
-      display: flex;
-      font-weight: 700;
-      content: "Composer first name:\00A0";
+      @include pseudoElement--before;
+      content: "Composer first name:\00000a \00a0";
     }
   }
 }
@@ -99,9 +140,8 @@
     display: none;
 
     @media only screen and (max-width: $break-medium) {
-      display: flex;
-      font-weight: 700;
-      content: "Composer last name:\00A0";
+      @include pseudoElement--before;
+      content: "Composer last name:\00000a \00a0";
     }
   }
 }
@@ -111,9 +151,8 @@
     display: none;
 
     @media only screen and (max-width: $break-medium) {
-      display: flex;
-      font-weight: 700;
-      content: "Arranger:\00A0";
+      @include pseudoElement--before;
+      content: "Arranger: " + "\00000a";
     }
   }
 }
@@ -123,9 +162,8 @@
     display: none;
 
     @media only screen and (max-width: $break-medium) {
-      display: flex;
-      font-weight: 700;
-      content: "Voice parts:\00A0";
+      @include pseudoElement--before;
+      content: "Voice parts:\00000a";
     }
   }
 }
@@ -135,9 +173,8 @@
     display: none;
 
     @media only screen and (max-width: $break-medium) {
-      display: flex;
-      font-weight: 700;
-      content: "Accompanied:\00A0";
+      @include pseudoElement--before;
+      content: "Accompanied:\00000a";
     }
   }
 }
@@ -148,9 +185,8 @@
     display: none;
 
     @media only screen and (max-width: $break-medium) {
-      display: flex;
-      font-weight: 700;
-      content: "Season:\00A0";
+      @include pseudoElement--before;
+      content: "Season:\00000a";
     }
   }
 }
@@ -160,9 +196,8 @@
     display: none;
 
     @media only screen and (max-width: $break-medium) {
-      display: flex;
-      font-weight: 700;
-      content: "Season (additional):\00A0";
+      @include pseudoElement--before;
+      content: "Season (additional):\00000a";
     }
   }
 }
@@ -172,9 +207,8 @@
     display: none;
 
     @media only screen and (max-width: $break-medium) {
-      display: flex;
-      font-weight: 700;
-      content: "Location:\00A0";
+      @include pseudoElement--before;
+      content: "Location:\00000a";
     }
   }
 }
@@ -184,9 +218,8 @@
     display: none;
 
     @media only screen and (max-width: $break-medium) {
-      display: flex;
-      font-weight: 700;
-      content: "Collection:\00A0";
+      @include pseudoElement--before;
+      content: "Collection:\00000a\A";
     }
   }
 }
@@ -196,9 +229,8 @@
     display: none;
 
     @media only screen and (max-width: $break-medium) {
-      display: flex;
-      font-weight: 700;
-      content: "Action:\00A0";
+      @include pseudoElement--before;
+      content: "Action:\00000a";
     }
   }
 }

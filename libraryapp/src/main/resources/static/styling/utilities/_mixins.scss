@@ -4,3 +4,10 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+@mixin pseudoElement--before {
+  display: flex;
+  padding: 0 0.5rem 0 0;
+  font-weight: 700;
+  //white-space: pre;
+  }

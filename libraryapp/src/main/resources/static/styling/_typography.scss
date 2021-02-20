@@ -3,6 +3,26 @@ body {
   font-weight: 400;
   line-height: 1.7;
   color: $color-grey-dark;
+
+
+  @media only screen and (max-width: $break-largest) {
+    font-size: 1rem;
+  }
+  @media only screen and (max-width: $break-large) {
+    font-size: 1rem;
+  }
+  @media only screen and (max-width: $break-medium) {
+    font-size: 1.4rem;
+  }
+  @media only screen and (max-width: $break-small) {
+    font-size: 1.2rem;
+  }
+  @media only screen and (max-width: $break-smallest) {
+    font-size: 1.5rem;
+  }
+  @media only screen and (max-width: $break-tiny) {
+    font-size: 1rem;
+  }
 }
 
 .heading1 {

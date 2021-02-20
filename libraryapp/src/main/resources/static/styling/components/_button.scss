@@ -23,17 +23,35 @@
     padding: 0.5rem 0rem;
     margin: 0.5rem 0.5rem;
 
+    @media only screen and (max-width: $break-medium) {
+      //width: 20%;
+      //font-size: 1.2rem;
+      @media only screen and (max-width: $break-medium) {
+        width: 20%;
+        //font-size: 1.2rem;
+        margin: 0.5rem 2.5rem
+      }
+
+    }
+
+    @media only screen and (max-width: $break-small) {
+      width: 20%;
+      min-width: 10rem;
+      //font-size: 1.2rem;
+      margin: 0.5rem 2.5rem
+    }
   }
 
   &--form {
     width: 20rem;
-    font-size: 1.3rem;
+    //font-size: 1.3rem;
     line-height: 1.3rem;
     padding: 1rem 2rem;
     margin: 0.5rem 3rem;
 
     @media only screen and (max-width: $break-small) {
-      width: 15rem;
+      width: 16rem;
+      margin: 0.5rem 1rem
     }
 
   }

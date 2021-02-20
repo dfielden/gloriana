@@ -15,11 +15,21 @@
 }
 
 .flex__oneTwelth {
-  flex: 0 0 (100% * (1/12));
+  flex: 0 0 (100% * (1/11));
 }
 
-.flex__oneSixth {
-  flex: 0 0 calc(100% * (1/6));
+.flex__oneEleventh {
+  flex: 0 0 calc(100% * (1/11));
+}
+
+.flex__fiveElevenths {
+  flex: 0 0 calc(100% * (5/11));
+}
+
+.flex__oneHalfAtMediumBreak {
+  @media only screen and (max-width: $break-medium) {
+    flex: 0 0 calc(50%);
+  }
 }
 
 
@@ -57,3 +67,5 @@
   flex: 33.33333%;
   margin: 0 1rem;
 }
+
+
