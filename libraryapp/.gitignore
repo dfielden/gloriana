@@ -1,0 +1,9 @@
+# Ignore all .css - it is derived/compiled from .scss.
+*.css
+
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+

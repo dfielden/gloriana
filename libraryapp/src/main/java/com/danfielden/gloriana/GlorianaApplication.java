@@ -15,7 +15,7 @@ import java.io.File;
 @RestController
 public class GlorianaApplication {
     private static final Gson gson = new Gson();
-    private final QueryLibrary ql = new QueryLibraryDB(new File("ngc_music_library.db", "/"));
+    private final QueryLibrary ql = new QueryLibraryDB(new File("dev_music_library.db", "/"));
     //private final QueryLibrary ql = new QueryLibraryMemory();
 
     public GlorianaApplication() throws Exception {
