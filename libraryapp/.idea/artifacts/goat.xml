@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="war" build-on-make="true" name="goat">
+    <output-path>$PROJECT_DIR$/out/artifacts/goat</output-path>
+    <root id="archive" name="goat.war">
+      <element id="javaee-facet-resources" facet="libraryapp/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="libraryapp" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

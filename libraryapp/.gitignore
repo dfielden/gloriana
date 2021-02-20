@@ -3,6 +3,7 @@
 # TODO: Remove this, and work out how to build the css when we deploy.
 #*.css
 
+out/
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/

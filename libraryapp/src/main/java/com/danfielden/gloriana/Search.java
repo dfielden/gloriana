@@ -1,9 +1,10 @@
 package com.danfielden.gloriana;
 
-public class Search {
-    static boolean checkLeMatchesSearch(String[] searchTerm, LibraryEntry le) {
+public final class Search {
+    private Search() {}
+
+    public static boolean checkLeMatchesSearch(String[] searchTerm, LibraryEntry le) {
         for (int i = 0; i < searchTerm.length; i++) {
-            System.out.println(le.toString());
             String term = searchTerm[i];
             if (le.getAccompanied() == null) {
                 le.setAccompanied("");
