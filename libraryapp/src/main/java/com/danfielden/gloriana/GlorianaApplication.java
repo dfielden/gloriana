@@ -2,27 +2,43 @@ package com.danfielden.gloriana;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import com.google.gson.Gson;
 import java.io.File;
-
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 
 @SpringBootApplication
 @RestController
 public class GlorianaApplication {
     private static final Gson gson = new Gson();
-    private final QueryLibrary ql = new QueryLibraryDB(new File("dev_music_library.db", "/"));
+    private final QueryLibrary ql;
     //private final QueryLibrary ql = new QueryLibraryMemory();
 
-    public GlorianaApplication() throws Exception {
+    public GlorianaApplication(@Value("${goat}") String database) throws Exception {
+        ql = new QueryLibraryDB(new File(database));
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(GlorianaApplication.class, args);
+        if (args.length != 2) {
+            throw new IllegalArgumentException("Expected: <port> <database path>");
+        }
+        int port = Integer.parseInt(args[0]);
+        String dbPath = args[1];
+
+        SpringApplication app = new SpringApplication(GlorianaApplication.class);
+
+        Map<String, Object> properties = new LinkedHashMap<>();
+        properties.put("server.port", port);
+        properties.put("goat", dbPath);
+        app.setDefaultProperties(properties);
+
+        app.run(args);
     }
 
     @GetMapping("/entries")
