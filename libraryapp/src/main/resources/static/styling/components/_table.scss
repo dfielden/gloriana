@@ -28,7 +28,7 @@
   }
 
   &__head {
-    background-color: $color-primary-dark;
+    background-color: $color-primary;
     color: $color-white;
     text-align: left;
     display: flex;
@@ -75,7 +75,7 @@
       }
 
       &:last-of-type {
-        border-bottom: thin solid $color-primary-dark;
+        border-bottom: thin solid $color-primary;
       }
 
       .cell {

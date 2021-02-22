@@ -89,7 +89,6 @@
 
         @media only screen and (max-width: $break-small) {
           margin-top: 0.5rem;
-        ;
         }
 
 
@@ -107,21 +106,23 @@
       }
 
       &__close {
+
         &:link,
         &:visited {
-          color: $color-grey-dark;
+          color: $color-primary;
           padding: 2rem;
-          font-size: 3rem;
+          font-size: 4rem;
           text-decoration: none;
           display: inline-block;
           transition: all .2s;
           line-height: 1;
+          justify-content: flex-end;
           align-self: flex-end;
         }
 
 
         &:hover {
-          color: $color-primary;
+          color: $color-primary-lighter;
         }
       }
 

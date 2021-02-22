@@ -37,6 +37,11 @@
   display: flex;
   justify-content: space-around;
 
+  &--justify-end {
+    justify-content: flex-end;
+
+  }
+
   &--form {
     @media only screen and (max-width: $break-small) {
       flex-direction: column;
@@ -67,5 +72,11 @@
   flex: 33.33333%;
   margin: 0 1rem;
 }
+
+.visible {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
 
 

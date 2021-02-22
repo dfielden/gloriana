@@ -1,36 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1"/>
     <title>New Gloriana Choir Music Library</title>
     <link rel="stylesheet" href="styling/main.css">
 </head>
 <body>
-<div class="nav">
-    <div class="heading__wrapper">
-        <h1 class="heading1">New Gloriana Choir music library</h1>
-        <div class="newEntryWrapper">
-            <a href='#addEdit'><button class="btn btn--primary btn--form" id="btn_createNewEntry">Create new entry</button></a>
-         </div>
+<section class="section-nav">
+    <div class="nav">
+        <div class="heading__wrapper">
+            <h1 class="heading1">New Gloriana Choir music library</h1>
+            <div class="newEntryWrapper">
+                <a href='#addEdit'><button class="btn btn--primary btn--form" id="btn_createNewEntry">Create new entry</button></a>
+             </div>
+
+        </div>
+        <div class="search">
+            <form action="#" class="form" id="searchForm">
+                <input type="text" class="search__input" id="search__input" autocomplete="off" placeholder="Search music">
+                <button class="search__button" id="search__button" type="submit">
+                <div class="search__icon">
+                    <embed src="/images/magnifying-glass.svg">
+                </div>
+                </button>
+                <a href="#" class="search__clear" id="search__clear">&times;</a>
+            </form>
+        </div>
+
+        <div class="nav--burger" id="nav--burger">
+            <span></span>
+        </div>
 
     </div>
-    <div class="search">
-        <form action="#" class="form" id="searchForm">
-            <input type="text" class="search__input" id="search__input" autocomplete="off" placeholder="Search music">
-            <button class="search__button" id="search__button" type="submit">
-            <div class="search__icon">
-                <embed src="/images/magnifying-glass.svg">
+
+    <div class="hamburger-menu" id="hamburger-menu">
+        <div class="hamburger-menu__background">
+                <a href="#" class="hamburger-menu__close" id="hamburger-menu__close">&times;</a>
+            <div class="hamburger-menu__list">
+                <a href='#addEdit'><div class="hamburger-menu__list__item">Create new entry</div></a>
+                <div class="hamburger-menu__list__item">Search music</div>
             </div>
-            </button>
-            <a href="#" class="search__clear" id="search__clear">&times;</a>
-        </form>
+        </div>
     </div>
-
-    <div class="nav--burger">
-        <span></span>
-    </div>
-
-</div>
+</section>
 
 <section class="section-addEdit">
     <div class="addEdit" id="addEdit">
@@ -39,7 +51,7 @@
             <form action="#" class="form" id="addEditForm">
                 <a href="#" class="form__close" id="form__close">&times;</a>
                 <div class="u-margin-bottom-medium">
-                    <h2 class="heading__form" id="heading__form">
+                    <h2 class="heading2 heading2--form" id="heading__form">
                         Add new entry
                     </h2>
                 </div>
@@ -116,9 +128,7 @@
 
                 <div class="flexwrapper form__group form__btn">
                     <button class="btn btn--grey btn--form" id="btn_cancelNewEntry" type="button">Cancel</button>
-<!--                    <a href="/">-->
                     <button class="btn btn--primary btn--form" id="btn_newEntry" type="submit">Add entry &rarr;</button>
-<!--                    </a>-->
                 </div>
             </form>
         </div>
@@ -157,48 +167,26 @@
     </div>
 </section>
 
+<section class="section-alerts">
+    <div class="alert" id="delete-alert">
+        <div class="alert__background">
+            <h2 class="heading2 heading2--warning">
+                Warning!
+            </h2>
+            <p class="alert-box-text">
+                Do you wish to permanently delete this entry?
+            </p>
+            <div class="flexwrapper form__group alert__btn">
+                <button class="btn btn--grey btn--alert" id="btn_cancelDelete" type="button">Cancel</button>
+                <button class="btn btn--secondary btn--alert" id="btn_confirmDelete" type="submit">Delete &rarr;</button>
+            </div>
+        </div>
+    </div>
 
-
-<!--<section class="section-table">-->
-<!--    <div class="flexwrapper">-->
-<!--        <div class="table" id="table_all">-->
-<!--            <div class="table__head" id="table__head">-->
-<!--                <div class="row row&#45;&#45;head">-->
-<!--                    &lt;!&ndash;                    <div class="cell">id</div>&ndash;&gt;-->
-<!--                    <div class="table&#45;&#45;name flex__oneSixth flex__oneSixthAtMediumBreak">-->
-<!--                        <div class="cell flex__full">Title</div>-->
-<!--                    </div>-->
-<!--                    <div class="table&#45;&#45;composer flex__quarter flex__oneSixthAtMediumBreak">-->
-<!--                        <div class="cell flex__full">Composer first name</div>-->
-<!--                        <div class="cell flex__full">Composer last name</div>-->
-<!--                        <div class="cell flex__full">Arranger</div>-->
-<!--                    </div>-->
-<!--                    <div class="table&#45;&#45;voice flex__oneSixth flex__oneSixthAtMediumBreak">-->
-<!--                        <div class="cell flex__full">Voice parts</div>-->
-<!--                        <div class="cell flex__full">Accompanied</div>-->
-<!--                    </div>-->
-<!--                    <div class="table&#45;&#45;season flex__oneSixth flex__oneSixthAtMediumBreak">-->
-<!--                        <div class="cell flex__full">Season</div>-->
-<!--                        <div class="cell flex__full">Season (additional info)</div>-->
-<!--                    </div>-->
-<!--                    <div class="table&#45;&#45;location flex__oneSixth flex__oneSixthAtMediumBreak">-->
-<!--                        <div class="cell flex__full">Location</div>-->
-<!--                        <div class="cell flex__full">Collection</div>-->
-<!--                    </div>-->
-<!--                    <div class="table&#45;&#45;action flex__oneTwelth flex__oneSixthAtMediumBreak">-->
-<!--                        <div class="cell flex__full">Action</div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div class="table__body" id="table__body">-->
-<!--                <div class="row row&#45;&#45;body"></div>-->
-
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</section>-->
-
-
+    <div class="message" id="message-added">Entry successfully added</div>
+    <div class="message" id="message-updated">Entry successfully updated</div>
+    <div class="message" id="message-deleted">Entry successfully deleted</div>
+</section>
 
     <script type="text/javascript" src="/javascript/index.js"></script>
 </body>

@@ -1,8 +1,6 @@
 // COLOR VARIABLES
-$color-primary: #035cff;
-$color-primary-gradient: #039bff;
-$color-primary-light: #88aeff;
-$color-primary-dark: #001647;
+$color-primary-lighter: #052877;
+$color-primary: #001647;
 
 $color-secondary: #e53508;
 $color-secondary-gradient: #f1641f;
@@ -16,8 +14,10 @@ $color-grey-dark: #393739;
 $color-white: #ffffff;
 $color-black: #000000;
 
+$color-success: #0da000;
+
 // BREAK POINTS
-$break-tiny: 250px;
+$break-tiny: 260px;
 $break-smallest: 420px;
 $break-small: 760px;
 $break-medium: 1000px;
@@ -57,3 +57,15 @@ body {
 
 
 }
+
+a {
+  text-decoration: none;
+  color: inherit;
+
+  &:hover, &:focus, &:active {
+    color: $color-white;
+
+  }
+
+}
+

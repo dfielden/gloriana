@@ -1,0 +1,68 @@
+.alert {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba($color-black, .8);
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all .3s;
+  align-items: center;
+  justify-content: center;
+
+  @supports (-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px)) {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    background-color: rgba($color-black, .3);
+  }
+
+
+  .alert__background {
+    max-width: 60rem;
+    max-height: 15rem;
+    background-color: $color-grey-lightest;
+  }
+
+  &__btn {
+    display: flex;
+    align-self: center;
+    padding: 1rem;
+  }
+
+}
+
+
+.message {
+  opacity: 0;
+  display: none;
+  animation-name: fadeout;
+  animation-duration: 3s;
+  animation-fill-mode: forwards;
+  width: 100%;
+  color:$color-success;
+  font-size: 3rem;
+  position: fixed;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  background-color: $color-white;
+  text-align: center;
+}
+
+@keyframes fadeout {
+  0% {
+    opacity: 1;
+    display: inline-block;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    display: none;
+    opacity: 0;
+  }
+}

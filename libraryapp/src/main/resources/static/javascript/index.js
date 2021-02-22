@@ -1,3 +1,5 @@
+let deleteValue = -1;
+let clickedBtn = undefined;
 
 document.addEventListener('DOMContentLoaded', function () {
     ajax_get('/entries', function(data) {
@@ -7,6 +9,13 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('accompanied').addEventListener('click', function(e) {
         toggleLabelPlaceholderStyle(document.getElementById('accompanied'));
     });
+});
+
+window.addEventListener('load', function(event) {
+    if (sessionStorage.getItem('display-message') !== 'undefined') {
+        document.getElementById('message-' + sessionStorage.getItem('display-message')).style.display = 'inline-block';
+    }
+    sessionStorage.setItem('display-message', undefined);
 });
 
 document.getElementById('btn_createNewEntry').addEventListener('click', function() {
@@ -20,23 +29,46 @@ Use Event bubbling to add event listeners to current and future button elements 
 document.addEventListener('click',function(e) {
 
     if (getBtnIdDescription(e.target.id) === ('delete')) {
-        let id = getBtnIdNum(e.target.id);
-        let xhr = new XMLHttpRequest();
-        let url = '/delete/' + id;
-        xhr.open('POST', url, true);
+        document.getElementById('delete-alert').classList.add('visible');
 
-        //Send the proper header information along with the request
-        xhr.setRequestHeader('Content-type', 'application/json');
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                console.log("deleted id: " + xhr.responseText);
-                deleteRowOfBtnClick(e.target);
-                clearNewEntryForm('addEditForm');
-            }
-        }
-        xhr.send();
+        // Set params for delete ajax
+        deleteValue = getBtnIdNum(e.target.id);
+        clickedBtn = e.target;
     }
 });
+
+
+document.getElementById('btn_cancelDelete').addEventListener('click', function() {
+    document.getElementById('delete-alert').classList.remove('visible');
+    // Reset delete params
+    deleteValue = -1;
+    clickedBtn = undefined;
+})
+
+document.getElementById('btn_confirmDelete').addEventListener('click', function() {
+    document.getElementById('delete-alert').classList.remove('visible');
+    let xhr = new XMLHttpRequest();
+    let url = '/delete/' + deleteValue;
+    xhr.open('POST', url, true);
+
+    //Send the proper header information along with the request
+    xhr.setRequestHeader('Content-type', 'application/json');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            deleteRowOfBtnClick(clickedBtn);
+            // document.getElementById('message-deleted').style.display = 'inline-block';
+            sessionStorage.setItem('display-message', 'deleted')
+            clearNewEntryForm();
+
+            // Reset delete params
+            deleteValue = -1;
+            clickedBtn = undefined;
+        }
+    }
+    xhr.send();
+})
+
+
 
 
 document.addEventListener('click',function(e) {
@@ -45,8 +77,6 @@ document.addEventListener('click',function(e) {
         let url = '/entry/' + id;
 
         ajax_get(url, function(data) {
-            console.log(data);
-
             document.getElementById('id').value = data.id;
             document.getElementById('title').value = data.title;
             document.getElementById('composerFirstName').value = data.composerFirstName;
@@ -82,38 +112,8 @@ function addEditRowMain(tableBody, data) {
     for (let i = 0; i < Object.keys(data).length; i++) {
 
         if (i === 0) {
-            // containerDiv = document.createElement('div')
-            // containerDiv.classList.add('table--id', 'flex__oneTwelth');
-            // row.appendChild(containerDiv);
-
-            // id = do not add to table
             continue;
         }
-        // if (i === 1) {
-        //     containerDiv = document.createElement('div')
-        //     containerDiv.classList.add('table--name', 'flex__oneSixth', 'flex__oneSixthAtMediumBreak');
-        //     row.appendChild(containerDiv);
-        // }
-        // if (i === 2) {
-        //     containerDiv = document.createElement('div')
-        //     containerDiv.classList.add('table--composer', 'flex__quarter', 'flex__oneSixthAtMediumBreak');
-        //     row.appendChild(containerDiv);
-        // }
-        // if (i === 5) {
-        //     containerDiv = document.createElement('div')
-        //     containerDiv.classList.add('table--voice', 'flex__oneSixth', 'flex__oneSixthAtMediumBreak');
-        //     row.appendChild(containerDiv);
-        // }
-        // if (i === 7) {
-        //     containerDiv = document.createElement('div')
-        //     containerDiv.classList.add('table--season', 'flex__oneSixth', 'flex__oneSixthAtMediumBreak');
-        //     row.appendChild(containerDiv);
-        // }
-        // if (i === 9) {
-        //     containerDiv = document.createElement('div')
-        //     containerDiv.classList.add('table--location', 'flex__oneSixth', 'flex__oneSixthAtMediumBreak');
-        //     row.appendChild(containerDiv);
-        // }
 
         if (i === 1) {
             containerDiv = document.createElement('div')
@@ -172,7 +172,6 @@ function clearNewEntryForm() {
     window.location = '/';
 }
 
-
 /*
 general ajax call to get json from url then pass it into a function.
  */
@@ -209,7 +208,6 @@ document.getElementById('addEditForm').addEventListener("submit", function (e) {
 
     // CODE FOR ADDING NEW ENTRY
     if (document.getElementById('id').value === '-1') {
-        console.log(document.getElementById('id').value);
         let url = '/newentry';
         xhr.open('POST', url, true);
 
@@ -218,15 +216,16 @@ document.getElementById('addEditForm').addEventListener("submit", function (e) {
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 let data = JSON.parse(xhr.responseText);
-                console.log(data);
                 let tableBody = document.getElementById('table__body');
                 addEditRowMain(tableBody, data);
+                sessionStorage.setItem('display-message', 'added');
+                console.log(sessionStorage.getItem('display-message'));
+                // document.getElementById('message-added').style.display = 'inline-block';
                 clearNewEntryForm();
             }
         }
     } else {
         // CODE FOR UPDATING ENTRY
-        console.log(object.id);
         let url = '/edit/' + object.id;
         xhr.open('POST', url, true);
 
@@ -235,14 +234,14 @@ document.getElementById('addEditForm').addEventListener("submit", function (e) {
         xhr.onreadystatechange = function() {
             if(xhr.readyState === 4 && xhr.status === 200) {
                 let data = JSON.parse(xhr.responseText);
-                console.log(data);
                 let btn = document.getElementById('edit_' + document.getElementById('id').value);
                 updateRowOfBtnClick(btn, data);
+                sessionStorage.setItem('display-message', 'updated')
+                // document.getElementById('message-updated').style.display = 'inline-block';
                 clearNewEntryForm();
             }
         }
     }
-    console.log('post edit');
     xhr.send(json);
 });
 
@@ -255,7 +254,6 @@ document.getElementById('search__button').addEventListener("click", function (e)
     let searchString = document.getElementById('search__input').value;
     let xhr = new XMLHttpRequest();
     let url = '/searchentries';
-    console.log(searchString);
     xhr.open('POST', url, true);
 
     //Send the proper header information along with the request
@@ -263,7 +261,6 @@ document.getElementById('search__button').addEventListener("click", function (e)
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
             let data = JSON.parse(xhr.responseText);
-            console.log(data);
             clearClassFromDOM('row--visible');
             populateMainTable(data.library_entries);
 
@@ -282,7 +279,7 @@ function getBtnIdDescription(string) {
 }
 
 function deleteRowOfBtnClick(btn) {
-    let row = btn.parentNode.parentNode;
+    let row = btn.parentNode.parentNode.parentNode;
     row.parentNode.removeChild(row);
 }
 
@@ -293,6 +290,10 @@ function updateRowOfBtnClick(btn, data) {
 
 document.getElementById('form__close').addEventListener('click', function() {
     clearNewEntryForm();
+});
+
+document.getElementById('nav--burger').addEventListener('click', function() {
+    window.location = '/#hamburger-menu';
 });
 
 function toggleLabelPlaceholderStyle(labelElement) {
