@@ -331,6 +331,7 @@ a:hover, a:focus, a:active {
   opacity: 0;
   transform: translate(-50%, -50%) scale(0.25);
   transition: all 0.5s 0.2s;
+  overflow-y: scroll;
 }
 @media only screen and (max-width: 760px) {
   .addEdit__content {
@@ -709,6 +710,11 @@ svg, embed {
 }
 .table__body .row:last-of-type {
   border-bottom: thin solid #001647;
+}
+@media only screen and (max-width: 760px) {
+  .table__body .row:first-of-type {
+    padding-top: 10rem;
+  }
 }
 .table__body .row .cell {
   padding: 1rem;
