@@ -116,6 +116,8 @@
     width: 95%;
     transition: all .2s;
     margin-right: -3.5rem;
+    @include boxShadow;
+
 
     &:placeholder-shown {
       width: 90%;
@@ -171,7 +173,7 @@
       margin-left: 2rem;
 
       &:hover {
-        color: $color-primary;
+        color: $color-primary-bright;
       }
 
     }

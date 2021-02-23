@@ -19,7 +19,7 @@ public interface QueryLibrary {
      * Updates a single entry in the music library, identified by the id input parameter such that all parameters match
      * those of the LibraryEntry input parameter.
      */
-    void updateEntry(long id, LibraryEntry entry) throws Exception;
+    void updateEntry(LibraryEntry entry) throws Exception;
 
     /**
      * Removes a single entry from the music library as identified by the id input parameter. If the entry doesn't

@@ -18,6 +18,10 @@
   flex: 1;
   flex-basis: calc(100% / 12);
   align-self: center;
+
+  @media only screen and (max-width: $break-medium) {
+    align-self: inherit;
+  }
 }
 
 @mixin boxShadow {

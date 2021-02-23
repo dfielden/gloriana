@@ -283,7 +283,6 @@ a:hover, a:focus, a:active {
 .form {
   width: 100%;
   display: flex;
-  box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
 }
 
 .addEdit {
@@ -439,6 +438,10 @@ a:hover, a:focus, a:active {
 
 .select-text-default {
   color: #838083 !important;
+}
+
+.addEditForm {
+  box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
 }
 
 .hamburger-menu {
@@ -601,6 +604,7 @@ a:hover, a:focus, a:active {
   width: 95%;
   transition: all 0.2s;
   margin-right: -3.5rem;
+  box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
 }
 .search__input:placeholder-shown {
   width: 90%;
@@ -643,7 +647,7 @@ a:hover, a:focus, a:active {
   margin-left: 2rem;
 }
 .search__clear:link:hover, .search__clear:visited:hover {
-  color: #001647;
+  color: #125aff;
 }
 @media only screen and (max-width: 760px) {
   .search {
@@ -700,6 +704,11 @@ svg, embed {
   align-self: center;
 }
 @media only screen and (max-width: 1000px) {
+  .table__head .row .cell {
+    align-self: inherit;
+  }
+}
+@media only screen and (max-width: 1000px) {
   .table__head {
     display: none;
   }
@@ -738,6 +747,11 @@ svg, embed {
   flex: 1;
   flex-basis: calc(100% / 12);
   align-self: center;
+}
+@media only screen and (max-width: 1000px) {
+  .table__body .row .cell {
+    align-self: inherit;
+  }
 }
 @media only screen and (max-width: 1000px) {
   .table__body .row .cell {

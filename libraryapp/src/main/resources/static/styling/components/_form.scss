@@ -1,8 +1,6 @@
 .form {
   width: 100%;
   display: flex;
-  @include boxShadow;
-
 }
 .addEdit {
   height: 100vh;
@@ -15,6 +13,7 @@
   opacity: 0;
   visibility: hidden;
   transition: all .3s;
+
 
   @supports (-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px)) {
     -webkit-backdrop-filter: blur(10px);
@@ -170,4 +169,9 @@
 
 .select-text-default {
   color: $color-grey-medium !important;
+}
+
+// Only want box shadow on addEdit form, not the search form (where box shadow is on the input rather than the form itself).
+.addEditForm {
+  @include boxShadow;
 }

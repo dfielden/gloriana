@@ -28,12 +28,12 @@ public final class QueryLibraryDB implements QueryLibrary {
         connect.createStatement().execute(query);
     }
 
-    public void close() throws SQLException {
+    public synchronized void close() throws SQLException {
         connect.close();
     }
 
     @Override
-    public void addEntry(LibraryEntry entry) throws Exception {
+    public synchronized void addEntry(LibraryEntry entry) throws Exception {
         if (entry.getId() != 0) {
             throw new IllegalArgumentException("Cannot insert LibraryEntry if ID already set");
         }
@@ -77,10 +77,11 @@ public final class QueryLibraryDB implements QueryLibrary {
     }
 
     @Override
-    public void updateEntry(long id, LibraryEntry entry) throws Exception {
-        if (id != entry.getId()) {
-            throw new IllegalStateException("id: " + id + ", entry.get(id): " + entry.getId() + ". IDs do not match.");
+    public synchronized void updateEntry(LibraryEntry entry) throws Exception {
+        if (getEntry(entry.getId()) == null) {
+            throw new IllegalArgumentException("Cannot delete non-existent LibraryEntry with id=" + entry.getId());
         }
+
         String query = "UPDATE music_library SET " +
                 "title = ?, " +
                 "composer_first_name = ?, " +
@@ -113,11 +114,11 @@ public final class QueryLibraryDB implements QueryLibrary {
     }
 
     @Override
-    public void deleteEntry(long id) throws Exception {
+    public synchronized void deleteEntry(long id) throws Exception {
         String query =  "UPDATE music_library SET deleted = ? WHERE id = ?";
 
         if (getEntry(id) == null) {
-            throw new IllegalArgumentException("No entry with id=" + id + " found");
+            throw new IllegalArgumentException("Cannot delete non-existent LibraryEntry with id=" + id);
         }
 
         try (PreparedStatement stmt = connect.prepareStatement(query)) {
@@ -128,7 +129,7 @@ public final class QueryLibraryDB implements QueryLibrary {
     }
 
     @Override
-    public Map<Long, LibraryEntry> getAllEntries() throws Exception {
+    public synchronized Map<Long, LibraryEntry> getAllEntries() throws Exception {
         Map<Long, LibraryEntry> entries = new HashMap<>();
         String query = "SELECT * FROM music_library";
 
@@ -160,7 +161,7 @@ public final class QueryLibraryDB implements QueryLibrary {
 
     @Override
     @Nullable
-    public LibraryEntry getEntry(long id) throws Exception {
+    public synchronized LibraryEntry getEntry(long id) throws Exception {
         String query = "SELECT * FROM music_library WHERE id = ?";
 
         try (PreparedStatement stmt = connect.prepareStatement(query)) {
@@ -193,7 +194,7 @@ public final class QueryLibraryDB implements QueryLibrary {
     }
 
     @Override
-    public Map<Long, LibraryEntry> searchEntries(String searchTerm) throws Exception {
+    public synchronized Map<Long, LibraryEntry> searchEntries(String searchTerm) throws Exception {
         String[] searchArray = searchTerm.toLowerCase().split(" ");
         Map<Long, LibraryEntry> entries = getAllEntries();
         Set<Map.Entry<Long, LibraryEntry>> setOfEntries = entries.entrySet();

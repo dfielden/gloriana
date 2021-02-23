@@ -76,11 +76,11 @@ public class GlorianaApplication {
         return ql.getEntry(id);
     }
 
-    @PostMapping(value="/edit/{id}",
+    @PostMapping(value="/edit",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public String editEntry(@RequestBody LibraryEntry le, @PathVariable(value="id") long id) throws Exception {
-        ql.updateEntry(id, le);
+    public String editEntry(@RequestBody LibraryEntry le) throws Exception {
+        ql.updateEntry(le);
         return le.toJson().toString();
     }
 

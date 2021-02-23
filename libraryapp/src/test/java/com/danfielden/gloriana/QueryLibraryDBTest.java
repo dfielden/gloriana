@@ -53,8 +53,6 @@ final class QueryLibraryDBTest {
 
         // Test getEntry(long).
         assertEquals(entry, db.getEntry(entry.getId()));
-
-
     }
 
     @Test
@@ -140,11 +138,40 @@ final class QueryLibraryDBTest {
     public void deleteEntry_doesntExist() throws Exception {
         // This test verifies that the behaviour of deleting that doesnt exist is consistent with the QueryLibrary
         // interface.
-        //assertThrows(IllegalArgumentException.class, db.deleteEntry(42));
+        dannyAssertThrows(IllegalArgumentException.class, () -> db.deleteEntry(123));
+    }
 
-        dannyAssertThrows(IllegalArgumentException.class, () -> {
-            db.deleteEntry(123);
-        });
+    @Test
+    public void updateEntry() throws Exception {
+        // This test adds two entries and then modifies one to verify that all parameters are modified correctly
+        // and that only the intended entry is modified.
+
+        // Add two entries to db.
+        LibraryEntry entryForEdit = randomLibraryEntry();
+        db.addEntry(entryForEdit);
+        LibraryEntry entryNotForEdit = randomLibraryEntry();
+        db.addEntry(entryNotForEdit);
+
+        // Create new entry and set its id to equal that of entryForEdit.
+        LibraryEntry entryForEdit2 = randomLibraryEntry();
+        entryForEdit2.setId(entryForEdit.getId());
+        // (As an aside, just double check that 'entryForEdit2' is actually different to 'entryForEdit').
+        assertNotEquals(entryForEdit.getComposerFirstName(), entryForEdit2.getComposerFirstName());
+        // Update the DB for 'entryForEdit'.
+        db.updateEntry(entryForEdit2);
+
+        // Confirm the entryForEdit db entry was updated.
+        assertEquals(entryForEdit2, db.getEntry(entryForEdit.getId()));
+        // ... and that 'entryNotForEdit' remained the same.
+        assertEquals(entryNotForEdit, db.getEntry(entryNotForEdit.getId()));
+    }
+
+    @Test
+    public void updateEntry_doesntExist() {
+        // This test verifies that updateEntry() for an entry that doesn't exist fails.
+        LibraryEntry entryNoExist = randomLibraryEntry();
+        entryNoExist.setId(12345);
+        dannyAssertThrows(IllegalArgumentException.class, () -> db.updateEntry(entryNoExist));
     }
 
 

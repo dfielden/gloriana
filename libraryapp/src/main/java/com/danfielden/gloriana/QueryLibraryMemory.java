@@ -29,14 +29,8 @@ public class QueryLibraryMemory implements QueryLibrary {
     }
 
     @Override
-    public void updateEntry(long id, LibraryEntry entry) {
-        if (!map.containsKey(id)) {
-            throw new IllegalArgumentException("id " + id + ": entry does not exist");
-        }
-        if (id != entry.getId()) {
-            throw new IllegalStateException("id: " + id + ", entry.get(id): " + entry.getId() + ". IDs do not match.");
-        }
-        map.put(id, new LibraryEntryNode(entry));
+    public void updateEntry(LibraryEntry entry) {
+        map.put(entry.getId(), new LibraryEntryNode(entry));
     }
 
     @Override

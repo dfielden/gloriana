@@ -226,7 +226,7 @@ document.getElementById('addEditForm').addEventListener("submit", function (e) {
         }
     } else {
         // CODE FOR UPDATING ENTRY
-        let url = '/edit/' + object.id;
+        let url = '/edit';
         xhr.open('POST', url, true);
 
         //Send the proper header information along with the request
@@ -237,7 +237,6 @@ document.getElementById('addEditForm').addEventListener("submit", function (e) {
                 let btn = document.getElementById('edit_' + document.getElementById('id').value);
                 updateRowOfBtnClick(btn, data);
                 sessionStorage.setItem('display-message', 'updated')
-                // document.getElementById('message-updated').style.display = 'inline-block';
                 clearNewEntryForm();
             }
         }
