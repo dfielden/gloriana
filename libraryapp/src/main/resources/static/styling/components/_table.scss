@@ -41,10 +41,7 @@
 
 
       .cell {
-        padding: 1rem;
-        display: flex;
-        flex: 1;
-        flex-basis: calc(100% / 12);
+        @include tableCell;
       }
     }
 
@@ -71,7 +68,13 @@
       }
 
       &:hover {
-        color: $color-primary;
+
+        //MIN-WIDTH BREAK POINT
+        @media only screen and (min-width: $break-medium) {
+          color: $color-primary;
+          background-color: $color-primary-pale;
+        }
+
       }
 
       &:last-of-type {
@@ -85,10 +88,7 @@
       }
 
       .cell {
-        padding: 1rem;
-        display: flex;
-        flex: 1;
-        flex-basis: calc(100% / 12);
+        @include tableCell;
 
         @media only screen and (max-width: $break-medium) {
           padding: 0.5rem 0 0.5rem 2rem;

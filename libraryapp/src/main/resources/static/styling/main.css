@@ -304,6 +304,11 @@ a:hover, a:focus, a:active {
     background-color: rgba(0, 0, 0, 0.3);
   }
 }
+@media only screen and (max-width: 760px) {
+  .addEdit {
+    overflow-y: scroll;
+  }
+}
 .addEdit:target {
   opacity: 1;
   visibility: visible;
@@ -348,7 +353,7 @@ a:hover, a:focus, a:active {
 @media only screen and (max-width: 760px) {
   .addEdit__content .form {
     max-width: 100%;
-    height: 100vh;
+    height: 100%;
     margin: 0;
   }
 }
@@ -400,6 +405,11 @@ a:hover, a:focus, a:active {
 }
 .addEdit__content .form__close:hover {
   color: #052877;
+}
+@media only screen and (max-width: 760px) {
+  .addEdit__content .form__close {
+    margin-top: 4rem;
+  }
 }
 .addEdit__content .form__label {
   font-size: 1rem;
@@ -685,6 +695,7 @@ svg, embed {
   display: flex;
   flex: 1;
   flex-basis: calc(100% / 12);
+  align-self: center;
 }
 @media only screen and (max-width: 1000px) {
   .table__head {
@@ -705,8 +716,11 @@ svg, embed {
 .table__body .row:nth-of-type(even) {
   background-color: #ffffff;
 }
-.table__body .row:hover {
-  color: #001647;
+@media only screen and (min-width: 1000px) {
+  .table__body .row:hover {
+    color: #001647;
+    background-color: #eaf1ff;
+  }
 }
 .table__body .row:last-of-type {
   border-bottom: thin solid #001647;
@@ -721,6 +735,7 @@ svg, embed {
   display: flex;
   flex: 1;
   flex-basis: calc(100% / 12);
+  align-self: center;
 }
 @media only screen and (max-width: 1000px) {
   .table__body .row .cell {

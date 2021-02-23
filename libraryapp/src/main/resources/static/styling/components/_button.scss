@@ -87,11 +87,11 @@
   }
 
   &--primary {
-    background-image: linear-gradient(to right bottom, $color-primary, $color-primary-lighter);
+    background-image: linear-gradient(to right bottom, $color-primary, $color-primary-gradient);
     color: $color-white;
 
     &::after {
-      background-image: linear-gradient(to right bottom, $color-primary, $color-primary-lighter);
+      background-image: linear-gradient(to right bottom, $color-primary, $color-primary-gradient);
     }
   }
 
