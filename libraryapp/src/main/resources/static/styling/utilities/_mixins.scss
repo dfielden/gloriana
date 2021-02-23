@@ -19,3 +19,7 @@
   flex-basis: calc(100% / 12);
   align-self: center;
 }
+
+@mixin boxShadow {
+  box-shadow: 0 2rem 4rem rgba($color-black, .2);
+}

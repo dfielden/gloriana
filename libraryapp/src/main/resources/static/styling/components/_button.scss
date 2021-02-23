@@ -96,11 +96,11 @@
   }
 
   &--secondary {
-    background-image: linear-gradient(to right bottom, $color-secondary, $color-secondary-gradient);
+    background-image: linear-gradient(to right bottom, $color-warning, $color-warning-gradient);
     color: $color-white;
 
     &::after {
-      background-image: linear-gradient(to right bottom, $color-secondary, $color-secondary-gradient);
+      background-image: linear-gradient(to right bottom, $color-warning, $color-warning-gradient);
     }
   }
 

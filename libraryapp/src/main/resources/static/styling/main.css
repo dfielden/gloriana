@@ -283,6 +283,7 @@ a:hover, a:focus, a:active {
 .form {
   width: 100%;
   display: flex;
+  box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
 }
 
 .addEdit {
@@ -324,11 +325,11 @@ a:hover, a:focus, a:active {
   transform: translate(-50%, -50%);
   width: 100%;
   margin: 0rem;
-  background-image: url("/images/choirstalls.jpg");
+  background: #001647;
+  background: linear-gradient(135deg, #001647 0%, #052877 50%, #eaf1ff 100%);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
   border-radius: 3px;
   display: flex;
   justify-content: center;
@@ -337,6 +338,7 @@ a:hover, a:focus, a:active {
   transform: translate(-50%, -50%) scale(0.25);
   transition: all 0.5s 0.2s;
   overflow-y: scroll;
+  box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
 }
 @media only screen and (max-width: 760px) {
   .addEdit__content {
@@ -344,7 +346,7 @@ a:hover, a:focus, a:active {
   }
 }
 .addEdit__content .form {
-  background-color: rgba(131, 128, 131, 0.75);
+  background-color: rgba(190, 188, 190, 0.75);
   display: flex;
   flex-direction: column;
   margin: 2rem;
@@ -386,7 +388,7 @@ a:hover, a:focus, a:active {
 .addEdit__content .form__input:focus {
   outline: none;
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
-  border-bottom: 3px solid #001647;
+  border-bottom: 3px solid #125aff;
   background-color: #ffffff;
 }
 .addEdit__content .form__input::-webkit-input-placeholder {
