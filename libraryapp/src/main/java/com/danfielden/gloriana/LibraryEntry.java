@@ -120,12 +120,17 @@ final class LibraryEntry {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         LibraryEntry that = (LibraryEntry) o;
-        return id == that.id && accompanied == that.accompanied && Objects.equals(title, that.title) &&
-                Objects.equals(composerFirstName, that.composerFirstName) && Objects.equals(composerLastName,
-                that.composerLastName) && Objects.equals(arranger, that.arranger) &&
-                Objects.equals(voiceParts, that.voiceParts) && Objects.equals(season, that.season) &&
-                Objects.equals(seasonAdditional, that.seasonAdditional) && Objects.equals(location, that.location) &&
-                Objects.equals(collection, that.collection);
+        return id == that.id
+                && Objects.equals(title, that.title)
+                &&  Objects.equals(composerFirstName, that.composerFirstName)
+                && Objects.equals(composerLastName, that.composerLastName)
+                && Objects.equals(arranger, that.arranger)
+                && accompanied.equals(that.accompanied)
+                && Objects.equals(voiceParts, that.voiceParts)
+                && Objects.equals(season, that.season)
+                && Objects.equals(seasonAdditional, that.seasonAdditional)
+                && Objects.equals(location, that.location)
+                && Objects.equals(collection, that.collection);
     }
 
     @Override

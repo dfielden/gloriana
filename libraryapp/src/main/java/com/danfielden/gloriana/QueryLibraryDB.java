@@ -1,5 +1,7 @@
 package com.danfielden.gloriana;
 
+import com.sun.istack.internal.Nullable;
+
 import java.io.File;
 import java.sql.*;
 import java.util.*;
@@ -25,8 +27,17 @@ public final class QueryLibraryDB implements QueryLibrary {
                 "deleted BOOLEAN)";
         connect.createStatement().execute(query);
     }
+
+    public void close() throws SQLException {
+        connect.close();
+    }
+
     @Override
     public void addEntry(LibraryEntry entry) throws Exception {
+        if (entry.getId() != 0) {
+            throw new IllegalArgumentException("Cannot insert LibraryEntry if ID already set");
+        }
+
         String query = "INSERT INTO music_library (" +
                 "title, " +
                 "composer_first_name, " +
@@ -60,6 +71,8 @@ public final class QueryLibraryDB implements QueryLibrary {
             if (!rs.next()) {
                 throw new IllegalStateException("Unable to get generated key for added address");
             }
+            long id =  rs.getLong(1);
+            entry.setId(id);
         }
     }
 
@@ -103,6 +116,10 @@ public final class QueryLibraryDB implements QueryLibrary {
     public void deleteEntry(long id) throws Exception {
         String query =  "UPDATE music_library SET deleted = ? WHERE id = ?";
 
+        if (getEntry(id) == null) {
+            throw new IllegalArgumentException("No entry with id=" + id + " found");
+        }
+
         try (PreparedStatement stmt = connect.prepareStatement(query)) {
             stmt.setBoolean(1, true);
             stmt.setLong(2, id);
@@ -142,8 +159,8 @@ public final class QueryLibraryDB implements QueryLibrary {
     }
 
     @Override
+    @Nullable
     public LibraryEntry getEntry(long id) throws Exception {
-        LibraryEntry le = null;
         String query = "SELECT * FROM music_library WHERE id = ?";
 
         try (PreparedStatement stmt = connect.prepareStatement(query)) {
@@ -151,22 +168,28 @@ public final class QueryLibraryDB implements QueryLibrary {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                    String title = rs.getString("title");
-                    String composerFirstName = rs.getString("composer_first_name");
-                    String composerLastName = rs.getString("composer_last_name");
-                    String arranger = rs.getString("arranger");
-                    String voiceParts = rs.getString("voice_parts");
-                    String accompanied = rs.getString("accompanied");
-                    String season = rs.getString("season");
-                    String seasonAdditional = rs.getString("season_additional");
-                    String location = rs.getString("location");
-                    String collection = rs.getString("collection");
-
-                    le = new LibraryEntry(id, title, composerFirstName, composerLastName, arranger,
-                            voiceParts, accompanied, season, seasonAdditional, location, collection);
+                if (rs.getBoolean("deleted")) {
+                    return null;
                 }
+                String title = rs.getString("title");
+                String composerFirstName = rs.getString("composer_first_name");
+                String composerLastName = rs.getString("composer_last_name");
+                String arranger = rs.getString("arranger");
+                String voiceParts = rs.getString("voice_parts");
+                String accompanied = rs.getString("accompanied");
+                String season = rs.getString("season");
+                String seasonAdditional = rs.getString("season_additional");
+                String location = rs.getString("location");
+                String collection = rs.getString("collection");
+
+                if (rs.next()) {
+                    throw new IllegalStateException("Multiple entries with id=" + id + " found");
+                }
+                return new LibraryEntry(id, title, composerFirstName, composerLastName, arranger,
+                        voiceParts, accompanied, season, seasonAdditional, location, collection);
             }
-        return le;
+        }
+        return null;  // Not found.
     }
 
     @Override
@@ -185,6 +208,5 @@ public final class QueryLibraryDB implements QueryLibrary {
         }
         return entries;
     }
-
 
 }

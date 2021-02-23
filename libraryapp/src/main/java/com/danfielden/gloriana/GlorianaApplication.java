@@ -18,7 +18,6 @@ import java.util.Map;
 public class GlorianaApplication {
     private static final Gson gson = new Gson();
     private final QueryLibrary ql;
-    //private final QueryLibrary ql = new QueryLibraryMemory();
 
     public GlorianaApplication(@Value("${goat}") String database) throws Exception {
         ql = new QueryLibraryDB(new File(database));

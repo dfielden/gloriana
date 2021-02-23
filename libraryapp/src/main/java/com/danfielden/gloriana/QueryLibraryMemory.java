@@ -41,7 +41,11 @@ public class QueryLibraryMemory implements QueryLibrary {
 
     @Override
     public void deleteEntry(long id) {
-        map.get(id).setDeleted(true);
+        if (map.get(id) == null) {
+                throw new IllegalArgumentException("No entry with id=" + id + " found");
+        } else {
+            map.get(id).setDeleted(true);
+        }
     }
 
     @Override
