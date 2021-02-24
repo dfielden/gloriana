@@ -23,22 +23,23 @@
     padding: 0.5rem 0rem;
     margin: 0.5rem 0.5rem;
 
-    @media only screen and (max-width: $break-medium) {
-      //width: 20%;
-      //font-size: 1.2rem;
+
       @media only screen and (max-width: $break-medium) {
         width: 20%;
         //font-size: 1.2rem;
         margin: 0.5rem 2.5rem
       }
 
-    }
 
     @media only screen and (max-width: $break-small) {
       width: 20%;
       min-width: 10rem;
-      //font-size: 1.2rem;
       margin: 0.5rem 2.5rem
+    }
+
+    @media only screen and (max-width: $break-tiny) {
+      min-width: 6rem;
+      margin: 0.3rem;
     }
   }
 
@@ -52,6 +53,14 @@
     @media only screen and (max-width: $break-small) {
       width: 16rem;
       margin: 0.5rem 1rem
+    }
+
+    @media only screen and (max-width: $break-smallest) {
+      width: 12rem;
+    }
+
+    @media only screen and (max-width: $break-tiny) {
+      width: 10rem;
     }
 
   }

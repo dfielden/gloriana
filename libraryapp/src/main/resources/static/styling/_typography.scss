@@ -59,7 +59,10 @@ body {
   color: $color-primary;
 
 
-  &__form {
+  &--form {
+    @media only screen and (max-width: $break-small) {
+      color: $color-white;
+    }
   }
 
   &--warning {

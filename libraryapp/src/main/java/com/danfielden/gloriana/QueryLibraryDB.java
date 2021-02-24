@@ -34,7 +34,7 @@ public final class QueryLibraryDB implements QueryLibrary {
 
     @Override
     public synchronized void addEntry(LibraryEntry entry) throws Exception {
-        if (entry.getId() != 0) {
+        if (entry.getId() != -1) {
             throw new IllegalArgumentException("Cannot insert LibraryEntry if ID already set");
         }
 

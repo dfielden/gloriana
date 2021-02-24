@@ -51,6 +51,10 @@
   z-index: 9999;
   background-color: $color-white;
   text-align: center;
+
+  &--warning {
+    color:$color-warning;
+  }
 }
 
 @keyframes fadeout {

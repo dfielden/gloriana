@@ -38,8 +38,21 @@
                 <a href="#" class="hamburger-menu__close" id="hamburger-menu__close">&times;</a>
             <div class="hamburger-menu__list">
                 <a href='#addEdit'><div class="hamburger-menu__list__item">Create new entry</div></a>
-                <div class="hamburger-menu__list__item">Search music</div>
+                <div class="hamburger-menu__list__item" id="searchMusic">Search music</div>
             </div>
+
+            <div class="search search--hamburger" id="search--hamburger">
+                <form action="#" class="form form--hamburger" id="searchForm--hamburger">
+                    <input type="text" class="search__input search__input--hamburger" id="search__input--hamburger" autocomplete="off" placeholder="Search music">
+                    <button class="search__button search__button--hamburger" id="search__button--hamburger" type="submit">
+                        <div class="search__icon search__icon--hamburger">
+                            <embed src="/images/magnifying-glass.svg">
+                        </div>
+                    </button>
+                    <a href="#hamburger-menu" class="search__clear search__clear--hamburger" id="search__clear--hamburger">&times;</a>
+                </form>
+            </div>
+
         </div>
     </div>
 </section>
@@ -186,6 +199,8 @@
     <div class="message" id="message-added">Entry successfully added</div>
     <div class="message" id="message-updated">Entry successfully updated</div>
     <div class="message" id="message-deleted">Entry successfully deleted</div>
+    <div class="message message--warning" id="message-searchNotFound">No items matched the search</div>
+
 </section>
 
     <script type="text/javascript" src="/javascript/index.js"></script>

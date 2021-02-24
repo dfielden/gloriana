@@ -250,6 +250,7 @@ document.getElementById('btn_cancelNewEntry').addEventListener('click', function
 
 document.getElementById('search__button').addEventListener("click", function (e) {
     e.preventDefault();
+    document.getElementById('message-searchNotFound').style.display = 'none';
     let searchString = document.getElementById('search__input').value;
     let xhr = new XMLHttpRequest();
     let url = '/searchentries';
@@ -260,14 +261,52 @@ document.getElementById('search__button').addEventListener("click", function (e)
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
             let data = JSON.parse(xhr.responseText);
+            if (data.library_entries.length === 0) {
+                document.getElementById('message-searchNotFound').style.display = 'inline-block';
+            }
             clearClassFromDOM('row--visible');
             populateMainTable(data.library_entries);
+            document.getElementById('search__input--hamburger').value = searchString;
 
         }
     }
     xhr.send(searchString);
 });
 
+
+document.getElementById('search__button--hamburger').addEventListener("click", function (e) {
+    e.preventDefault();
+    document.getElementById('message-searchNotFound').style.display = 'none';
+    let searchString = document.getElementById('search__input--hamburger').value;
+
+    if (searchString === '') {
+        ajax_get('/entries', function(data) {
+            populateMainTable(data.library_entries);
+            window.location = '/#';
+        });
+    } else {
+        let xhr = new XMLHttpRequest();
+        let url = '/searchentries';
+        xhr.open('POST', url, true);
+
+        //Send the proper header information along with the request
+        xhr.setRequestHeader('Content-type', 'application/json');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                let data = JSON.parse(xhr.responseText);
+                if (data.library_entries.length === 0) {
+                    document.getElementById('message-searchNotFound').style.display = 'inline-block';
+                } else {
+                    clearClassFromDOM('row--visible');
+                    populateMainTable(data.library_entries);
+                    document.getElementById('search__input').value = searchString;
+                    window.location = '/#';
+                }
+            }
+        }
+        xhr.send(searchString);
+    }
+});
 
 function getBtnIdNum(string) {
     return string.split('_')[1];
@@ -322,8 +361,24 @@ function clearClassFromDOM(className) {
 }
 
 document.getElementById('search__clear').addEventListener('click', function() {
-    document.getElementById('searchForm').reset();
+    clearSearchForms();
     window.location = '/';
+
+})
+
+document.getElementById('search__clear--hamburger').addEventListener('click', function() {
+    clearSearchForms();
+})
+
+function clearSearchForms() {
+    document.getElementById('searchForm').reset();
+    document.getElementById('searchForm--hamburger').reset();
+    // document.getElementById('search--hamburger').style.display = 'none';
+
+}
+
+document.getElementById('searchMusic').addEventListener('click', function() {
+    document.getElementById('search--hamburger').style.display = 'flex';
 })
 
 const tableParameters = ["pseudo--ID", "pseudo--title", "pseudo--firstName", "pseudo--lastName", "pseudo--arranger",

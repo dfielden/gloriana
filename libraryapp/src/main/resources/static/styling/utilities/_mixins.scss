@@ -10,7 +10,11 @@
   padding: 0 0.5rem 0 0;
   font-weight: 700;
   //white-space: pre;
+
+  @media only screen and (max-width: $break-tiny) {
+    padding: 0;
   }
+}
 
 @mixin tableCell {
   padding: 1rem;

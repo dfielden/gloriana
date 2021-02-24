@@ -104,6 +104,12 @@
   align-items: center;
   justify-content: center;
 
+  &--hamburger {
+    animation-name: scrolldown;
+    animation-duration: 200ms;
+    animation-fill-mode: forwards;
+  }
+
 
   &__input {
     font-family: inherit;
@@ -118,6 +124,10 @@
     margin-right: -3.5rem;
     @include boxShadow;
 
+    @media only screen and (max-width: $break-small) {
+      width: 90%;
+    }
+
 
     &:placeholder-shown {
       width: 90%;
@@ -129,6 +139,10 @@
       width: 95%;
       background-color: $color-white;
       color: $color-grey-dark;
+
+      @media only screen and (max-width: $break-small) {
+        width: 90%;
+      }
     }
 
   }
@@ -162,7 +176,7 @@
   &__clear {
     &:link,
     &:visited {
-      color: $color-grey-dark;
+      color: $color-primary;
       padding: 0;
       font-size: 1.2rem;
       text-decoration: none;
@@ -175,16 +189,49 @@
       &:hover {
         color: $color-primary-bright;
       }
+    }
 
+    &--hamburger {
+      &:link,
+      &:visited {
+        color: $color-white;
+      }
+
+      &:hover {
+        color: $color-grey-lightest;
+      }
     }
   }
 
   @media only screen and (max-width: $break-small) {
     display: none;
   }
+
+  &--hamburger {
+    display: none;
+    //margin: 1rem 3rem 0 2rem;
+    margin: 1rem 0 0 2rem;
+
+  }
+
 }
 
 
 svg, embed {
   pointer-events: none;
+}
+
+
+@keyframes scrolldown {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(1rem);
+    opacity: 1;
+  }
 }
