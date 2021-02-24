@@ -1,14 +1,11 @@
 package com.danfielden.gloriana;
 
-/*
-This interface defines the CRUD methods for editing the music library
- */
-
-
-import com.sun.istack.internal.Nullable;
-
+import javax.annotation.Nullable;
 import java.util.Map;
 
+/**
+ * This interface defines the CRUD methods for editing the music library
+ */
 public interface QueryLibrary {
     /**
      * Adds a single new entry to the music library.

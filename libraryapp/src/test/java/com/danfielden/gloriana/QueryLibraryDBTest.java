@@ -46,7 +46,7 @@ final class QueryLibraryDBTest {
         // Write.
         LibraryEntry entry = randomLibraryEntry();
         db.addEntry(entry);
-        assertNotEquals(0L, entry.getId());  // Make sure addEntry() sets the ID.
+        assertNotEquals(-1L, entry.getId());  // Make sure addEntry() sets the ID.
 
         // Test getAllEntries().
         assertEquals(Collections.singletonMap(entry.getId(), entry), db.getAllEntries());
@@ -64,8 +64,8 @@ final class QueryLibraryDBTest {
         LibraryEntry entry2 = randomLibraryEntry();
         db.addEntry(entry1);
         db.addEntry(entry2);
-        assertNotEquals(0L, entry1.getId());
-        assertNotEquals(0L, entry2.getId());
+        assertNotEquals(-1L, entry1.getId());
+        assertNotEquals(-1L, entry2.getId());
         assertNotEquals(entry1.getId(), entry2.getId()); // Make sure distinct ids are set.
 
         // Test getAllEntries().
@@ -200,7 +200,7 @@ final class QueryLibraryDBTest {
         String location = String.format("%x", random.nextLong());
         String collection = String.format("%x", random.nextLong());
         return new LibraryEntry(
-                0,
+                -1,
                 title,
                 composerFirstName,
                 composerLastName,
