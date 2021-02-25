@@ -7,7 +7,7 @@
 
 
 
-  &--id, &--name, &--season, &--accompanied, &--composer, &--voice, &--season, &--location, &--action {
+  &--name, &--accompanied, &--action {
     display: flex;
 
     @media only screen and (max-width: $break-medium) {

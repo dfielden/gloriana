@@ -35,24 +35,8 @@ a:hover, a:focus, a:active {
   color: #ffffff;
 }
 
-.flex__half {
-  flex: 0 0 50%;
-}
-
 .flex__full {
   flex: 0 0 100%;
-}
-
-.flex__third {
-  flex: 0 0 calc(100% / 3);
-}
-
-.flex__quarter {
-  flex: 0 0 calc(100% / 4);
-}
-
-.flex__oneTwelth {
-  flex: 0 0 9.0909090909%;
 }
 
 .flex__oneEleventh {
@@ -729,11 +713,11 @@ svg, embed {
   display: flex;
   flex-direction: column;
 }
-.table--id, .table--name, .table--season, .table--accompanied, .table--composer, .table--voice, .table--season, .table--location, .table--action {
+.table--name, .table--accompanied, .table--action {
   display: flex;
 }
 @media only screen and (max-width: 1000px) {
-  .table--id, .table--name, .table--season, .table--accompanied, .table--composer, .table--voice, .table--season, .table--location, .table--action {
+  .table--name, .table--accompanied, .table--action {
     flex-direction: column;
   }
 }
