@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById('accompanied').addEventListener('click', function(e) {
         toggleLabelPlaceholderStyle(document.getElementById('accompanied'));
+        document.getElementById('accompanied').style.color = 'inherit';
     });
 });
 
@@ -21,14 +22,19 @@ window.addEventListener('load', function(event) {
 
 document.getElementById('btn_createNewEntry').addEventListener('click', function() {
     toggleAddEditText();
+    document.getElementById('accompanied-label').style.display = "none";
 })
+
+document.getElementById('accompanied').addEventListener('click', function() {
+    toggleAddEditText();
+    document.getElementById('accompanied-label').style.display = "block";
+})
+
 
 /*
 Use Event bubbling to add event listeners to current and future button elements from the document object.
  */
-//TODO: Make single button click function and pass in edit/delete/update param
 document.addEventListener('click',function(e) {
-
     if (getBtnIdDescription(e.target.id) === ('delete')) {
         document.getElementById('delete-alert').classList.add('visible');
 
@@ -88,6 +94,15 @@ document.addEventListener('click',function(e) {
             document.getElementById('location').value = data.location;
             document.getElementById('collection').value = data.collection;
             document.getElementById('accompanied').value = data.accompanied == null ? '-1' : data.accompanied;
+
+            if (document.getElementById('accompanied').value === '') {
+                document.getElementById('accompanied-label').style.display = "none";
+                document.getElementById('accompanied').selectedIndex = 0;
+                document.getElementById('accompanied').style.color = '#838083'; // COLOR_LIGHT_GREY
+            } else {
+                document.getElementById('accompanied-label').style.display = "block";
+
+            }
 
             toggleLabelPlaceholderStyle(document.getElementById('accompanied'));
             toggleAddEditText();
