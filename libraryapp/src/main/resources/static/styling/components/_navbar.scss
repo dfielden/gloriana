@@ -113,8 +113,8 @@
 
   &__input {
     font-family: inherit;
-    font-size: 1.2rem;
-    color: $color-grey-dark;
+    font-size: 1.6rem;
+    color: $color-primary;
     background-color: $color-white;
     border: none;
     padding: .7rem 2rem;
@@ -138,7 +138,7 @@
       outline: none;
       width: 95%;
       background-color: $color-white;
-      color: $color-grey-dark;
+      color: $color-primary;
 
       @media only screen and (max-width: $break-small) {
         width: 90%;

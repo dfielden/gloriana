@@ -45,7 +45,7 @@
   color:$color-success;
   font-size: 3rem;
   position: fixed;
-  top: 10%;
+  top: 10rem;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 9999;
@@ -67,6 +67,7 @@
   }
   100% {
     display: none;
+    visibility: hidden;
     opacity: 0;
   }
 }
