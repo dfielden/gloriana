@@ -318,6 +318,7 @@ a:hover, a:focus, a:active {
 .addEdit:target {
   opacity: 1;
   visibility: visible;
+  display: flex;
 }
 .addEdit:target .addEdit__content {
   opacity: 1;

@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+
 window.addEventListener('load', function(event) {
     if (sessionStorage.getItem('display-message') !== 'undefined') {
         document.getElementById('message-' + sessionStorage.getItem('display-message')).style.display = 'inline-block';
@@ -45,6 +46,7 @@ document.getElementById('btn_cancelDelete').addEventListener('click', function()
     clickedBtn = undefined;
 })
 
+
 document.getElementById('btn_confirmDelete').addEventListener('click', function() {
     document.getElementById('delete-alert').classList.remove('visible');
     let xhr = new XMLHttpRequest();
@@ -67,8 +69,6 @@ document.getElementById('btn_confirmDelete').addEventListener('click', function(
     }
     xhr.send();
 })
-
-
 
 
 document.addEventListener('click',function(e) {
@@ -99,41 +99,41 @@ document.addEventListener('click',function(e) {
 function populateMainTable(data) {
     let tableBody = document.getElementById('table__body');
     for (let i = 0; i < data.length; i++) {
-        addEditRowMain(tableBody, data[i]);
+        addRowMainTable(tableBody, data[i]);
     }
 }
 
-function addEditRowMain(tableBody, data) {
+
+function addRowMainTable(tableBody, data) {
+    // CREATE NEW ROW
     let row = document.createElement('div');
     row.classList.add('row', 'row--body', 'row--visible');
     let containerDiv;
     tableBody.appendChild(row);
 
+    // ADD SUB-ROW DIVS (DETERMINED BY DESIGN), FOR RESPONSIVE BEHAVIOUR AT SMALLER SCREEN SIZES
     for (let i = 0; i < Object.keys(data).length; i++) {
-
         if (i === 0) {
             continue;
         }
-
         if (i === 1) {
             containerDiv = document.createElement('div')
             containerDiv.classList.add('table--name', 'flex__fiveElevenths', 'flex__oneHalfAtMediumBreak');
             row.appendChild(containerDiv);
         }
-
         if (i === 6) {
             containerDiv = document.createElement('div')
             containerDiv.classList.add('table--accompanied', 'flex__fiveElevenths', 'flex__oneHalfAtMediumBreak');
             row.appendChild(containerDiv);
         }
 
-
+        // ADD AND APPEND CELL TO ROW
         let cell = document.createElement('div');
         cell.classList.add('cell', 'flex__full');
         cell.classList.add(tableParameters[i]);
-
         containerDiv.appendChild(cell);
 
+        // APPEND DATA TO CELL
         let input = data[Object.keys(data)[i]];
         if (input === undefined) {
             cell.innerText = ' ';
@@ -142,7 +142,7 @@ function addEditRowMain(tableBody, data) {
         }
     }
 
-
+    // FINALLY CREATE CELL WITH ACTION BUTTONS
     containerDiv = document.createElement('div')
     containerDiv.classList.add('table--action', 'flex__oneEleventh');
     row.appendChild(containerDiv);
@@ -172,6 +172,7 @@ function clearNewEntryForm() {
     window.location = '/';
 }
 
+
 /*
 general ajax call to get json from url then pass it into a function.
  */
@@ -194,7 +195,7 @@ function ajax_get(url, callback) {
     xhr.send();
 }
 
-//TODO: Tidy this function up.
+
 document.getElementById('addEditForm').addEventListener("submit", function (e) {
     e.preventDefault();
 
@@ -206,7 +207,16 @@ document.getElementById('addEditForm').addEventListener("submit", function (e) {
     let json = JSON.stringify(object);
     let xhr = new XMLHttpRequest();
 
-    // CODE FOR ADDING NEW ENTRY
+    if (document.getElementById('id').value === '-1') {
+        addEdit__add(xhr);
+    } else {
+        addEdit__edit(xhr);
+    }
+    xhr.send(json);
+});
+
+
+function addEdit__add(xhr) {
     if (document.getElementById('id').value === '-1') {
         let url = '/newentry';
         xhr.open('POST', url, true);
@@ -217,36 +227,39 @@ document.getElementById('addEditForm').addEventListener("submit", function (e) {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 let data = JSON.parse(xhr.responseText);
                 let tableBody = document.getElementById('table__body');
-                addEditRowMain(tableBody, data);
+                addRowMainTable(tableBody, data);
                 sessionStorage.setItem('display-message', 'added');
                 console.log(sessionStorage.getItem('display-message'));
                 // document.getElementById('message-added').style.display = 'inline-block';
                 clearNewEntryForm();
             }
         }
-    } else {
-        // CODE FOR UPDATING ENTRY
-        let url = '/edit';
-        xhr.open('POST', url, true);
+    }
+}
 
-        //Send the proper header information along with the request
-        xhr.setRequestHeader('Content-type', 'application/json');
-        xhr.onreadystatechange = function() {
-            if(xhr.readyState === 4 && xhr.status === 200) {
-                let data = JSON.parse(xhr.responseText);
-                let btn = document.getElementById('edit_' + document.getElementById('id').value);
-                updateRowOfBtnClick(btn, data);
-                sessionStorage.setItem('display-message', 'updated')
-                clearNewEntryForm();
-            }
+
+function addEdit__edit(xhr) {
+    let url = '/edit';
+    xhr.open('POST', url, true);
+
+    //Send the proper header information along with the request
+    xhr.setRequestHeader('Content-type', 'application/json');
+    xhr.onreadystatechange = function() {
+        if(xhr.readyState === 4 && xhr.status === 200) {
+            let data = JSON.parse(xhr.responseText);
+            let btn = document.getElementById('edit_' + document.getElementById('id').value);
+            updateRowOfBtnClick(btn, data);
+            sessionStorage.setItem('display-message', 'updated')
+            clearNewEntryForm();
         }
     }
-    xhr.send(json);
-});
+}
+
 
 document.getElementById('btn_cancelNewEntry').addEventListener('click', function() {
     clearNewEntryForm();
 });
+
 
 document.getElementById('search__button').addEventListener("click", function (e) {
     e.preventDefault();
@@ -308,31 +321,38 @@ document.getElementById('search__button--hamburger').addEventListener("click", f
     }
 });
 
+
 function getBtnIdNum(string) {
     return string.split('_')[1];
 }
 
+
 function getBtnIdDescription(string) {
     return string.split('_')[0];
 }
+
 
 function deleteRowOfBtnClick(btn) {
     let row = btn.parentNode.parentNode.parentNode;
     row.parentNode.removeChild(row);
 }
 
+
 function updateRowOfBtnClick(btn, data) {
     let row = btn.parentNode.parentNode;
-    addEditRowMain(row, data);
+    addRowMainTable(row, data);
 }
+
 
 document.getElementById('form__close').addEventListener('click', function() {
     clearNewEntryForm();
 });
 
+
 document.getElementById('nav--burger').addEventListener('click', function() {
     window.location = '/#hamburger-menu';
 });
+
 
 function toggleLabelPlaceholderStyle(labelElement) {
     if (labelElement.value === '-1') {
@@ -341,6 +361,7 @@ function toggleLabelPlaceholderStyle(labelElement) {
         labelElement.classList.remove('select-text-default');
     }
 }
+
 
 function toggleAddEditText() {
     if (document.getElementById('id').value === '-1') {
@@ -352,6 +373,7 @@ function toggleAddEditText() {
     }
 }
 
+
 function clearClassFromDOM(className) {
     let classList = document.getElementsByClassName(className);
 
@@ -360,26 +382,29 @@ function clearClassFromDOM(className) {
     }
 }
 
+
 document.getElementById('search__clear').addEventListener('click', function() {
     clearSearchForms();
     window.location = '/';
 
 })
 
+
 document.getElementById('search__clear--hamburger').addEventListener('click', function() {
     clearSearchForms();
 })
 
+
 function clearSearchForms() {
     document.getElementById('searchForm').reset();
     document.getElementById('searchForm--hamburger').reset();
-    // document.getElementById('search--hamburger').style.display = 'none';
-
 }
+
 
 document.getElementById('searchMusic').addEventListener('click', function() {
     document.getElementById('search--hamburger').style.display = 'flex';
 })
+
 
 const tableParameters = ["pseudo--ID", "pseudo--title", "pseudo--firstName", "pseudo--lastName", "pseudo--arranger",
     "pseudo--voiceParts", "pseudo--accompanied", "pseudo--season", "pseudo--seasonAdditional", "pseudo--location",
