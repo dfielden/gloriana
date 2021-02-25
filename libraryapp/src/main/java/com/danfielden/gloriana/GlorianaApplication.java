@@ -9,8 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import com.google.gson.Gson;
 import java.io.File;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 
 @SpringBootApplication
@@ -41,9 +40,13 @@ public class GlorianaApplication {
     }
 
     @GetMapping("/entries")
-    public String entries() throws Exception{
+    public String entries() throws Exception {
         JsonArray entries = new JsonArray();
-        for (LibraryEntry le : ql.getAllEntries().values()) {
+        Collection<LibraryEntry> entriesCollection = ql.getAllEntries().values();
+        ArrayList<LibraryEntry> allEntriesList = new ArrayList<>(entriesCollection);
+        Collections.sort(allEntriesList, new LibraryEntrySort());
+
+        for (LibraryEntry le : allEntriesList) {
             if (le.getAccompanied() == null) {
                 le.setAccompanied("");
             }
@@ -89,7 +92,11 @@ public class GlorianaApplication {
             produces = MediaType.APPLICATION_JSON_VALUE)
     public String searchEntries(@RequestBody String s) throws Exception {
         JsonArray entries = new JsonArray();
-        for (LibraryEntry le : ql.searchEntries(s).values()) {
+        Collection<LibraryEntry> searchCollection = ql.searchEntries(s).values();
+        ArrayList<LibraryEntry> searchEntriesList = new ArrayList<>(searchCollection);
+        Collections.sort(searchEntriesList, new LibraryEntrySort());
+
+        for (LibraryEntry le : searchEntriesList) {
             if (le.getAccompanied() == null) {
                 le.setAccompanied("");
             }

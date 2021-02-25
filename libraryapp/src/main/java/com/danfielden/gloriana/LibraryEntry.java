@@ -1,6 +1,8 @@
 package com.danfielden.gloriana;
 
 import com.google.gson.JsonObject;
+
+import java.util.Comparator;
 import java.util.Objects;
 
 final class LibraryEntry {
@@ -184,4 +186,18 @@ final class LibraryEntry {
 
 }
 
+// Sorts based on last name then first name then title.
+class LibraryEntrySort implements Comparator<LibraryEntry> {
+    @Override
+    public int compare(LibraryEntry le1, LibraryEntry le2) {
+        int compareLastName = le1.getComposerLastName().compareTo(le2.getComposerLastName());
+        int compareFirstName = le1.getComposerFirstName().compareTo(le2.getComposerFirstName());
+        int compareTitle = le1.getTitle().compareTo(le2.getTitle());
 
+        if (compareLastName == 0) {
+            return ((compareFirstName == 0) ? compareTitle : compareFirstName);
+        } else {
+            return compareLastName;
+        }
+    }
+}

@@ -11,10 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ParserCSV {
+    private static final boolean DRY_RUN = true;
     private static final String CSV_FILE_PATH = "original_excel_library/music_library_catalogue_csv.csv";
-    private static final List<LibraryEntry> excelLibrary = new ArrayList<>();
+    private static final String DB_PATH = "dev_music_library.db";
 
     public static void main(String[] args) throws IOException {
+        final List<LibraryEntry> excelLibrary = new ArrayList<>();
+
+        // Parse CSV.
         try (
                 Reader reader = Files.newBufferedReader(Paths.get(CSV_FILE_PATH));
                 CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT);
@@ -32,22 +36,8 @@ public class ParserCSV {
                 String location = csvRecord.get(8);
                 String collection = csvRecord.get(9);
 
-                System.out.println("Record No - " + csvRecord.getRecordNumber());
-                System.out.println("---------------");
-                System.out.println("title : " + title);
-                System.out.println("composerFirstName : " + composerFirstName);
-                System.out.println("composerLastName : " + composerLastName);
-                System.out.println("arranger : " + arranger);
-                System.out.println("voiceParts : " + voiceParts);
-                System.out.println("accompanied : " + accompanied);
-                System.out.println("season : " + season);
-                System.out.println("seasonAdditional : " + seasonAdditional);
-                System.out.println("location : " + location);
-                System.out.println("collection : " + collection);
-                System.out.println("---------------\n\n");
-
-                excelLibrary.add(new LibraryEntry(
-                        -1,
+                LibraryEntry entry = new LibraryEntry(
+                        -1L,
                         title,
                         composerFirstName,
                         composerLastName,
@@ -57,8 +47,32 @@ public class ParserCSV {
                         season,
                         seasonAdditional,
                         location,
-                        collection)
-                );
+                        collection);
+
+                if (entry.getTitle().isEmpty() && entry.getComposerFirstName().isEmpty() && entry.getComposerLastName().isEmpty()) {
+                    continue;  // Skip blank/bad data.
+                }
+
+                excelLibrary.add(entry);
+            }
+        }
+        System.out.println("Parsed " + excelLibrary.size() + " entries");
+
+        // Print resulting records to screen.
+        for (LibraryEntry entry : excelLibrary) {
+            System.out.println(entry);
+        }
+
+        // Insert into DB.
+        if (!DRY_RUN) {
+            try {
+                GlorianaApplication ga = new GlorianaApplication(DB_PATH);
+                for (int i = 0; i < excelLibrary.size(); i++) {
+                    System.out.println(excelLibrary.get(i));
+                    ga.newEntry(excelLibrary.get(i));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
