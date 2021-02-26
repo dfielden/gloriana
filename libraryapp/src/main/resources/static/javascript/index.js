@@ -295,25 +295,31 @@ document.getElementById('search__button').addEventListener("click", function (e)
     e.preventDefault();
     document.getElementById('message-searchNotFound').style.display = 'none';
     let searchString = document.getElementById('search__input').value;
-    let xhr = new XMLHttpRequest();
-    let url = '/searchentries';
-    xhr.open('POST', url, true);
-
-    //Send the proper header information along with the request
-    xhr.setRequestHeader('Content-type', 'application/json');
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            let data = JSON.parse(xhr.responseText);
-            if (data.library_entries.length === 0) {
-                document.getElementById('message-searchNotFound').style.display = 'inline-block';
-            }
-            clearClassFromDOM('row--visible');
+    if (searchString === '') {
+        ajax_get('/entries', function (data) {
             populateMainTable(data.library_entries);
-            document.getElementById('search__input--hamburger').value = searchString;
+            window.location = '/#';
+        });
+    } else {
+        let xhr = new XMLHttpRequest();
+        let url = '/searchentries';
+        xhr.open('POST', url, true);
 
+        //Send the proper header information along with the request
+        xhr.setRequestHeader('Content-type', 'application/json');
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                let data = JSON.parse(xhr.responseText);
+                if (data.library_entries.length === 0) {
+                    document.getElementById('message-searchNotFound').style.display = 'inline-block';
+                }
+                clearClassFromDOM('row--visible');
+                populateMainTable(data.library_entries);
+                document.getElementById('search__input--hamburger').value = searchString;
+            }
         }
+        xhr.send(searchString);
     }
-    xhr.send(searchString);
 });
 
 

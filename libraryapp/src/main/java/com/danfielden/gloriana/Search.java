@@ -10,15 +10,15 @@ public final class Search {
                 le.setAccompanied("");
             }
             if (!objectPartMatchesQuery(le.getTitle(), term) &&
-                    !le.getComposerFirstName().toLowerCase().contains(term) &&
-                    !le.getComposerLastName().toLowerCase().contains(term) &&
-                    !le.getArranger().toLowerCase().contains(term) &&
-                    !le.getVoiceParts().toLowerCase().contains(term) &&
-                    !le.getAccompanied().toLowerCase().contains(term) &&
-                    !le.getSeason().toLowerCase().contains(term) &&
-                    !le.getSeasonAdditional().toLowerCase().contains(term) &&
-                    !le.getLocation().toLowerCase().contains(term) &&
-                    !le.getCollection().toLowerCase().contains(term)) {
+                    !objectPartMatchesQuery(le.getComposerLastName(), term) &&
+                    !objectPartMatchesQuery(le.getComposerFirstName(), term) &&
+                    !objectPartMatchesQuery(le.getArranger(), term) &&
+                    !objectPartMatchesQuery(le.getVoiceParts(), term) &&
+                    !objectPartMatchesQuery(le.getAccompanied(), term) &&
+                    !objectPartMatchesQuery(le.getSeason(), term) &&
+                    !objectPartMatchesQuery(le.getSeasonAdditional(), term) &&
+                    !objectPartMatchesQuery(le.getLocation(), term) &&
+                    !objectPartMatchesQuery(le.getCollection(), term)) {
                 return false;
             }
         }
@@ -30,6 +30,6 @@ public final class Search {
             return false;
         }
         String string = part.toString();
-        return string.toLowerCase().contains(q);
+        return string.toLowerCase().contains(q.toLowerCase());
     }
 }
