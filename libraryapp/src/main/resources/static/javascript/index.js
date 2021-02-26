@@ -259,7 +259,6 @@ function addEdit__add(xhr) {
                 addRowMainTable(tableBody, data);
                 sessionStorage.setItem('display-message', 'added');
                 console.log(sessionStorage.getItem('display-message'));
-                // document.getElementById('message-added').style.display = 'inline-block';
                 clearNewEntryForm(true);
             }
         }
@@ -297,7 +296,7 @@ document.getElementById('search__button').addEventListener("click", function (e)
     if (searchString === '') {
         ajax_get('/entries', function (data) {
             populateMainTable(data.library_entries);
-            window.location = '/#';
+            window.location = '/';
         });
     } else {
         let xhr = new XMLHttpRequest();
@@ -330,7 +329,7 @@ document.getElementById('search__button--hamburger').addEventListener("click", f
     if (searchString === '') {
         ajax_get('/entries', function(data) {
             populateMainTable(data.library_entries);
-            window.location = '/#';
+            window.location = '/';
         });
     } else {
         let xhr = new XMLHttpRequest();
