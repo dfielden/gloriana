@@ -27,7 +27,15 @@ document.getElementById('btn_createNewEntry').addEventListener('click', function
 
 document.getElementById('accompanied').addEventListener('click', function() {
     toggleAddEditText();
-    document.getElementById('accompanied-label').style.display = "block";
+    if (window.matchMedia("(max-width: 700px)").matches) {
+        console.log("below 700");
+        document.getElementById('accompanied-label').style.display = "none";
+    } else {
+        console.log("above 700");
+        document.getElementById('accompanied-label').style.display = "block";
+
+
+    }
 })
 
 
@@ -100,8 +108,11 @@ document.addEventListener('click',function(e) {
                 document.getElementById('accompanied').selectedIndex = 0;
                 document.getElementById('accompanied').style.color = '#838083'; // COLOR_LIGHT_GREY
             } else {
-                document.getElementById('accompanied-label').style.display = "block";
-
+                if (window.matchMedia("(max-width: 700px)").matches) {
+                    document.getElementById('accompanied-label').style.display = "none";
+                } else {
+                    document.getElementById('accompanied-label').style.display = "block";
+                }
             }
 
             toggleLabelPlaceholderStyle(document.getElementById('accompanied'));
