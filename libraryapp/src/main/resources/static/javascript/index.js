@@ -74,7 +74,7 @@ document.getElementById('btn_confirmDelete').addEventListener('click', function(
             deleteRowOfBtnClick(clickedBtn);
             // document.getElementById('message-deleted').style.display = 'inline-block';
             sessionStorage.setItem('display-message', 'deleted')
-            clearNewEntryForm();
+            clearNewEntryForm(true);
 
             // Reset delete params
             deleteValue = -1;
@@ -192,10 +192,14 @@ function addRowMainTable(tableBody, data) {
 }
 
 
-function clearNewEntryForm() {
+function clearNewEntryForm(boolRefresh) {
     document.getElementById('addEditForm').reset();
     document.getElementById('id').value = '-1';
-    window.location = '/';
+    if (boolRefresh) {
+        window.location = '/';
+    } else {
+        window.location = '/#';
+    }
 }
 
 
@@ -257,7 +261,7 @@ function addEdit__add(xhr) {
                 sessionStorage.setItem('display-message', 'added');
                 console.log(sessionStorage.getItem('display-message'));
                 // document.getElementById('message-added').style.display = 'inline-block';
-                clearNewEntryForm();
+                clearNewEntryForm(true);
             }
         }
     }
@@ -276,14 +280,14 @@ function addEdit__edit(xhr) {
             let btn = document.getElementById('edit_' + document.getElementById('id').value);
             updateRowOfBtnClick(btn, data);
             sessionStorage.setItem('display-message', 'updated')
-            clearNewEntryForm();
+            clearNewEntryForm(true);
         }
     }
 }
 
 
 document.getElementById('btn_cancelNewEntry').addEventListener('click', function() {
-    clearNewEntryForm();
+    clearNewEntryForm(false);
 });
 
 
@@ -371,7 +375,7 @@ function updateRowOfBtnClick(btn, data) {
 
 
 document.getElementById('form__close').addEventListener('click', function() {
-    clearNewEntryForm();
+    clearNewEntryForm(false);
 });
 
 

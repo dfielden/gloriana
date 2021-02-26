@@ -214,7 +214,7 @@ a:hover, a:focus, a:active {
 }
 @media only screen and (max-width: 420px) {
   .btn--form {
-    width: 12rem;
+    width: 14rem;
   }
 }
 @media only screen and (max-width: 260px) {
