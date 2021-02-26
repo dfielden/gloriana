@@ -9,8 +9,8 @@ final class LibraryEntry {
     // parameter names must match those from the JSON String produced by ajax call from the addEditForm in index.html for the gson to work
     private long id;
     private String title;
-    private String composerFirstName;
     private String composerLastName;
+    private String composerFirstName;
     private String arranger;
     private String voiceParts;
     private String accompanied;
@@ -19,13 +19,13 @@ final class LibraryEntry {
     private String location;
     private String collection;
 
-    LibraryEntry(long id, String title, String composerFirstName, String composerLastName, String arranger,
+    LibraryEntry(long id, String title, String composerLastName, String composerFirstName, String arranger,
                  String voiceParts, String accompanied, String season, String seasonAdditional, String location,
                  String collection) {
         this.id = id;
         this.title = title;
-        this.composerFirstName = composerFirstName;
         this.composerLastName = composerLastName;
+        this.composerFirstName = composerFirstName;
         this.arranger = arranger;
         this.voiceParts = voiceParts;
         this.accompanied = accompanied;
@@ -49,12 +49,6 @@ final class LibraryEntry {
         this.title = title;
     }
 
-    public String getComposerFirstName() {
-        return composerFirstName;
-    }
-
-    public void setComposerFirstName(String composerFirstName) { this.composerFirstName = composerFirstName; }
-
     public String getComposerLastName() {
         return composerLastName;
     }
@@ -62,6 +56,12 @@ final class LibraryEntry {
     public void setComposerLastName(String composerLastName) {
         this.composerLastName = composerLastName;
     }
+
+    public String getComposerFirstName() {
+        return composerFirstName;
+    }
+
+    public void setComposerFirstName(String composerFirstName) { this.composerFirstName = composerFirstName; }
 
     public String getArranger() {
         return arranger;
@@ -124,8 +124,8 @@ final class LibraryEntry {
         LibraryEntry that = (LibraryEntry) o;
         return id == that.id
                 && Objects.equals(title, that.title)
-                &&  Objects.equals(composerFirstName, that.composerFirstName)
                 && Objects.equals(composerLastName, that.composerLastName)
+                &&  Objects.equals(composerFirstName, that.composerFirstName)
                 && Objects.equals(arranger, that.arranger)
                 && accompanied.equals(that.accompanied)
                 && Objects.equals(voiceParts, that.voiceParts)
@@ -137,7 +137,7 @@ final class LibraryEntry {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, composerFirstName, composerLastName, arranger, voiceParts, accompanied, season,
+        return Objects.hash(id, title, composerLastName, composerFirstName, arranger, voiceParts, accompanied, season,
                 seasonAdditional, location, collection);
     }
 
@@ -146,8 +146,8 @@ final class LibraryEntry {
         return "LibraryEntry{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", composerFirstName='" + composerFirstName + '\'' +
                 ", composerLastName='" + composerLastName + '\'' +
+                ", composerFirstName='" + composerFirstName + '\'' +
                 ", arranger='" + arranger + '\'' +
                 ", voiceParts='" + voiceParts + '\'' +
                 ", accompanied=" + accompanied +
@@ -162,8 +162,8 @@ final class LibraryEntry {
         JsonObject o = new JsonObject();
         o.addProperty("id", getId());
         o.addProperty("title", getTitle());
-        o.addProperty("composerFirstName", getComposerFirstName());
         o.addProperty("composerLastName", getComposerLastName());
+        o.addProperty("composerFirstName", getComposerFirstName());
         o.addProperty("arranger", getArranger());
         o.addProperty("voiceParts", getVoiceParts());
         o.addProperty("accompanied", getAccompanied());
@@ -176,11 +176,16 @@ final class LibraryEntry {
     }
 
     public static LibraryEntry fromJSON(JsonObject json) {
-        return new LibraryEntry(json.get("id").getAsLong(), json.get("title").getAsString(),
-                json.get("composerFirstName").getAsString(), json.get("composerLastName").getAsString(),
-                json.get("arranger").getAsString(), json.get("voiceParts").getAsString(),
-                json.get("accompanied").getAsString(), json.get("season").getAsString(),
-                json.get("seasonAdditional").getAsString(), json.get("location").getAsString(),
+        return new LibraryEntry(json.get("id").getAsLong(),
+                json.get("title").getAsString(),
+                json.get("composerLastName").getAsString(),
+                json.get("composerFirstName").getAsString(),
+                json.get("arranger").getAsString(),
+                json.get("voiceParts").getAsString(),
+                json.get("accompanied").getAsString(),
+                json.get("season").getAsString(),
+                json.get("seasonAdditional").getAsString(),
+                json.get("location").getAsString(),
                 json.get("collection").getAsString());
     }
 

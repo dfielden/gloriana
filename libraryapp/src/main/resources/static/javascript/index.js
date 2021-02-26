@@ -93,8 +93,8 @@ document.addEventListener('click',function(e) {
         ajax_get(url, function(data) {
             document.getElementById('id').value = data.id;
             document.getElementById('title').value = data.title;
-            document.getElementById('composerFirstName').value = data.composerFirstName;
             document.getElementById('composerLastName').value = data.composerLastName;
+            document.getElementById('composerFirstName').value = data.composerFirstName;
             document.getElementById('arranger').value = data.arranger;
             document.getElementById('voiceParts').value = data.voiceParts;
             document.getElementById('season').value = data.season;
@@ -436,7 +436,7 @@ document.getElementById('searchMusic').addEventListener('click', function() {
 })
 
 
-const tableParameters = ["pseudo--ID", "pseudo--title", "pseudo--firstName", "pseudo--lastName", "pseudo--arranger",
+const tableParameters = ["pseudo--ID", "pseudo--title", "pseudo--lastName", "pseudo--firstName", "pseudo--arranger",
     "pseudo--voiceParts", "pseudo--accompanied", "pseudo--season", "pseudo--seasonAdditional", "pseudo--location",
     "pseudo--collection", "pseudo--action"];
 

@@ -14,8 +14,8 @@ public final class QueryLibraryDB implements QueryLibrary {
         connect = DriverManager.getConnection("jdbc:sqlite:" + file.toString(), "root", "");
         String query = "CREATE TABLE IF NOT EXISTS music_library (" +
                 "id INTEGER PRIMARY KEY NOT NULL, title TEXT, " +
-                "composer_first_name TEXT, " +
                 "composer_last_name TEXT, " +
+                "composer_first_name TEXT, " +
                 "arranger TEXT, " +
                 "voice_parts TEXT, " +
                 "accompanied TEXT, " +
@@ -39,8 +39,8 @@ public final class QueryLibraryDB implements QueryLibrary {
 
         String query = "INSERT INTO music_library (" +
                 "title, " +
-                "composer_first_name, " +
                 "composer_last_name, " +
+                "composer_first_name, " +
                 "arranger, " +
                 "voice_parts, " +
                 "accompanied, " +
@@ -53,8 +53,8 @@ public final class QueryLibraryDB implements QueryLibrary {
 
         try (PreparedStatement stmt = connect.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, entry.getTitle());
-            stmt.setString(2, entry.getComposerFirstName());
-            stmt.setString(3, entry.getComposerLastName());
+            stmt.setString(2, entry.getComposerLastName());
+            stmt.setString(3, entry.getComposerFirstName());
             stmt.setString(4, entry.getArranger());
             stmt.setString(5, entry.getVoiceParts());
             stmt.setString(6, entry.getAccompanied());
@@ -83,8 +83,8 @@ public final class QueryLibraryDB implements QueryLibrary {
 
         String query = "UPDATE music_library SET " +
                 "title = ?, " +
-                "composer_first_name = ?, " +
                 "composer_last_name = ?, " +
+                "composer_first_name = ?, " +
                 "arranger = ?, " +
                 "voice_parts = ?, " +
                 "accompanied = ?, " +
@@ -96,8 +96,8 @@ public final class QueryLibraryDB implements QueryLibrary {
 
         try (PreparedStatement stmt = connect.prepareStatement(query)) {
             stmt.setString(1, entry.getTitle());
-            stmt.setString(2, entry.getComposerFirstName());
-            stmt.setString(3, entry.getComposerLastName());
+            stmt.setString(2, entry.getComposerLastName());
+            stmt.setString(3, entry.getComposerFirstName());
             stmt.setString(4, entry.getArranger());
             stmt.setString(5, entry.getVoiceParts());
             stmt.setString(6, entry.getAccompanied());
@@ -139,8 +139,8 @@ public final class QueryLibraryDB implements QueryLibrary {
                 if (!rs.getBoolean("deleted")) {
                     long id = rs.getLong("id");
                     String title = rs.getString("title");
-                    String composerFirstName = rs.getString("composer_first_name");
                     String composerLastName = rs.getString("composer_last_name");
+                    String composerFirstName = rs.getString("composer_first_name");
                     String arranger = rs.getString("arranger");
                     String voiceParts = rs.getString("voice_parts");
                     String accompanied = rs.getString("accompanied");
@@ -149,7 +149,7 @@ public final class QueryLibraryDB implements QueryLibrary {
                     String location = rs.getString("location");
                     String collection = rs.getString("collection");
 
-                    LibraryEntry le = new LibraryEntry(id, title, composerFirstName, composerLastName, arranger,
+                    LibraryEntry le = new LibraryEntry(id, title, composerLastName, composerFirstName, arranger,
                             voiceParts, accompanied, season, seasonAdditional, location, collection);
                     entries.put(le.getId(), le);
                 }
@@ -172,8 +172,8 @@ public final class QueryLibraryDB implements QueryLibrary {
                     return null;
                 }
                 String title = rs.getString("title");
-                String composerFirstName = rs.getString("composer_first_name");
                 String composerLastName = rs.getString("composer_last_name");
+                String composerFirstName = rs.getString("composer_first_name");
                 String arranger = rs.getString("arranger");
                 String voiceParts = rs.getString("voice_parts");
                 String accompanied = rs.getString("accompanied");
@@ -185,7 +185,7 @@ public final class QueryLibraryDB implements QueryLibrary {
                 if (rs.next()) {
                     throw new IllegalStateException("Multiple entries with id=" + id + " found");
                 }
-                return new LibraryEntry(id, title, composerFirstName, composerLastName, arranger,
+                return new LibraryEntry(id, title, composerLastName, composerFirstName, arranger,
                         voiceParts, accompanied, season, seasonAdditional, location, collection);
             }
         }

@@ -26,8 +26,8 @@ public class ParserCSV {
             for (CSVRecord csvRecord : csvParser) {
                 // Accessing Values by Column Index
                 String title = csvRecord.get(0);
-                String composerFirstName = csvRecord.get(1);
-                String composerLastName = csvRecord.get(2);
+                String composerLastName = csvRecord.get(1);
+                String composerFirstName = csvRecord.get(2);
                 String arranger = csvRecord.get(3);
                 String voiceParts = csvRecord.get(4);
                 String accompanied = csvRecord.get(5);
@@ -39,8 +39,8 @@ public class ParserCSV {
                 LibraryEntry entry = new LibraryEntry(
                         -1L,
                         title,
-                        composerFirstName,
                         composerLastName,
+                        composerFirstName,
                         arranger,
                         voiceParts,
                         convertAccompanied(accompanied),
