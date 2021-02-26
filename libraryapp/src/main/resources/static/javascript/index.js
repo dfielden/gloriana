@@ -23,15 +23,15 @@ window.addEventListener('load', function(event) {
 document.getElementById('btn_createNewEntry').addEventListener('click', function() {
     toggleAddEditText();
     document.getElementById('accompanied-label').style.display = "none";
+    document.getElementById('accompanied').style.color = '#838083'; // COLOR_LIGHT_GREY
+
 })
 
 document.getElementById('accompanied').addEventListener('click', function() {
     toggleAddEditText();
     if (window.matchMedia("(max-width: 700px)").matches) {
-        console.log("below 700");
         document.getElementById('accompanied-label').style.display = "none";
     } else {
-        console.log("above 700");
         document.getElementById('accompanied-label').style.display = "block";
 
 
@@ -72,7 +72,6 @@ document.getElementById('btn_confirmDelete').addEventListener('click', function(
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
             deleteRowOfBtnClick(clickedBtn);
-            // document.getElementById('message-deleted').style.display = 'inline-block';
             sessionStorage.setItem('display-message', 'deleted')
             clearNewEntryForm(true);
 

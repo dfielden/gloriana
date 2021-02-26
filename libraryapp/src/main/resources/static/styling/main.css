@@ -379,6 +379,9 @@ a:hover, a:focus, a:active {
   margin-top: 1rem;
   width: 100%;
 }
+.addEdit__content .form__input--select {
+  border-bottom: none;
+}
 @media only screen and (max-width: 760px) {
   .addEdit__content .form__input {
     margin-top: 0.5rem;
