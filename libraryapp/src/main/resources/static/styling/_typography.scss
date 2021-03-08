@@ -38,7 +38,6 @@ body {
   @media only screen and (max-width: $break-medium) {
     font-size: 1.7rem;
     padding-right: 3rem;
-
   }
   @media only screen and (max-width: $break-small) {
     font-size: 2.5rem;
@@ -78,10 +77,14 @@ body {
 
 .para {
   position: absolute;
-  top: 0;
-  right: 10%;
-  margin-right: 3.5rem;
+  top: -2rem;
+  right: 0;
   font-size: 1.4rem;
+
+  @media only screen and (max-width: $break-medium) {
+    top: 0;
+    right: 10%;
+  }
 }
 
 .link {
