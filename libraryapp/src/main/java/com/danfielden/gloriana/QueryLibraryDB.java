@@ -13,7 +13,8 @@ public final class QueryLibraryDB implements QueryLibrary {
         this.file = file;
         connect = DriverManager.getConnection("jdbc:sqlite:" + file.toString(), "root", "");
         String query = "CREATE TABLE IF NOT EXISTS music_library (" +
-                "id INTEGER PRIMARY KEY NOT NULL, title TEXT, " +
+                "id INTEGER PRIMARY KEY NOT NULL, " +
+                "title TEXT, " +
                 "composer_last_name TEXT, " +
                 "composer_first_name TEXT, " +
                 "arranger TEXT, " +
@@ -23,6 +24,13 @@ public final class QueryLibraryDB implements QueryLibrary {
                 "season_additional TEXT, " +
                 "location TEXT, " +
                 "collection TEXT, " +
+                "deleted BOOLEAN)";
+        connect.createStatement().execute(query);
+
+        query = "CREATE TABLE IF NOT EXISTS glossary (" +
+                "id INTEGER PRIMARY KEY NOT NULL, " +
+                "abbreviation TEXT, " +
+                "description TEXT, " +
                 "deleted BOOLEAN)";
         connect.createStatement().execute(query);
     }

@@ -451,6 +451,13 @@ a:hover, a:focus, a:active {
   box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
 }
 
+.glossary {
+  width: 100%;
+}
+.glossary .g-table {
+  margin: 0 auto;
+}
+
 .hamburger-menu {
   height: 100vh;
   width: 100%;
@@ -596,9 +603,12 @@ a:hover, a:focus, a:active {
 
 .search {
   flex: 0 0 40%;
+  height: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
+  position: relative;
 }
 .search--hamburger {
   animation-name: scrolldown;
@@ -1057,17 +1067,17 @@ body {
 .heading1 {
   color: #001647;
   text-transform: uppercase;
-  font-size: 3rem;
+  font-size: 2.8rem;
   padding-left: 3rem;
 }
 @media only screen and (max-width: 1260px) {
   .heading1 {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
   }
 }
 @media only screen and (max-width: 1000px) {
   .heading1 {
-    font-size: 2rem;
+    font-size: 1.7rem;
     padding-right: 3rem;
   }
 }
@@ -1107,6 +1117,22 @@ body {
   font-size: 1.5rem;
   margin: 0.5rem 2.5rem;
   font-weight: 600;
+}
+
+.para {
+  position: absolute;
+  top: 0;
+  right: 10%;
+  margin-right: 3.5rem;
+  font-size: 1.4rem;
+}
+
+.link {
+  color: #001647;
+}
+.link:hover {
+  color: #125aff;
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=main.css.map */

@@ -8,13 +8,13 @@
 
     <link rel="stylesheet" href="styling/main.css">
     <link rel="shortcut icon" type="image/png" href="images/favicon.png">
-    <title>NGC Music Library</title>
+    <title>SMwSM Music Library</title>
 </head>
 <body>
 <section class="section-nav">
     <div class="nav">
         <div class="heading__wrapper">
-            <h1 class="heading1">New Gloriana Choir music library</h1>
+            <h1 class="heading1">St Mark with St Margaret music library</h1>
             <div class="newEntryWrapper">
                 <a href='#addEdit'><button class="btn btn--primary btn--form" id="btn_createNewEntry">Create new entry</button></a>
              </div>
@@ -30,6 +30,7 @@
                 </button>
                 <a href="#" class="search__clear" id="search__clear">&times;</a>
             </form>
+            <p class="para"><a class="link">View glossary</a></p>
         </div>
 
         <div class="nav--burger" id="nav--burger">
@@ -109,10 +110,32 @@
                         <label for="voiceParts" class="form__label">Voice parts</label>
                     </div>
 
+<!--                    <div class="form__group flex__third&#45;&#45;form flexwrapper__vertical">-->
+<!--                        <input type="text" autocomplete="off" class="form__input" placeholder="Season" id="season" name="season">-->
+<!--                        <label for="season" class="form__label">Season</label>-->
+<!--                    </div>-->
                     <div class="form__group flex__third--form flexwrapper__vertical">
-                        <input type="text" autocomplete="off" class="form__input" placeholder="Season" id="season" name="season">
-                        <label for="season" class="form__label">Season</label>
+                        <select name="season" class="form__input form__input--select select-text-default" id="season">
+                            <option value="-1" selected disabled hidden>Season</option>
+                            <option value=" "> </option>
+                            <option value="Advent">Advent</option>
+                            <option value="Christmas">Christmas</option>
+                            <option value="Epiphany">Epiphany</option>
+                            <option value="Lent">Lent</option>
+                            <option value="Passiontide">Passiontide</option>
+                            <option value="Easter">Easter</option>
+                            <option value="Ascension">Ascension</option>
+                            <option value="Pentcost">Pentecost</option>
+                            <option value="Saints' days">Saints' days</option>
+                            <option value="Harvest">Harvest</option>
+                            <option value="Holy communion">Holy communion</option>
+                            <option value="Holy matrimony">Holy matrimony</option>
+                            <option value="The departed">The departed</option>
+                        </select>
+                        <label for="season" class="form__label" id="season-label">Season</label>
                     </div>
+
+
                 </div>
 
                 <div class="flexwrapper flexwrapper--form">
@@ -181,6 +204,24 @@
             <div class="row row--body"></div>
 
             </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-glossary">
+    <div class="flexwrapper">
+        <div class="glossary">
+            <div class="u-margin-bottom-medium">
+                <h2 class="heading2 heading2--glossary" id="heading__glossary">
+                    Glossary
+                </h2>
+            </div>
+            <table class="g-table">
+                <tr class="g-table--row">
+                    <th class="g-table--header">Abbreviation</th>
+                    <th class="g-table--header">Description</th>
+                </tr>
+            </table>
         </div>
     </div>
 </section>

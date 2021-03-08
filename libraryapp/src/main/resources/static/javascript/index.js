@@ -10,6 +10,11 @@ document.addEventListener('DOMContentLoaded', function () {
         toggleLabelPlaceholderStyle(document.getElementById('accompanied'));
         document.getElementById('accompanied').style.color = 'inherit';
     });
+
+    document.getElementById('season').addEventListener('click', function(e) {
+        toggleLabelPlaceholderStyle(document.getElementById('season'));
+        document.getElementById('season').style.color = 'inherit';
+    });
 });
 
 
@@ -24,6 +29,8 @@ document.getElementById('btn_createNewEntry').addEventListener('click', function
     toggleAddEditText();
     document.getElementById('accompanied-label').style.display = "none";
     document.getElementById('accompanied').style.color = '#838083'; // COLOR_LIGHT_GREY
+    document.getElementById('season-label').style.display = "none";
+    document.getElementById('season').style.color = '#838083'; // COLOR_LIGHT_GREY
 
 })
 
@@ -33,11 +40,18 @@ document.getElementById('accompanied').addEventListener('click', function() {
         document.getElementById('accompanied-label').style.display = "none";
     } else {
         document.getElementById('accompanied-label').style.display = "block";
-
-
     }
 })
 
+
+document.getElementById('season').addEventListener('click', function() {
+    toggleAddEditText();
+    if (window.matchMedia("(max-width: 700px)").matches) {
+        document.getElementById('season-label').style.display = "none";
+    } else {
+        document.getElementById('season-label').style.display = "block";
+    }
+})
 
 /*
 Use Event bubbling to add event listeners to current and future button elements from the document object.
@@ -96,7 +110,7 @@ document.addEventListener('click',function(e) {
             document.getElementById('composerFirstName').value = data.composerFirstName;
             document.getElementById('arranger').value = data.arranger;
             document.getElementById('voiceParts').value = data.voiceParts;
-            document.getElementById('season').value = data.season;
+            document.getElementById('season').value = data.season == null ? '-1' : data.season;
             document.getElementById('seasonAdditional').value = data.seasonAdditional;
             document.getElementById('location').value = data.location;
             document.getElementById('collection').value = data.collection;
@@ -114,7 +128,20 @@ document.addEventListener('click',function(e) {
                 }
             }
 
+            if (document.getElementById('season').value === '') {
+                document.getElementById('season-label').style.display = "none";
+                document.getElementById('season').selectedIndex = 0;
+                document.getElementById('season').style.color = '#838083'; // COLOR_LIGHT_GREY
+            } else {
+                if (window.matchMedia("(max-width: 700px)").matches) {
+                    document.getElementById('season-label').style.display = "none";
+                } else {
+                    document.getElementById('season-label').style.display = "block";
+                }
+            }
+
             toggleLabelPlaceholderStyle(document.getElementById('accompanied'));
+            toggleLabelPlaceholderStyle(document.getElementById('season'));
             toggleAddEditText();
         });
     }
