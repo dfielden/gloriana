@@ -1,6 +1,5 @@
 .alert {
   display: none;
-  display: flex;
   height: 100vh;
   width: 100%;
   position: fixed;
@@ -9,7 +8,6 @@
   background-color: rgba($color-black, .8);
   z-index: 9999;
   opacity: 0;
-  visibility: hidden;
   transition: all .3s;
   align-items: center;
   justify-content: center;
