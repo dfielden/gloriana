@@ -1,7 +1,121 @@
 .glossary {
+  height: 100vh;
   width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba($color-black, .8);
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  display: none;
+  transition: all .3s;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+
+  @supports (-webkit-backdrop-filter: blur(30px)) or (backdrop-filter: blur(30px)) {
+    -webkit-backdrop-filter: blur(30px);
+    backdrop-filter: blur(30px);
+    background-color: rgba($color-black, .3);
+  }
+
+
+  &:target {
+    opacity: 1;
+    visibility: visible;
+    display: flex;
+  }
+
+  &:target &__content {
+    opacity: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    @media only screen and (max-width: $break-small) {
+      align-self: flex-start;
+      margin-top: 3rem;
+    }
+  }
+
 
   .g-table {
-    margin: 0 auto;
+    width: 50%;
+    align-self: center;
+    border: none;
+    border-collapse: collapse;
+
+    @media only screen and (max-width: $break-medium) {
+      width: 65%;
+    }
+    @media only screen and (max-width: $break-small) {
+      width: 80%;
+      font-size: 1.3rem;
+    }
+    @media only screen and (max-width: $break-smallest) {
+      width: 90%;
+      font-size: 1.1rem;
+
+    }
+    @media only screen and (max-width: $break-tiny) {
+      width: 100%;
+      font-size: 1rem;
+    }
+
+    &--header {
+      text-align: right;
+      padding: 1rem;
+      border: none;
+    }
+    &--cell {
+      padding: 0.5rem 1rem;
+    }
+
+    &--left {
+      width: 20%;
+      border: 1px solid $color-grey-medium;
+    }
+
+    &--right {
+      width: 80%;
+      border: 1px solid $color-grey-medium;
+
+    }
   }
+
+
+  &__close {
+
+    &:link,
+    &:visited {
+      color: $color-primary;
+      font-size: 4rem;
+      text-decoration: none;
+      display: inline-block;
+      transition: all .2s;
+      line-height: 1;
+      justify-content: flex-end;
+      align-self: flex-end;
+      margin-left: auto;
+
+      @media only screen and (max-width: $break-medium) {
+        font-size: 3.5rem;
+      }
+      @media only screen and (max-width: $break-small) {
+        font-size: 3rem;
+      }
+      @media only screen and (max-width: $break-smallest) {
+        font-size: 2rem;
+      }
+      @media only screen and (max-width: $break-tiny) {
+        font-size: 1.5rem;
+      }
+    }
+
+    &:hover {
+      color: $color-primary-gradient;
+    }
+  }
+
 }

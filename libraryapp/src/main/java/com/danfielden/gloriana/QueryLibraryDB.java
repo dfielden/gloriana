@@ -26,13 +26,6 @@ public final class QueryLibraryDB implements QueryLibrary {
                 "collection TEXT, " +
                 "deleted BOOLEAN)";
         connect.createStatement().execute(query);
-
-        query = "CREATE TABLE IF NOT EXISTS glossary (" +
-                "id INTEGER PRIMARY KEY NOT NULL, " +
-                "abbreviation TEXT, " +
-                "description TEXT, " +
-                "deleted BOOLEAN)";
-        connect.createStatement().execute(query);
     }
 
     public synchronized void close() throws SQLException {

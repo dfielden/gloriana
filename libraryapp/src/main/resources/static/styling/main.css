@@ -452,10 +452,123 @@ a:hover, a:focus, a:active {
 }
 
 .glossary {
+  height: 100vh;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  display: none;
+  transition: all 0.3s;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+}
+@supports (-webkit-backdrop-filter: blur(30px)) or (backdrop-filter: blur(30px)) {
+  .glossary {
+    -webkit-backdrop-filter: blur(30px);
+    backdrop-filter: blur(30px);
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+}
+.glossary:target {
+  opacity: 1;
+  visibility: visible;
+  display: flex;
+}
+.glossary:target .glossary__content {
+  opacity: 1;
+  display: flex;
+  flex-direction: column;
   width: 100%;
 }
+@media only screen and (max-width: 760px) {
+  .glossary:target .glossary__content {
+    align-self: flex-start;
+    margin-top: 3rem;
+  }
+}
 .glossary .g-table {
-  margin: 0 auto;
+  width: 50%;
+  align-self: center;
+  border: none;
+  border-collapse: collapse;
+}
+@media only screen and (max-width: 1000px) {
+  .glossary .g-table {
+    width: 65%;
+  }
+}
+@media only screen and (max-width: 760px) {
+  .glossary .g-table {
+    width: 80%;
+    font-size: 1.3rem;
+  }
+}
+@media only screen and (max-width: 420px) {
+  .glossary .g-table {
+    width: 90%;
+    font-size: 1.1rem;
+  }
+}
+@media only screen and (max-width: 260px) {
+  .glossary .g-table {
+    width: 100%;
+    font-size: 1rem;
+  }
+}
+.glossary .g-table--header {
+  text-align: right;
+  padding: 1rem;
+  border: none;
+}
+.glossary .g-table--cell {
+  padding: 0.5rem 1rem;
+}
+.glossary .g-table--left {
+  width: 20%;
+  border: 1px solid #838083;
+}
+.glossary .g-table--right {
+  width: 80%;
+  border: 1px solid #838083;
+}
+.glossary__close:link, .glossary__close:visited {
+  color: #001647;
+  font-size: 4rem;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.2s;
+  line-height: 1;
+  justify-content: flex-end;
+  align-self: flex-end;
+  margin-left: auto;
+}
+@media only screen and (max-width: 1000px) {
+  .glossary__close:link, .glossary__close:visited {
+    font-size: 3.5rem;
+  }
+}
+@media only screen and (max-width: 760px) {
+  .glossary__close:link, .glossary__close:visited {
+    font-size: 3rem;
+  }
+}
+@media only screen and (max-width: 420px) {
+  .glossary__close:link, .glossary__close:visited {
+    font-size: 2rem;
+  }
+}
+@media only screen and (max-width: 260px) {
+  .glossary__close:link, .glossary__close:visited {
+    font-size: 1.5rem;
+  }
+}
+.glossary__close:hover {
+  color: #052877;
 }
 
 .hamburger-menu {
@@ -1121,17 +1234,10 @@ body {
 
 .para {
   position: absolute;
-  top: -2rem;
-  right: 0;
+  top: 75%;
+  right: 10%;
   font-size: 1.4rem;
 }
-@media only screen and (max-width: 1000px) {
-  .para {
-    top: 0;
-    right: 10%;
-  }
-}
-
 .link {
   color: #001647;
 }
