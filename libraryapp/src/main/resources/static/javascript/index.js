@@ -471,3 +471,32 @@ const tableParameters = ["pseudo--ID", "pseudo--title", "pseudo--lastName", "pse
     "pseudo--voiceParts", "pseudo--accompanied", "pseudo--season", "pseudo--seasonAdditional", "pseudo--location",
     "pseudo--collection", "pseudo--action"];
 
+
+
+// AUTHENTICATION
+document.getElementById('btn_login').addEventListener("click", function (e) {
+    e.preventDefault();
+    alert('hello');
+    let username =  document.getElementById('username').value;
+    let password =  document.getElementById('password').value;
+
+    console.log(username);
+    console.log(password);
+
+
+    let object = [{"username": username}, {"password" : password}];
+    let json = JSON.stringify(object);
+
+    let xhr = new XMLHttpRequest();
+    let url = '/login';
+    xhr.open('POST', url, true);
+
+    //Send the proper header information along with the request
+    xhr.setRequestHeader('Content-type', 'application/json');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            alert(xhr.responseText);
+        }
+    }
+    xhr.send(json);
+})

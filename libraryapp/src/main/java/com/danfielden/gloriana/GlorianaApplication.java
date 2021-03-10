@@ -107,5 +107,15 @@ public class GlorianaApplication {
         return gson.toJson(result);
     }
 
+
+
+    @PostMapping(value="/login",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public String returnUser() throws Exception {
+        String user = "dan";
+        return user;
+    }
+
 }
 

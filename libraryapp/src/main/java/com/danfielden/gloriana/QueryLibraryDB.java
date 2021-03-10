@@ -26,6 +26,25 @@ public final class QueryLibraryDB implements QueryLibrary {
                 "collection TEXT, " +
                 "deleted BOOLEAN)";
         connect.createStatement().execute(query);
+
+        query = "CREATE TABLE IF NOT EXISTS users (" +
+                "id INTEGER PRIMARY KEY NOT NULL, " +
+                "user_name TEXT UNIQUE, " +
+                "password TEXT, " +
+                "salt TEXT) ";
+        connect.createStatement().execute(query);
+
+//        query = "INSERT IGNORE INTO users (" +
+//                "id, user_name, password, salt) " +
+//                "VALUES(1, 'user', '71d0758a9ba44213fe49943ce19124567af70e420b663b95c9676d85a13770e2dc90cf07de907ccc64636ceddb38e552a1a0d984743b1f36a447b73877012c39', 'salt1')";
+//        connect.createStatement().execute(query);
+//
+//
+//        query = "INSERT IGNORE INTO users (" +
+//                "id, user_name, password, salt) " +
+//                "VALUES(2, 'admin', '71d0758a9ba44213fe49943ce19124567af70e420b663b95c9676d85a13770e2dbc4579ae2b3ab293213f42bb852706ea995c3b5c3987f8aa9faae5004acb3cf', 'salt2')";
+//        connect.createStatement().execute(query);
+
     }
 
     public synchronized void close() throws SQLException {

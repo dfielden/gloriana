@@ -98,6 +98,9 @@
       justify-content: flex-end;
       align-self: flex-end;
       margin-left: auto;
+      position: relative;
+      right: -5rem;
+      top: -1rem;
 
       @media only screen and (max-width: $break-medium) {
         font-size: 3.5rem;
