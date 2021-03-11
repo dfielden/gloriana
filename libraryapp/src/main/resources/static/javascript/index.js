@@ -58,11 +58,14 @@ Use Event bubbling to add event listeners to current and future button elements 
  */
 document.addEventListener('click',function(e) {
     if (getBtnIdDescription(e.target.id) === ('delete')) {
-        document.getElementById('delete-alert').classList.add('visible');
-
-        // Set params for delete ajax
-        deleteValue = getBtnIdNum(e.target.id);
-        clickedBtn = e.target;
+        if (getLoginStatus() !== 1) {
+            alert("You don't have permission to do that!");
+        } else {
+            document.getElementById('delete-alert').classList.add('visible');
+            // Set params for delete ajax
+            deleteValue = getBtnIdNum(e.target.id);
+            clickedBtn = e.target;
+        }
     }
 });
 
@@ -76,25 +79,29 @@ document.getElementById('btn_cancelDelete').addEventListener('click', function()
 
 
 document.getElementById('btn_confirmDelete').addEventListener('click', function() {
-    document.getElementById('delete-alert').classList.remove('visible');
-    let xhr = new XMLHttpRequest();
-    let url = '/delete/' + deleteValue;
-    xhr.open('POST', url, true);
+    if (getLoginStatus() !== 1) {
+        alert("You don't have permission to do that!")
+    } else {
+        document.getElementById('delete-alert').classList.remove('visible');
+        let xhr = new XMLHttpRequest();
+        let url = '/delete/' + deleteValue;
+        xhr.open('POST', url, true);
 
-    //Send the proper header information along with the request
-    xhr.setRequestHeader('Content-type', 'application/json');
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            deleteRowOfBtnClick(clickedBtn);
-            sessionStorage.setItem('display-message', 'deleted')
-            clearNewEntryForm(true);
+        //Send the proper header information along with the request
+        xhr.setRequestHeader('Content-type', 'application/json');
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                deleteRowOfBtnClick(clickedBtn);
+                sessionStorage.setItem('display-message', 'deleted')
+                clearNewEntryForm(true);
 
-            // Reset delete params
-            deleteValue = -1;
-            clickedBtn = undefined;
+                // Reset delete params
+                deleteValue = -1;
+                clickedBtn = undefined;
+            }
         }
+        xhr.send();
     }
-    xhr.send();
 })
 
 
@@ -437,7 +444,6 @@ function toggleAddEditText() {
 
 function clearClassFromDOM(className) {
     let classList = document.getElementsByClassName(className);
-
     while(classList[0]) {
         classList[0].parentNode.removeChild(classList[0]);
     }
@@ -447,7 +453,6 @@ function clearClassFromDOM(className) {
 document.getElementById('search__clear').addEventListener('click', function() {
     clearSearchForms();
     window.location = '/';
-
 })
 
 
@@ -480,12 +485,9 @@ document.getElementById('btn_login').addEventListener("click", function (e) {
     let username =  document.getElementById('username').value;
     let password =  document.getElementById('password').value;
 
-    console.log(username);
-    console.log(password);
-
-
-    let object = [{"username": username}, {"password" : password}];
+    let object = {"username": username, "password" : password};
     let json = JSON.stringify(object);
+    console.log(json);
 
     let xhr = new XMLHttpRequest();
     let url = '/login';
@@ -495,8 +497,17 @@ document.getElementById('btn_login').addEventListener("click", function (e) {
     xhr.setRequestHeader('Content-type', 'application/json');
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            alert(xhr.responseText);
+            alert("Successfully logged in as ${xhr.responseText}");
         }
     }
     xhr.send(json);
 })
+
+function getLoginStatus() {
+    let status = -1;
+    ajax_get('/loginstatus', function(data) {
+        console.log(data);
+        status = data;
+    });
+    return status;
+}

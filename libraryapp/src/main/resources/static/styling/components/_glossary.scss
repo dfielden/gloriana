@@ -107,12 +107,13 @@
       }
       @media only screen and (max-width: $break-small) {
         font-size: 3rem;
+        right: -3rem;
+
       }
       @media only screen and (max-width: $break-smallest) {
-        font-size: 2rem;
+        right: -1rem;
       }
       @media only screen and (max-width: $break-tiny) {
-        font-size: 1.5rem;
       }
     }
 

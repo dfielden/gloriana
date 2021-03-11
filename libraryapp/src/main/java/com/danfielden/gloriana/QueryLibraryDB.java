@@ -229,4 +229,25 @@ public final class QueryLibraryDB implements QueryLibrary {
         return entries;
     }
 
+    // AUTHENTICATION
+    public synchronized String getSalt(String username) throws Exception {
+        String salt = "";
+
+        String query = "SELECT * FROM users WHERE user_name = ?";
+        try (PreparedStatement stmt = connect.prepareStatement(query)) {
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
+
+            if (!rs.isBeforeFirst() ) {
+                throw new IllegalArgumentException("User not found: " + username);
+            }
+
+            while (rs.next()) {
+                salt = rs.getString("salt");
+            }
+        }
+        return salt;
+    }
+
+
 }

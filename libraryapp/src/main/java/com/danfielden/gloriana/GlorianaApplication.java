@@ -17,6 +17,11 @@ import java.util.*;
 public class GlorianaApplication {
     private static final Gson gson = new Gson();
     private final QueryLibrary ql;
+    private final static int NOT_RECOGNISED = -1;
+    private final static int USER = 0;
+    private final static int ADMIN = 1;
+
+    private int auth = NOT_RECOGNISED;
 
     public GlorianaApplication(@Value("${goat}") String database) throws Exception {
         ql = new QueryLibraryDB(new File(database));
@@ -112,10 +117,24 @@ public class GlorianaApplication {
     @PostMapping(value="/login",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public String returnUser() throws Exception {
-        String user = "dan";
+    public String returnUser(@RequestBody Login login) throws Exception {
+        System.out.println(login.toString());
+        String user = login.getUsername();
+        String password = login.getPassword();
+
+//        String salt = ql.getSalt(user);
+
         return user;
     }
+
+
+    @RequestMapping(value="/loginstatus")
+    public @ResponseBody int getLoginStatus() throws Exception {
+        System.out.println(auth);
+        return auth;
+    }
+
+
 
 }
 

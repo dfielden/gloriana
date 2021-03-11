@@ -559,16 +559,12 @@ a:hover, a:focus, a:active {
 @media only screen and (max-width: 760px) {
   .glossary__close:link, .glossary__close:visited {
     font-size: 3rem;
+    right: -3rem;
   }
 }
 @media only screen and (max-width: 420px) {
   .glossary__close:link, .glossary__close:visited {
-    font-size: 2rem;
-  }
-}
-@media only screen and (max-width: 260px) {
-  .glossary__close:link, .glossary__close:visited {
-    font-size: 1.5rem;
+    right: -1rem;
   }
 }
 .glossary__close:hover {
