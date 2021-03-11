@@ -58,6 +58,8 @@ Use Event bubbling to add event listeners to current and future button elements 
  */
 document.addEventListener('click',function(e) {
     if (getBtnIdDescription(e.target.id) === ('delete')) {
+        //let status = getLoginStatus();
+        console.log(getLoginStatus() === 1);
         if (getLoginStatus() !== 1) {
             alert("You don't have permission to do that!");
         } else {
@@ -253,7 +255,6 @@ function ajax_get(url, callback) {
             callback(data);
         }
     };
-
     xhr.open("GET", url, true);
     xhr.send();
 }
@@ -481,7 +482,6 @@ const tableParameters = ["pseudo--ID", "pseudo--title", "pseudo--lastName", "pse
 // AUTHENTICATION
 document.getElementById('btn_login').addEventListener("click", function (e) {
     e.preventDefault();
-    alert('hello');
     let username =  document.getElementById('username').value;
     let password =  document.getElementById('password').value;
 
@@ -504,10 +504,10 @@ document.getElementById('btn_login').addEventListener("click", function (e) {
 })
 
 function getLoginStatus() {
-    let status = -1;
+    let authStatus = -1;
     ajax_get('/loginstatus', function(data) {
-        console.log(data);
-        status = data;
+        console.log(data + "hi");
+        authStatus = data;
     });
-    return status;
+    return authStatus;
 }

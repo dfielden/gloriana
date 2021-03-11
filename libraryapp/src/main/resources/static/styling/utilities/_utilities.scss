@@ -1,22 +1,6 @@
-//.flex__half {
-//  flex: 0 0 50%;
-//}
-
 .flex__full {
   flex: 0 0 100%;
 }
-
-//.flex__third {
-//  flex: 0 0 calc(100% / 3);
-//}
-
-//.flex__quarter {
-//  flex: 0 0 calc(100% / 4);
-//}
-
-//.flex__oneTwelth {
-//  flex: 0 0 (100% * (1/11));
-//}
 
 .flex__oneEleventh {
   flex: 0 0 calc(100% * (1/11));
@@ -76,6 +60,7 @@
 .visible {
   opacity: 1 !important;
   visibility: visible !important;
+  display: flex !important;
 }
 
 

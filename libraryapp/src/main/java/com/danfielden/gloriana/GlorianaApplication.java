@@ -16,7 +16,7 @@ import java.util.*;
 @RestController
 public class GlorianaApplication {
     private static final Gson gson = new Gson();
-    private final QueryLibrary ql;
+    private final QueryLibraryDB ql;
     private final static int NOT_RECOGNISED = -1;
     private final static int USER = 0;
     private final static int ADMIN = 1;
@@ -120,9 +120,19 @@ public class GlorianaApplication {
     public String returnUser(@RequestBody Login login) throws Exception {
         System.out.println(login.toString());
         String user = login.getUsername();
-        String password = login.getPassword();
+        String enteredPassword = login.getPassword();
+        Map userDetails = ql.getuserDetails(user);
+        String salt = (String)userDetails.get("salt");
+        String hashedPassword = (String)userDetails.get("hashedPassword");
+        String userAuth = (String)userDetails.get("auth");
 
-//        String salt = ql.getSalt(user);
+
+        if (hashedPassword.equals(StringHasher.hashString(enteredPassword + salt))) {
+            auth = userAuth.equals("admin") ? ADMIN : USER;
+        } else {
+            auth = NOT_RECOGNISED;
+            throw new IllegalArgumentException("Incorrect password. Please try again.");
+        }
 
         return user;
     }

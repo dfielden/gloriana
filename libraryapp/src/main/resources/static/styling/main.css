@@ -91,6 +91,7 @@ a:hover, a:focus, a:active {
 .visible {
   opacity: 1 !important;
   visibility: visible !important;
+  display: flex !important;
 }
 
 .alert {

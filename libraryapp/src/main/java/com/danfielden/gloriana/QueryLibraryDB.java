@@ -31,18 +31,19 @@ public final class QueryLibraryDB implements QueryLibrary {
                 "id INTEGER PRIMARY KEY NOT NULL, " +
                 "user_name TEXT UNIQUE, " +
                 "password TEXT, " +
-                "salt TEXT) ";
+                "salt TEXT, " +
+                "auth TEXT)";
         connect.createStatement().execute(query);
 
 //        query = "INSERT IGNORE INTO users (" +
 //                "id, user_name, password, salt) " +
-//                "VALUES(1, 'user', '71d0758a9ba44213fe49943ce19124567af70e420b663b95c9676d85a13770e2dc90cf07de907ccc64636ceddb38e552a1a0d984743b1f36a447b73877012c39', 'salt1')";
+//                "VALUES(1, 'guest', '71d0758a9ba44213fe49943ce19124567af70e420b663b95c9676d85a13770e2dc90cf07de907ccc64636ceddb38e552a1a0d984743b1f36a447b73877012c39', 'salt1', 'guest')";
 //        connect.createStatement().execute(query);
 //
 //
 //        query = "INSERT IGNORE INTO users (" +
 //                "id, user_name, password, salt) " +
-//                "VALUES(2, 'admin', '71d0758a9ba44213fe49943ce19124567af70e420b663b95c9676d85a13770e2dbc4579ae2b3ab293213f42bb852706ea995c3b5c3987f8aa9faae5004acb3cf', 'salt2')";
+//                "VALUES(2, 'admin', '71d0758a9ba44213fe49943ce19124567af70e420b663b95c9676d85a13770e2dbc4579ae2b3ab293213f42bb852706ea995c3b5c3987f8aa9faae5004acb3cf', 'salt2', 'admin')";
 //        connect.createStatement().execute(query);
 
     }
@@ -230,8 +231,9 @@ public final class QueryLibraryDB implements QueryLibrary {
     }
 
     // AUTHENTICATION
-    public synchronized String getSalt(String username) throws Exception {
+    public synchronized Map<String, String> getuserDetails(String username) throws Exception {
         String salt = "";
+        Map<String, String> userDetails = new HashMap<>();
 
         String query = "SELECT * FROM users WHERE user_name = ?";
         try (PreparedStatement stmt = connect.prepareStatement(query)) {
@@ -243,10 +245,14 @@ public final class QueryLibraryDB implements QueryLibrary {
             }
 
             while (rs.next()) {
-                salt = rs.getString("salt");
+                userDetails.put("username",rs.getString("user_name"));
+                userDetails.put("hashedPassword",rs.getString("password"));
+                userDetails.put("salt",rs.getString("salt"));
+                userDetails.put("auth",rs.getString("auth"));
+
             }
         }
-        return salt;
+        return userDetails;
     }
 
 
