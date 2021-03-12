@@ -117,7 +117,7 @@ public class GlorianaApplication {
     @PostMapping(value="/login",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public String returnUser(@RequestBody Login login) throws Exception {
+    public int returnUser(@RequestBody Login login) throws Exception {
         System.out.println(login.toString());
         String user = login.getUsername();
         String enteredPassword = login.getPassword();
@@ -133,8 +133,7 @@ public class GlorianaApplication {
             auth = NOT_RECOGNISED;
             throw new IllegalArgumentException("Incorrect password. Please try again.");
         }
-
-        return user;
+        return auth;
     }
 
 

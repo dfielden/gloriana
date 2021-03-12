@@ -58,16 +58,16 @@ Use Event bubbling to add event listeners to current and future button elements 
  */
 document.addEventListener('click',function(e) {
     if (getBtnIdDescription(e.target.id) === ('delete')) {
-        //let status = getLoginStatus();
-        console.log(getLoginStatus() === 1);
-        if (getLoginStatus() !== 1) {
-            alert("You don't have permission to do that!");
-        } else {
-            document.getElementById('delete-alert').classList.add('visible');
-            // Set params for delete ajax
-            deleteValue = getBtnIdNum(e.target.id);
-            clickedBtn = e.target;
-        }
+        ajax_get('/loginstatus', function(data) {
+            if (data !== 1) {
+                alert("You don't have permission to do that!");
+            } else {
+                document.getElementById('delete-alert').classList.add('visible');
+                // Set params for delete ajax
+                deleteValue = getBtnIdNum(e.target.id);
+                clickedBtn = e.target;
+            }
+        });
     }
 });
 
@@ -81,77 +81,87 @@ document.getElementById('btn_cancelDelete').addEventListener('click', function()
 
 
 document.getElementById('btn_confirmDelete').addEventListener('click', function() {
-    if (getLoginStatus() !== 1) {
-        alert("You don't have permission to do that!")
-    } else {
-        document.getElementById('delete-alert').classList.remove('visible');
-        let xhr = new XMLHttpRequest();
-        let url = '/delete/' + deleteValue;
-        xhr.open('POST', url, true);
+    ajax_get('/loginstatus', function (data) {
+        if (data !== 1) {
+            alert("You don't have permission to do that!");
+            clearNewEntryForm(false);
+        } else {
+            document.getElementById('delete-alert').classList.remove('visible');
+            let xhr = new XMLHttpRequest();
+            let url = '/delete/' + deleteValue;
+            xhr.open('POST', url, true);
 
-        //Send the proper header information along with the request
-        xhr.setRequestHeader('Content-type', 'application/json');
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                deleteRowOfBtnClick(clickedBtn);
-                sessionStorage.setItem('display-message', 'deleted')
-                clearNewEntryForm(true);
+            //Send the proper header information along with the request
+            xhr.setRequestHeader('Content-type', 'application/json');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    deleteRowOfBtnClick(clickedBtn);
+                    sessionStorage.setItem('display-message', 'deleted')
+                    clearNewEntryForm(true);
 
-                // Reset delete params
-                deleteValue = -1;
-                clickedBtn = undefined;
+                    // Reset delete params
+                    deleteValue = -1;
+                    clickedBtn = undefined;
+                }
             }
+            xhr.send();
         }
-        xhr.send();
-    }
+    })
 })
 
 
 document.addEventListener('click',function(e) {
     if (getBtnIdDescription(e.target.id) === ('edit')) {
-        let id = getBtnIdNum(e.target.id);
-        let url = '/entry/' + id;
-
-        ajax_get(url, function(data) {
-            document.getElementById('id').value = data.id;
-            document.getElementById('title').value = data.title;
-            document.getElementById('composerLastName').value = data.composerLastName;
-            document.getElementById('composerFirstName').value = data.composerFirstName;
-            document.getElementById('arranger').value = data.arranger;
-            document.getElementById('voiceParts').value = data.voiceParts;
-            document.getElementById('season').value = data.season == null ? '-1' : data.season;
-            document.getElementById('seasonAdditional').value = data.seasonAdditional;
-            document.getElementById('location').value = data.location;
-            document.getElementById('collection').value = data.collection;
-            document.getElementById('accompanied').value = data.accompanied == null ? '-1' : data.accompanied;
-
-            if (document.getElementById('accompanied').value === '') {
-                document.getElementById('accompanied-label').style.display = "none";
-                document.getElementById('accompanied').selectedIndex = 0;
-                document.getElementById('accompanied').style.color = '#838083'; // COLOR_LIGHT_GREY
+        ajax_get('/loginstatus', function(data) {
+            if (data !== 1) {
+                clearNewEntryForm(false);
+                alert("You don't have permission to do that!");
             } else {
-                if (window.matchMedia("(max-width: 700px)").matches) {
-                    document.getElementById('accompanied-label').style.display = "none";
-                } else {
-                    document.getElementById('accompanied-label').style.display = "block";
-                }
-            }
+                let id = getBtnIdNum(e.target.id);
+                let url = '/entry/' + id;
 
-            if (document.getElementById('season').value === '') {
-                document.getElementById('season-label').style.display = "none";
-                document.getElementById('season').selectedIndex = 0;
-                document.getElementById('season').style.color = '#838083'; // COLOR_LIGHT_GREY
-            } else {
-                if (window.matchMedia("(max-width: 700px)").matches) {
-                    document.getElementById('season-label').style.display = "none";
-                } else {
-                    document.getElementById('season-label').style.display = "block";
-                }
-            }
+                ajax_get(url, function (data) {
+                    document.getElementById('id').value = data.id;
+                    document.getElementById('title').value = data.title;
+                    document.getElementById('composerLastName').value = data.composerLastName;
+                    document.getElementById('composerFirstName').value = data.composerFirstName;
+                    document.getElementById('arranger').value = data.arranger;
+                    document.getElementById('voiceParts').value = data.voiceParts;
+                    document.getElementById('season').value = data.season == null ? '-1' : data.season;
+                    document.getElementById('seasonAdditional').value = data.seasonAdditional;
+                    document.getElementById('location').value = data.location;
+                    document.getElementById('collection').value = data.collection;
+                    document.getElementById('accompanied').value = data.accompanied == null ? '-1' : data.accompanied;
 
-            toggleLabelPlaceholderStyle(document.getElementById('accompanied'));
-            toggleLabelPlaceholderStyle(document.getElementById('season'));
-            toggleAddEditText();
+                    if (document.getElementById('accompanied').value === '') {
+                        document.getElementById('accompanied-label').style.display = "none";
+                        document.getElementById('accompanied').selectedIndex = 0;
+                        document.getElementById('accompanied').style.color = '#838083'; // COLOR_LIGHT_GREY
+                    } else {
+                        if (window.matchMedia("(max-width: 700px)").matches) {
+                            document.getElementById('accompanied-label').style.display = "none";
+                        } else {
+                            document.getElementById('accompanied-label').style.display = "block";
+                        }
+                    }
+
+                    if (document.getElementById('season').value === '') {
+                        document.getElementById('season-label').style.display = "none";
+                        document.getElementById('season').selectedIndex = 0;
+                        document.getElementById('season').style.color = '#838083'; // COLOR_LIGHT_GREY
+                    } else {
+                        if (window.matchMedia("(max-width: 700px)").matches) {
+                            document.getElementById('season-label').style.display = "none";
+                        } else {
+                            document.getElementById('season-label').style.display = "block";
+                        }
+                    }
+
+                    toggleLabelPlaceholderStyle(document.getElementById('accompanied'));
+                    toggleLabelPlaceholderStyle(document.getElementById('season'));
+                    toggleAddEditText();
+                });
+            }
         });
     }
 });
@@ -162,6 +172,9 @@ function populateMainTable(data) {
     for (let i = 0; i < data.length; i++) {
         addRowMainTable(tableBody, data[i]);
     }
+
+    // add ability to edit entries, based on login status
+    setEditPermissions();
 }
 
 
@@ -216,7 +229,7 @@ function addRowMainTable(tableBody, data) {
     editBtn.classList.add('btn', 'btn--primary', 'btn--table');
     editBtn.id = "edit_" + data.id;
     editBtn.innerText = "Edit";
-    editBtn.setAttribute("href", "#addEdit");
+    //editBtn.setAttribute("href", "#addEdit");
     buttonDiv.appendChild(editBtn);
 
     let deleteBtn = document.createElement('a');
@@ -497,17 +510,31 @@ document.getElementById('btn_login').addEventListener("click", function (e) {
     xhr.setRequestHeader('Content-type', 'application/json');
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            alert("Successfully logged in as ${xhr.responseText}");
+            console.log(xhr.responseText);
+            //setEditPermissions();
+            document.getElementById('loginForm').reset();
+
+            // if logged in
+            if (xhr.responseText !== -1) {
+                clearNewEntryForm(true);
+                document.getElementById('message-loggedin').innerText = `Successfully logged in as ${username}`;
+                document.getElementById('message-loggedin').style.display = 'inline-block';
+            }
         }
     }
     xhr.send(json);
 })
 
-function getLoginStatus() {
-    let authStatus = -1;
+function setEditPermissions() {
+    let btns = document.querySelectorAll('.btn--primary.btn--table'); // all edit buttons
+    console.log(btns);
     ajax_get('/loginstatus', function(data) {
-        console.log(data + "hi");
-        authStatus = data;
-    });
-    return authStatus;
+        for (let i = 0; i < btns.length; i++) {
+            if (data !== 1) {
+                btns[i].removeAttribute("href");
+            } else {
+                btns[i].setAttribute("href", "#addEdit");
+            }
+        }
+    })
 }
