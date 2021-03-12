@@ -118,7 +118,6 @@ public class GlorianaApplication {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public int returnUser(@RequestBody Login login) throws Exception {
-        System.out.println(login.toString());
         String user = login.getUsername();
         String enteredPassword = login.getPassword();
         Map userDetails = ql.getuserDetails(user);
@@ -139,7 +138,6 @@ public class GlorianaApplication {
 
     @RequestMapping(value="/loginstatus")
     public @ResponseBody int getLoginStatus() throws Exception {
-        System.out.println(auth);
         return auth;
     }
 

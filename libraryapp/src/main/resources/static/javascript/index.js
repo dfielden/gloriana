@@ -26,12 +26,17 @@ window.addEventListener('load', function(event) {
 });
 
 document.getElementById('btn_createNewEntry').addEventListener('click', function() {
-    toggleAddEditText();
-    document.getElementById('accompanied-label').style.display = "none";
-    document.getElementById('accompanied').style.color = '#838083'; // COLOR_LIGHT_GREY
-    document.getElementById('season-label').style.display = "none";
-    document.getElementById('season').style.color = '#838083'; // COLOR_LIGHT_GREY
-
+    ajax_get('/loginstatus', function(data) {
+        if (data !== 1) {
+            alert("You don't have permission to do that!");
+        } else {
+            toggleAddEditText();
+            document.getElementById('accompanied-label').style.display = "none";
+            document.getElementById('accompanied').style.color = '#838083'; // COLOR_LIGHT_GREY
+            document.getElementById('season-label').style.display = "none";
+            document.getElementById('season').style.color = '#838083'; // COLOR_LIGHT_GREY
+        }
+    })
 })
 
 document.getElementById('accompanied').addEventListener('click', function() {
@@ -500,7 +505,6 @@ document.getElementById('btn_login').addEventListener("click", function (e) {
 
     let object = {"username": username, "password" : password};
     let json = JSON.stringify(object);
-    console.log(json);
 
     let xhr = new XMLHttpRequest();
     let url = '/login';
@@ -527,7 +531,6 @@ document.getElementById('btn_login').addEventListener("click", function (e) {
 
 function setEditPermissions() {
     let btns = document.querySelectorAll('.btn--primary.btn--table'); // all edit buttons
-    console.log(btns);
     ajax_get('/loginstatus', function(data) {
         for (let i = 0; i < btns.length; i++) {
             if (data !== 1) {
@@ -535,6 +538,11 @@ function setEditPermissions() {
             } else {
                 btns[i].setAttribute("href", "#addEdit");
             }
+        }
+        if (data !== 1) {
+            document.getElementById('btn_createNewEntry').querySelector("a").removeAttribute("href");
+        } else {
+            document.getElementById('btn_createNewEntry').querySelector("a").setAttribute("href", "#addEdit");
         }
     })
 }

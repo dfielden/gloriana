@@ -13,30 +13,39 @@
 <body>
 <section class="section-nav">
     <div class="nav">
-        <div class="heading__wrapper">
+        <div class="nav--top">
             <h1 class="heading1">St Mark with St Margaret music library</h1>
-            <div class="newEntryWrapper">
-                <a href='#addEdit'><button class="btn btn--primary btn--form" id="btn_createNewEntry">Create new entry</button></a>
-             </div>
-
-        </div>
-        <div class="search">
-            <form action="#" class="form" id="searchForm">
-                <input type="text" class="search__input" id="search__input" autocomplete="off" placeholder="Search music">
-                <button class="search__button" id="search__button" type="submit">
-                <div class="search__icon">
-                    <embed src="/images/magnifying-glass.svg">
-                </div>
-                </button>
-                <a href="#" class="search__clear" id="search__clear">&times;</a>
-            </form>
-            <p class="para"><a href="#glossary" class="link">View glossary</a></p>
+            <div class="search">
+                <form action="#" class="form" id="searchForm">
+                    <input type="text" class="search__input" id="search__input" autocomplete="off" placeholder="Search music">
+                    <button class="search__button" id="search__button" type="submit">
+                    <div class="search__icon">
+                        <embed src="/images/magnifying-glass.svg">
+                    </div>
+                    </button>
+                    <a href="#" class="search__clear" id="search__clear">&times;</a>
+                </form>
+            </div>
+            <div class="nav--burger" id="nav--burger">
+                <span></span>
+            </div>
         </div>
 
-        <div class="nav--burger" id="nav--burger">
-            <span></span>
+        <div class="nav--bottom">
+            <div class="menu">
+                <ul class="menu__list">
+                    <div class="menu__list--left">
+                        <li class="menu__list--item" id="btn_createNewEntry"><a href="#">Create entry</a></li>
+                    </div>
+                    <div class="menu__list--right">
+                        <li class="menu__list--item"><a href="#glossary">View glossary</a></li>
+                        <li class="menu__list--item"><a href="#login">Login</a></li>
+                        <li class="menu__list--item"><a href="#">Logout</a></li>
+                        <li class="menu__list--item"><a href="#">Change password</a></li>
+                    </div>
+                </ul>
+            </div>
         </div>
-
     </div>
 
     <div class="hamburger-menu" id="hamburger-menu">
@@ -46,6 +55,9 @@
                 <a href='#addEdit'><div class="hamburger-menu__list__item">Create new entry</div></a>
                 <div class="hamburger-menu__list__item" id="searchMusic">Search music</div>
                 <a href='#glossary'><div class="hamburger-menu__list__item">View glossary</div></a>
+                <a href='#login'><div class="hamburger-menu__list__item">Login</div></a>
+                <a href='#'><div class="hamburger-menu__list__item">Logout</div></a>
+                <a href='#'><div class="hamburger-menu__list__item">Change password</div></a>
             </div>
 
             <div class="search search--hamburger" id="search--hamburger">
@@ -289,7 +301,7 @@
                 </div>
                 <div class="flexwrapper flexwrapper--form">
                     <div class="form__group flex__full--form flexwrapper__vertical">
-                        <input type="text" required autocomplete="off" class="form__input" placeholder="Password" id="password" name="password">
+                        <input type="password" required autocomplete="off" class="form__input" placeholder="Password" id="password" name="password">
                         <label for="password" class="form__label">Password</label>
                     </div>
                 </div>
