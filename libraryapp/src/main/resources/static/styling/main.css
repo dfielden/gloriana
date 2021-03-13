@@ -680,7 +680,7 @@ a:hover, a:focus, a:active {
 .nav--bottom .menu__list--item {
   display: flex;
   padding: 1.3rem;
-  font-size: 1.6rem;
+  font-size: 1.2rem;
   color: #001647;
 }
 .nav--bottom .menu__list--item:hover {
