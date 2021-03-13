@@ -514,15 +514,20 @@ document.getElementById('btn_login').addEventListener("click", function (e) {
     xhr.setRequestHeader('Content-type', 'application/json');
     xhr.onreadystatechange = function () {
         if (xhr.readyState === 4 && xhr.status === 200) {
-            console.log(xhr.responseText);
-            //setEditPermissions();
-            document.getElementById('loginForm').reset();
+            try {
+                console.log(xhr.responseText);
+                //setEditPermissions();
+                document.getElementById('loginForm').reset();
 
-            // if logged in
-            if (xhr.responseText !== -1) {
-                clearNewEntryForm(true);
-                document.getElementById('message-loggedin').innerText = `Successfully logged in as ${username}`;
-                document.getElementById('message-loggedin').style.display = 'inline-block';
+                // if logged in
+                if (xhr.responseText !== -1) {
+                    clearNewEntryForm(true);
+                    document.getElementById('message-loggedin').innerText = `Successfully logged in as ${username}`;
+                    document.getElementById('message-loggedin').style.display = 'inline-block';
+                }
+            } catch (err) {
+            console.log(err.message + " in " + xhr.responseText);
+            return;
             }
         }
     }

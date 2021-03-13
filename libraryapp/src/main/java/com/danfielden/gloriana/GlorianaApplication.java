@@ -127,7 +127,8 @@ public class GlorianaApplication {
 
 
         if (hashedPassword.equals(StringHasher.hashString(enteredPassword + salt))) {
-            auth = userAuth.equals("admin") ? ADMIN : USER;
+            //auth = userAuth.equals("admin") ? ADMIN : USER;
+            auth = user.equals("admin") ? ADMIN : USER;
         } else {
             auth = NOT_RECOGNISED;
             throw new IllegalArgumentException("Incorrect password. Please try again.");

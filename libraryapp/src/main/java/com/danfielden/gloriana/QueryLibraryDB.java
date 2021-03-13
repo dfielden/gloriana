@@ -36,14 +36,14 @@ public final class QueryLibraryDB implements QueryLibrary {
 
         query = "REPLACE INTO users (" +
                 "id, user_name, password, salt) " +
-                "VALUES(1, 'guest', '71d0758a9ba44213fe49943ce19124567af70e420b663b95c9676d85a13770e2dc90cf07de907ccc64636ceddb38e552a1a0d984743b1f36a447b73877012c39', 'salt1')";
+                "VALUES(1, 'admin', '70284fde35e31074df6c4e16804995cba23ac1395758348cdb39bd8908cfa667', 'salt1')";
         PreparedStatement stmt = connect.prepareStatement(query);
         stmt.executeUpdate();
 
 
         query = "REPLACE INTO users (" +
                 "id, user_name, password, salt) " +
-                "VALUES(2, 'admin', '71d0758a9ba44213fe49943ce19124567af70e420b663b95c9676d85a13770e2dbc4579ae2b3ab293213f42bb852706ea995c3b5c3987f8aa9faae5004acb3cf', 'salt2')";
+                "VALUES(2, 'guest', '82408c8bc309132d91c9d521b29b8bd3eda8c9d176c742358dbed9efde0bc487', 'salt2')";
         stmt = connect.prepareStatement(query);
         stmt.executeUpdate();
     }
