@@ -39,6 +39,14 @@ document.getElementById('btn_createNewEntry').addEventListener('click', function
     })
 })
 
+document.getElementById('btn_logout').addEventListener('click', function() {
+    ajax_get('/logout', function(data) {
+        document.getElementById('message-loggedout').style.display = 'inline-block';
+        clearNewEntryForm(true);
+    })
+})
+
+
 document.getElementById('accompanied').addEventListener('click', function() {
     toggleAddEditText();
     if (window.matchMedia("(max-width: 700px)").matches) {
@@ -533,6 +541,7 @@ document.getElementById('btn_login').addEventListener("click", function (e) {
     }
     xhr.send(json);
 })
+
 
 function setEditPermissions() {
     let btns = document.querySelectorAll('.btn--primary.btn--table'); // all edit buttons

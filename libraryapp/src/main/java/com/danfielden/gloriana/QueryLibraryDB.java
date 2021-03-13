@@ -27,23 +27,27 @@ public final class QueryLibraryDB implements QueryLibrary {
                 "deleted BOOLEAN)";
         connect.createStatement().execute(query);
 
+        query = "DROP TABLE IF EXISTS users";
+        connect.createStatement().execute(query);
+
         query = "CREATE TABLE IF NOT EXISTS users (" +
                 "id INTEGER PRIMARY KEY NOT NULL, " +
                 "user_name TEXT UNIQUE, " +
                 "password TEXT, " +
-                "salt TEXT)";
+                "salt TEXT, " +
+                "auth TEXT)";
         connect.createStatement().execute(query);
 
         query = "REPLACE INTO users (" +
-                "id, user_name, password, salt) " +
-                "VALUES(1, 'admin', '70284fde35e31074df6c4e16804995cba23ac1395758348cdb39bd8908cfa667', 'salt1')";
+                "id, user_name, password, salt, auth) " +
+                "VALUES(1, 'admin', '70284fde35e31074df6c4e16804995cba23ac1395758348cdb39bd8908cfa667', 'salt1', 'admin')";
         PreparedStatement stmt = connect.prepareStatement(query);
         stmt.executeUpdate();
 
 
         query = "REPLACE INTO users (" +
-                "id, user_name, password, salt) " +
-                "VALUES(2, 'guest', '82408c8bc309132d91c9d521b29b8bd3eda8c9d176c742358dbed9efde0bc487', 'salt2')";
+                "id, user_name, password, salt, auth) " +
+                "VALUES(2, 'guest', '82408c8bc309132d91c9d521b29b8bd3eda8c9d176c742358dbed9efde0bc487', 'salt2', 'guest')";
         stmt = connect.prepareStatement(query);
         stmt.executeUpdate();
     }

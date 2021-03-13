@@ -127,8 +127,8 @@ public class GlorianaApplication {
 
 
         if (hashedPassword.equals(StringHasher.hashString(enteredPassword + salt))) {
-            //auth = userAuth.equals("admin") ? ADMIN : USER;
-            auth = user.equals("admin") ? ADMIN : USER;
+            auth = userAuth.equals("admin") ? ADMIN : USER;
+            //auth = user.equals("admin") ? ADMIN : USER;
         } else {
             auth = NOT_RECOGNISED;
             throw new IllegalArgumentException("Incorrect password. Please try again.");
@@ -139,6 +139,12 @@ public class GlorianaApplication {
 
     @RequestMapping(value="/loginstatus")
     public @ResponseBody int getLoginStatus() throws Exception {
+        return auth;
+    }
+
+    @RequestMapping(value="/logout")
+    public @ResponseBody int logout() throws Exception {
+        auth = NOT_RECOGNISED;
         return auth;
     }
 
