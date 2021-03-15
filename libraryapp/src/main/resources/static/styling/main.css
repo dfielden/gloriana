@@ -94,6 +94,10 @@ a:hover, a:focus, a:active {
   display: flex !important;
 }
 
+.displayNone {
+  display: none !important;
+}
+
 .alert {
   display: none;
   height: 100vh;

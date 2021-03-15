@@ -16,6 +16,8 @@ document.addEventListener('DOMContentLoaded', function () {
         toggleLabelPlaceholderStyle(document.getElementById('season'));
         document.getElementById('season').style.color = 'inherit';
     });
+
+    redirectLogin();
 });
 
 
@@ -224,7 +226,7 @@ function addRowMainTable(tableBody, data) {
     tableBody.appendChild(row);
 
     // ADD SUB-ROW DIVS (DETERMINED BY DESIGN), FOR RESPONSIVE BEHAVIOUR AT SMALLER SCREEN SIZES
-    for (let i = 0; i < Object.keys(data).length; i++) {
+    for (let i = 0; i < 11; i++) {
         if (i === 0) {
             continue;
         }
@@ -567,6 +569,11 @@ document.getElementById('btn_login').addEventListener("click", function (e) {
     xhr.send(json);
 })
 
+document.getElementById('login__close').addEventListener('click', function() {
+    document.getElementById('loginForm').reset();
+    redirectLogin();
+})
+
 
 function setEditPermissions() {
     let user = getCurrentUser();
@@ -584,9 +591,8 @@ function setEditPermissions() {
                 // guest access
                 rescindAdminPermissions();
             } else {
-                // server says user not logged in - so set user to null on client session storage - no access
-                //sessionStorage.setItem('user', null);
-                sessionStorage.removeItem('user')
+                // no access
+                sessionStorage.removeItem('user');
             }
         })
     }
@@ -612,4 +618,10 @@ function grantAdminPermissions() {
 
 function getCurrentUser() {
     return sessionStorage.getItem('user');
+}
+
+function redirectLogin() {
+    if (getCurrentUser() === null) {
+        window.location = '/#login';
+    }
 }
