@@ -17,14 +17,19 @@ import java.util.*;
 public class GlorianaApplication {
     private static final Gson gson = new Gson();
     private final QueryLibraryDB ql;
-    private final static int NOT_RECOGNISED = -1;
-    private final static int USER = 0;
-    private final static int ADMIN = 1;
+    private static final int NOT_RECOGNISED = -1;
+    private static final int GUEST = 0;
+    private static final int ADMIN = 1;
 
-    private int auth = NOT_RECOGNISED;
+    private final Map<String, Integer> authStatus = new HashMap<>();
 
     public GlorianaApplication(@Value("${goat}") String database) throws Exception {
         ql = new QueryLibraryDB(new File(database));
+
+        List<String> users = ql.getUserNames();
+        for (String user : users) {
+            authStatus.put(user, NOT_RECOGNISED);
+        }
     }
 
     public static void main(String[] args) {
@@ -126,29 +131,25 @@ public class GlorianaApplication {
         String userAuth = (String)userDetails.get("auth");
 
 
-        if (hashedPassword.equals(StringHasher.hashString(enteredPassword + salt))) {
-            auth = userAuth.equals("admin") ? ADMIN : USER;
-            //auth = user.equals("admin") ? ADMIN : USER;
+        if (hashedPassword.equals(GlorianaAuth.hashString(enteredPassword + salt))) {
+            authStatus.put(user, userAuth.equals("admin") ? ADMIN : GUEST);
         } else {
-            auth = NOT_RECOGNISED;
+            authStatus.put(user, NOT_RECOGNISED);
             throw new IllegalArgumentException("Incorrect password. Please try again.");
         }
-        return auth;
+        return authStatus.get(user);
     }
 
 
-    @RequestMapping(value="/loginstatus")
-    public @ResponseBody int getLoginStatus() throws Exception {
-        return auth;
+    @RequestMapping(value="/loginstatus/{user}")
+    public @ResponseBody int getLoginStatus(@PathVariable(value="user") String user) throws Exception {
+        return authStatus.get(user);
     }
 
-    @RequestMapping(value="/logout")
-    public @ResponseBody int logout() throws Exception {
-        auth = NOT_RECOGNISED;
-        return auth;
+    @RequestMapping(value="/logout/{user}")
+    public @ResponseBody int logout(@PathVariable(value="user") String user) throws Exception {
+        authStatus.put(user, NOT_RECOGNISED);
+        return authStatus.get(user);
     }
-
-
 
 }
-

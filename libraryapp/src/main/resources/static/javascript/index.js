@@ -1,5 +1,6 @@
 let deleteValue = -1;
 let clickedBtn = undefined;
+const noPermission = "You don't have permission to do that. Please login as admin."
 
 document.addEventListener('DOMContentLoaded', function () {
     ajax_get('/entries', function(data) {
@@ -26,9 +27,14 @@ window.addEventListener('load', function(event) {
 });
 
 document.getElementById('btn_createNewEntry').addEventListener('click', function() {
-    ajax_get('/loginstatus', function(data) {
+    let user = getCurrentUser();
+    if (user === null) {
+        alert(noPermission);
+        return;
+    }
+    ajax_get(`/loginstatus/${user}`, function(data) {
         if (data !== 1) {
-            alert("You don't have permission to do that!");
+            alert(noPermission);
         } else {
             toggleAddEditText();
             document.getElementById('accompanied-label').style.display = "none";
@@ -40,7 +46,11 @@ document.getElementById('btn_createNewEntry').addEventListener('click', function
 })
 
 document.getElementById('btn_logout').addEventListener('click', function() {
-    ajax_get('/logout', function(data) {
+    let user = getCurrentUser();
+    if (user === null) {
+        return;
+    }
+    ajax_get(`/logout/${user}`, function(data) {
         document.getElementById('message-loggedout').style.display = 'inline-block';
         clearNewEntryForm(true);
     })
@@ -71,9 +81,14 @@ Use Event bubbling to add event listeners to current and future button elements 
  */
 document.addEventListener('click',function(e) {
     if (getBtnIdDescription(e.target.id) === ('delete')) {
-        ajax_get('/loginstatus', function(data) {
+        let user = getCurrentUser();
+        if (user === null) {
+            alert(noPermission);
+            return;
+        }
+        ajax_get(`/loginstatus/${user}`, function(data) {
             if (data !== 1) {
-                alert("You don't have permission to do that!");
+                alert(noPermission);
             } else {
                 document.getElementById('delete-alert').classList.add('visible');
                 // Set params for delete ajax
@@ -94,9 +109,14 @@ document.getElementById('btn_cancelDelete').addEventListener('click', function()
 
 
 document.getElementById('btn_confirmDelete').addEventListener('click', function() {
-    ajax_get('/loginstatus', function (data) {
+    let user = getCurrentUser();
+    if (user === null) {
+        alert(noPermission);
+        return;
+    }
+    ajax_get(`/loginstatus/${user}`, function (data) {
         if (data !== 1) {
-            alert("You don't have permission to do that!");
+            alert(noPermission);
             clearNewEntryForm(false);
         } else {
             document.getElementById('delete-alert').classList.remove('visible');
@@ -125,10 +145,15 @@ document.getElementById('btn_confirmDelete').addEventListener('click', function(
 
 document.addEventListener('click',function(e) {
     if (getBtnIdDescription(e.target.id) === ('edit')) {
-        ajax_get('/loginstatus', function(data) {
+        let user = getCurrentUser();
+        if (user === null) {
+            alert(noPermission);
+            return;
+        }
+        ajax_get(`/loginstatus/${user}`, function(data) {
             if (data !== 1) {
                 clearNewEntryForm(false);
-                alert("You don't have permission to do that!");
+                alert(noPermission);
             } else {
                 let id = getBtnIdNum(e.target.id);
                 let url = '/entry/' + id;
@@ -532,10 +557,10 @@ document.getElementById('btn_login').addEventListener("click", function (e) {
                     clearNewEntryForm(true);
                     document.getElementById('message-loggedin').innerText = `Successfully logged in as ${username}`;
                     document.getElementById('message-loggedin').style.display = 'inline-block';
+                    sessionStorage.setItem('user', username);
                 }
             } catch (err) {
             console.log(err.message + " in " + xhr.responseText);
-            return;
             }
         }
     }
@@ -544,19 +569,47 @@ document.getElementById('btn_login').addEventListener("click", function (e) {
 
 
 function setEditPermissions() {
-    let btns = document.querySelectorAll('.btn--primary.btn--table'); // all edit buttons
-    ajax_get('/loginstatus', function(data) {
-        for (let i = 0; i < btns.length; i++) {
-            if (data !== 1) {
-                btns[i].removeAttribute("href");
+    let user = getCurrentUser();
+    if (user === null) {
+        rescindAdminPermissions();
+    } else {
+        // user is logged in with guest or admin credentials
+        let url = `/loginstatus/${user}`;
+        //TODO: Add guest status (data=0)
+        ajax_get(url, function(data) {
+            if (data === 1) {
+                // admin access
+                grantAdminPermissions();
+            } else if (data === 0) {
+                // guest access
+                rescindAdminPermissions();
             } else {
-                btns[i].setAttribute("href", "#addEdit");
+                // server says user not logged in - so set user to null on client session storage - no access
+                //sessionStorage.setItem('user', null);
+                sessionStorage.removeItem('user')
             }
-        }
-        if (data !== 1) {
-            document.getElementById('btn_createNewEntry').querySelector("a").removeAttribute("href");
-        } else {
-            document.getElementById('btn_createNewEntry').querySelector("a").setAttribute("href", "#addEdit");
-        }
-    })
+        })
+    }
+
+}
+
+function rescindAdminPermissions() {
+    let btns = document.querySelectorAll('.btn--primary.btn--table'); // all edit buttons
+    for (let i = 0; i < btns.length; i++) {
+        btns[i].removeAttribute("href");
+    }
+    document.getElementById('btn_createNewEntry').querySelector("a").removeAttribute("href");
+}
+
+function grantAdminPermissions() {
+    let btns = document.querySelectorAll('.btn--primary.btn--table'); // all edit buttons
+    for (let i = 0; i < btns.length; i++) {
+        btns[i].setAttribute("href", "#addEdit");
+    }
+    document.getElementById('btn_createNewEntry').querySelector("a").setAttribute("href", "#addEdit");
+}
+
+
+function getCurrentUser() {
+    return sessionStorage.getItem('user');
 }
