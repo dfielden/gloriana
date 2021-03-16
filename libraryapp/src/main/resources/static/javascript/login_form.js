@@ -1,0 +1,37 @@
+document.getElementById('btn_login').addEventListener("click", function (e) {
+    e.preventDefault();
+    let username =  document.getElementById('username').value;
+    let password =  document.getElementById('password').value;
+
+    let object = {"username": username, "password" : password};
+    let json = JSON.stringify(object);
+
+    let xhr = new XMLHttpRequest();
+    let url = '/loginform';
+    xhr.open('POST', url, true);
+
+    //Send the proper header information along with the request
+    xhr.setRequestHeader('Content-type', 'application/json');
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            try {
+                console.log(xhr.responseText);
+                document.getElementById('loginForm').reset();
+
+                // if logged in
+                if (xhr.responseText !== -1) {
+                    sessionStorage.setItem('display-message', 'loggedin');
+                    sessionStorage.setItem('user', username);
+                    window.location = '/';
+                }
+            } catch (err) {
+                console.log(err.message + " in " + xhr.responseText);
+            }
+        }
+    }
+    xhr.send(json);
+})
+
+document.getElementById('login__close').addEventListener('click', function() {
+    document.getElementById('loginForm').reset();
+})

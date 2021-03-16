@@ -18,11 +18,12 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     redirectLogin();
+
 });
 
 
 window.addEventListener('load', function(event) {
-    if (sessionStorage.getItem('display-message') !== 'undefined') {
+    if (sessionStorage.getItem(clearNewEntryForm) !== 'undefined') {
         document.getElementById('message-' + sessionStorage.getItem('display-message')).style.display = 'inline-block';
     }
     sessionStorage.setItem('display-message', undefined);
@@ -131,7 +132,7 @@ document.getElementById('btn_confirmDelete').addEventListener('click', function(
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     deleteRowOfBtnClick(clickedBtn);
-                    sessionStorage.setItem('display-message', 'deleted')
+                    sessionStorage.setItem('display-message', 'deleted');
                     clearNewEntryForm(true);
 
                     // Reset delete params
@@ -365,7 +366,7 @@ function addEdit__edit(xhr) {
             let data = JSON.parse(xhr.responseText);
             let btn = document.getElementById('edit_' + document.getElementById('id').value);
             updateRowOfBtnClick(btn, data);
-            sessionStorage.setItem('display-message', 'updated')
+            sessionStorage.setItem('display-message', 'updated');
             clearNewEntryForm(true);
         }
     }
@@ -533,46 +534,7 @@ const tableParameters = ["pseudo--ID", "pseudo--title", "pseudo--lastName", "pse
 
 
 // AUTHENTICATION
-document.getElementById('btn_login').addEventListener("click", function (e) {
-    e.preventDefault();
-    let username =  document.getElementById('username').value;
-    let password =  document.getElementById('password').value;
 
-    let object = {"username": username, "password" : password};
-    let json = JSON.stringify(object);
-
-    let xhr = new XMLHttpRequest();
-    let url = '/login';
-    xhr.open('POST', url, true);
-
-    //Send the proper header information along with the request
-    xhr.setRequestHeader('Content-type', 'application/json');
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            try {
-                console.log(xhr.responseText);
-                //setEditPermissions();
-                document.getElementById('loginForm').reset();
-
-                // if logged in
-                if (xhr.responseText !== -1) {
-                    clearNewEntryForm(true);
-                    document.getElementById('message-loggedin').innerText = `Successfully logged in as ${username}`;
-                    document.getElementById('message-loggedin').style.display = 'inline-block';
-                    sessionStorage.setItem('user', username);
-                }
-            } catch (err) {
-            console.log(err.message + " in " + xhr.responseText);
-            }
-        }
-    }
-    xhr.send(json);
-})
-
-document.getElementById('login__close').addEventListener('click', function() {
-    document.getElementById('loginForm').reset();
-    redirectLogin();
-})
 
 
 function setEditPermissions() {
@@ -593,6 +555,7 @@ function setEditPermissions() {
             } else {
                 // no access
                 sessionStorage.removeItem('user');
+                redirectLogin();
             }
         })
     }
@@ -604,7 +567,11 @@ function rescindAdminPermissions() {
     for (let i = 0; i < btns.length; i++) {
         btns[i].removeAttribute("href");
     }
-    document.getElementById('btn_createNewEntry').querySelector("a").removeAttribute("href");
+    document.getElementById('btn_createNewEntry').querySelector("a").removeAttribute("href")
+    document.getElementById('btn_createNewEntry').classList.add('displayNone');
+    document.getElementById('btn_changePassword').classList.add('displayNone');
+    document.getElementById('hamburger_createNewEntry').classList.add('displayNone');
+    document.getElementById('hamburger_changePassword').classList.add('displayNone');
 }
 
 function grantAdminPermissions() {
@@ -613,6 +580,10 @@ function grantAdminPermissions() {
         btns[i].setAttribute("href", "#addEdit");
     }
     document.getElementById('btn_createNewEntry').querySelector("a").setAttribute("href", "#addEdit");
+    document.getElementById('btn_createNewEntry').classList.remove('displayNone');
+    document.getElementById('btn_changePassword').classList.remove('displayNone');
+    document.getElementById('hamburger_createNewEntry').classList.remove('displayNone');
+    document.getElementById('hamburger_changePassword').classList.remove('displayNone');
 }
 
 
@@ -622,6 +593,6 @@ function getCurrentUser() {
 
 function redirectLogin() {
     if (getCurrentUser() === null) {
-        window.location = '/#login';
+        window.location = '/login';
     }
 }

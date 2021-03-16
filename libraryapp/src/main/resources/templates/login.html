@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=0"/>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    <link rel="stylesheet" href="styling/main.css">
+    <link rel="shortcut icon" type="image/png" href="images/favicon.png">
+    <title>Login</title>
+</head>
+<body>
+<section class="section-login">
+    <div class="login" id="login">
+        <div class="login__content">
+            <form action="#" class="form loginForm" id="loginForm">
+                <a href="#" class="form__close form__close--login" id="login__close">&times;</a>
+                <div class="u-margin-bottom-medium">
+                    <h2 class="heading2 heading2--form" id="heading__login">
+                        Login
+                    </h2>
+                </div>
+
+                <div class="flexwrapper flexwrapper--form">
+                    <div class="form__group flex__full--form flexwrapper__vertical">
+                        <input type="text" required autocomplete="off" class="form__input" placeholder="Username" id="username" name="username">
+                        <label for="username" class="form__label">Username</label>
+                    </div>
+                </div>
+                <div class="flexwrapper flexwrapper--form">
+                    <div class="form__group flex__full--form flexwrapper__vertical">
+                        <input type="password" required autocomplete="off" class="form__input" placeholder="Password" id="password" name="password">
+                        <label for="password" class="form__label">Password</label>
+                    </div>
+                </div>
+
+                <div class="flexwrapper form__group form__btn">
+                    <button class="btn btn--primary btn--form" id="btn_login" type="submit">Login &rarr;</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<script type="text/javascript" src="/javascript/login_form.js"></script>
+</body>
+</html>

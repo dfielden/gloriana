@@ -1,9 +1,4 @@
-.form {
-  width: 100%;
-  display: flex;
-}
-
-.addEdit {
+.login {
   height: 100vh;
   width: 100%;
   position: fixed;
@@ -11,10 +6,10 @@
   left: 0;
   background-color: rgba($color-black, .8);
   z-index: 9999;
-  opacity: 0;
-  visibility: hidden;
-  display: none;
-  transition: all .3s;
+  opacity: 1;
+  visibility: visible;
+  display: flex;
+  //transition: all .3s;
 
 
   @supports (-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px)) {
@@ -27,21 +22,10 @@
     overflow-y: auto;
   }
 
-  //Open states
-  &:target {
-    opacity: 1;
-    visibility: visible;
-    display: flex;
-  }
-
-  &:target &__content {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-  }
-
   &__content {
     @include absCenter;
     width: 100%;
+    height: 100%;
     margin: 0rem;
     background: $color-primary;
     background: linear-gradient(135deg, rgba($color-primary, 1) 0%,
@@ -54,9 +38,7 @@
     display: flex;
     justify-content: center;
     overflow: hidden;
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(.25);
-    transition: all .5s .2s;
+    //transition: all .5s .2s;
     overflow-y: auto;
     @include boxShadow;
 
@@ -64,12 +46,15 @@
       width: 100%;
     }
 
-    .form {
+    .form, .login {
       background-color: rgba($color-grey-light, 0.75);
       display: flex;
       flex-direction: column;
       margin: 2rem;
       max-width: 60rem;
+      height: 32rem;
+      align-self: center;
+      height: 32rem;
 
       @media only screen and (max-width: $break-small) {
         background-color: rgba($color-grey-light, 0);
@@ -167,6 +152,9 @@
         align-self: center;
         padding: 2rem;
 
+        &--login {
+          padding: 0 0 1rem 0;
+        }
       }
     }
   }
@@ -177,7 +165,7 @@
 }
 
 // Only want box shadow on addEdit form, not the search form (where box shadow is on the input rather than the form itself).
-.addEditForm {
+.loginForm {
   @include boxShadow;
 }
 

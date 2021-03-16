@@ -39,9 +39,9 @@
                     </div>
                     <div class="menu__list--right">
                         <li class="menu__list--item"><a href="#glossary">View glossary</a></li>
-                        <li class="menu__list--item"><a href="#login">Login</a></li>
+<!--                        <li class="menu__list&#45;&#45;item"><a href="#login">Login</a></li>-->
                         <li class="menu__list--item" id="btn_logout"><a href="#">Logout</a></li>
-                        <li class="menu__list--item"><a href="#">Change password</a></li>
+                        <li class="menu__list--item" id="btn_changePassword"><a href="#">Change password</a></li>
                     </div>
                 </ul>
             </div>
@@ -52,12 +52,12 @@
         <div class="hamburger-menu__background">
                 <a href="#" class="hamburger-menu__close" id="hamburger-menu__close">&times;</a>
             <div class="hamburger-menu__list">
-                <a href='#addEdit'><div class="hamburger-menu__list__item">Create new entry</div></a>
+                <a href='#addEdit' id="hamburger_createNewEntry"><div class="hamburger-menu__list__item">Create new entry</div></a>
                 <div class="hamburger-menu__list__item" id="searchMusic">Search music</div>
                 <a href='#glossary'><div class="hamburger-menu__list__item">View glossary</div></a>
-                <a href='#login'><div class="hamburger-menu__list__item">Login</div></a>
+<!--                <a href='#login'><div class="hamburger-menu__list__item">Login</div></a>-->
                 <a href='#'><div class="hamburger-menu__list__item">Logout</div></a>
-                <a href='#'><div class="hamburger-menu__list__item">Change password</div></a>
+                <a href='#' id="hamburger_changePassword"><div class="hamburger-menu__list__item">Change password</div></a>
             </div>
 
             <div class="search search--hamburger" id="search--hamburger">
@@ -282,38 +282,6 @@
     </div>
 </section>
 
-<section class="section-login">
-    <div class="login" id="login">
-        <div class="login__content">
-            <form action="#" class="form loginForm" id="loginForm">
-                <a href="#" class="form__close form__close--login" id="login__close">&times;</a>
-                <div class="u-margin-bottom-medium">
-                    <h2 class="heading2 heading2--form" id="heading__login">
-                        Login
-                    </h2>
-                </div>
-
-                <div class="flexwrapper flexwrapper--form">
-                    <div class="form__group flex__full--form flexwrapper__vertical">
-                        <input type="text" required autocomplete="off" class="form__input" placeholder="Username" id="username" name="username">
-                        <label for="username" class="form__label">Username</label>
-                    </div>
-                </div>
-                <div class="flexwrapper flexwrapper--form">
-                    <div class="form__group flex__full--form flexwrapper__vertical">
-                        <input type="password" required autocomplete="off" class="form__input" placeholder="Password" id="password" name="password">
-                        <label for="password" class="form__label">Password</label>
-                    </div>
-                </div>
-
-                <div class="flexwrapper form__group form__btn">
-                    <button class="btn btn--primary btn--form" id="btn_login" type="submit">Login &rarr;</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</section>
-
 <section class="section-alerts">
     <div class="alert" id="delete-alert">
         <div class="alert__background">
@@ -333,7 +301,7 @@
     <div class="message" id="message-added">Entry successfully added</div>
     <div class="message" id="message-updated">Entry successfully updated</div>
     <div class="message" id="message-deleted">Entry successfully deleted</div>
-    <div class="message" id="message-loggedin"></div>
+    <div class="message" id="message-loggedin">Successfully logged in</div>
     <div class="message" id="message-loggedout">Successfully logged out</div>
 
 

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import com.google.gson.Gson;
 import java.io.File;
@@ -13,7 +14,8 @@ import java.util.*;
 
 
 @SpringBootApplication
-@RestController
+//@RestController
+@Controller
 public class GlorianaApplication {
     private static final Gson gson = new Gson();
     private final QueryLibraryDB ql;
@@ -49,6 +51,12 @@ public class GlorianaApplication {
         app.run(args);
     }
 
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+    @ResponseBody // indicates that we should return in response body rather than render a file with the name 'returnString.html'
     @GetMapping("/entries")
     public String entries() throws Exception {
         JsonArray entries = new JsonArray();
@@ -67,6 +75,7 @@ public class GlorianaApplication {
         return gson.toJson(result);
     }
 
+    @ResponseBody // indicates that we should return in response body rather than render a file with the name 'returnString.html'
     @PostMapping(value="/newentry",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -89,6 +98,7 @@ public class GlorianaApplication {
         return ql.getEntry(id);
     }
 
+    @ResponseBody
     @PostMapping(value="/edit",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -97,6 +107,7 @@ public class GlorianaApplication {
         return le.toJson().toString();
     }
 
+    @ResponseBody
     @PostMapping(value="/searchentries",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
@@ -118,11 +129,11 @@ public class GlorianaApplication {
     }
 
 
-
-    @PostMapping(value="/login",
+    //@ResponseBody
+    @PostMapping(value="/loginform",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public int returnUser(@RequestBody Login login) throws Exception {
+    public @ResponseBody int returnUser(@RequestBody Login login) throws Exception {
         String user = login.getUsername();
         String enteredPassword = login.getPassword();
         Map userDetails = ql.getuserDetails(user);

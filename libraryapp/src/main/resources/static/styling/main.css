@@ -293,7 +293,7 @@ a:hover, a:focus, a:active {
   display: flex;
 }
 
-.addEdit, .login {
+.addEdit {
   height: 100vh;
   width: 100%;
   position: fixed;
@@ -307,27 +307,27 @@ a:hover, a:focus, a:active {
   transition: all 0.3s;
 }
 @supports (-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px)) {
-  .addEdit, .login {
+  .addEdit {
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     background-color: rgba(0, 0, 0, 0.3);
   }
 }
 @media only screen and (max-width: 760px) {
-  .addEdit, .login {
+  .addEdit {
     overflow-y: auto;
   }
 }
-.addEdit:target, .login:target {
+.addEdit:target {
   opacity: 1;
   visibility: visible;
   display: flex;
 }
-.addEdit:target .addEdit__content, .addEdit:target .login__content, .login:target .addEdit__content, .login:target .login__content {
+.addEdit:target .addEdit__content {
   opacity: 1;
   transform: translate(-50%, -50%) scale(1);
 }
-.addEdit__content, .login__content {
+.addEdit__content {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -350,11 +350,11 @@ a:hover, a:focus, a:active {
   box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
 }
 @media only screen and (max-width: 760px) {
-  .addEdit__content, .login__content {
+  .addEdit__content {
     width: 100%;
   }
 }
-.addEdit__content .form, .addEdit__content .login, .login__content .form, .login__content .login {
+.addEdit__content .form {
   background-color: rgba(190, 188, 190, 0.75);
   display: flex;
   flex-direction: column;
@@ -362,14 +362,14 @@ a:hover, a:focus, a:active {
   max-width: 60rem;
 }
 @media only screen and (max-width: 760px) {
-  .addEdit__content .form, .addEdit__content .login, .login__content .form, .login__content .login {
+  .addEdit__content .form {
     background-color: rgba(190, 188, 190, 0);
     max-width: 100%;
     height: 100vh;
     margin: 0;
   }
 }
-.addEdit__content .form__input, .addEdit__content .login__input, .login__content .form__input, .login__content .login__input {
+.addEdit__content .form__input {
   font-size: 1.6rem;
   font-family: inherit;
   color: inherit;
@@ -382,24 +382,24 @@ a:hover, a:focus, a:active {
   margin-top: 1rem;
   width: 100%;
 }
-.addEdit__content .form__input--select, .addEdit__content .login__input--select, .login__content .form__input--select, .login__content .login__input--select {
+.addEdit__content .form__input--select {
   border-bottom: none;
 }
 @media only screen and (max-width: 760px) {
-  .addEdit__content .form__input, .addEdit__content .login__input, .login__content .form__input, .login__content .login__input {
+  .addEdit__content .form__input {
     margin-top: 0.5rem;
   }
 }
-.addEdit__content .form__input:focus, .addEdit__content .login__input:focus, .login__content .form__input:focus, .login__content .login__input:focus {
+.addEdit__content .form__input:focus {
   outline: none;
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
   border-bottom: 3px solid #125aff;
   background-color: #ffffff;
 }
-.addEdit__content .form__input::-webkit-input-placeholder, .addEdit__content .login__input::-webkit-input-placeholder, .login__content .form__input::-webkit-input-placeholder, .login__content .login__input::-webkit-input-placeholder {
+.addEdit__content .form__input::-webkit-input-placeholder {
   color: #838083;
 }
-.addEdit__content .form__close:link, .addEdit__content .form__close:visited, .addEdit__content .login__close:link, .addEdit__content .login__close:visited, .login__content .form__close:link, .login__content .form__close:visited, .login__content .login__close:link, .login__content .login__close:visited {
+.addEdit__content .form__close:link, .addEdit__content .form__close:visited {
   color: #001647;
   padding-right: 1rem;
   font-size: 4rem;
@@ -412,17 +412,17 @@ a:hover, a:focus, a:active {
   margin-left: auto;
 }
 @media only screen and (max-width: 760px) {
-  .addEdit__content .form__close:link, .addEdit__content .form__close:visited, .addEdit__content .login__close:link, .addEdit__content .login__close:visited, .login__content .form__close:link, .login__content .form__close:visited, .login__content .login__close:link, .login__content .login__close:visited {
+  .addEdit__content .form__close:link, .addEdit__content .form__close:visited {
     color: #ffffff;
   }
-  .addEdit__content .form__close:link:hover, .addEdit__content .form__close:visited:hover, .addEdit__content .login__close:link:hover, .addEdit__content .login__close:visited:hover, .login__content .form__close:link:hover, .login__content .form__close:visited:hover, .login__content .login__close:link:hover, .login__content .login__close:visited:hover {
+  .addEdit__content .form__close:link:hover, .addEdit__content .form__close:visited:hover {
     color: #f3f3f3;
   }
 }
-.addEdit__content .form__close:hover, .addEdit__content .login__close:hover, .login__content .form__close:hover, .login__content .login__close:hover {
+.addEdit__content .form__close:hover {
   color: #052877;
 }
-.addEdit__content .form__label, .addEdit__content .login__label, .login__content .form__label, .login__content .login__label {
+.addEdit__content .form__label {
   font-size: 1rem;
   font-weight: 700;
   margin-left: 2rem;
@@ -431,21 +431,173 @@ a:hover, a:focus, a:active {
   transition: all 0.3s;
 }
 @media only screen and (max-width: 760px) {
-  .addEdit__content .form__label, .addEdit__content .login__label, .login__content .form__label, .login__content .login__label {
+  .addEdit__content .form__label {
     display: none;
   }
 }
-.addEdit__content .form__input:placeholder-shown + .form__label, .addEdit__content .login__input:placeholder-shown + .form__label, .login__content .form__input:placeholder-shown + .form__label, .login__content .login__input:placeholder-shown + .form__label {
+.addEdit__content .form__input:placeholder-shown + .form__label {
   opacity: 0;
   visibility: hidden;
   transform: translateY(-4rem);
 }
-.addEdit__content .form__btn, .addEdit__content .login__btn, .login__content .form__btn, .login__content .login__btn {
+.addEdit__content .form__btn {
   display: flex;
   align-self: center;
   padding: 2rem;
 }
-.addEdit__content .form__btn--login, .addEdit__content .login__btn--login, .login__content .form__btn--login, .login__content .login__btn--login {
+
+.select-text-default {
+  color: #838083 !important;
+}
+
+.addEditForm {
+  box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
+}
+
+.login {
+  height: 100vh;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+  opacity: 1;
+  visibility: visible;
+  display: flex;
+}
+@supports (-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px)) {
+  .login {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+}
+@media only screen and (max-width: 760px) {
+  .login {
+    overflow-y: auto;
+  }
+}
+.login__content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  margin: 0rem;
+  background: #001647;
+  background: linear-gradient(135deg, #001647 0%, #052877 50%, #eaf1ff 100%);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  overflow-y: auto;
+  box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
+}
+@media only screen and (max-width: 760px) {
+  .login__content {
+    width: 100%;
+  }
+}
+.login__content .form, .login__content .login {
+  background-color: rgba(190, 188, 190, 0.75);
+  display: flex;
+  flex-direction: column;
+  margin: 2rem;
+  max-width: 60rem;
+  height: 32rem;
+  align-self: center;
+  height: 32rem;
+}
+@media only screen and (max-width: 760px) {
+  .login__content .form, .login__content .login {
+    background-color: rgba(190, 188, 190, 0);
+    max-width: 100%;
+    height: 100vh;
+    margin: 0;
+  }
+}
+.login__content .form__input, .login__content .login__input {
+  font-size: 1.6rem;
+  font-family: inherit;
+  color: inherit;
+  padding: 1.5rem 1rem;
+  border-radius: 2px;
+  background-color: #ffffff;
+  border: none;
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s;
+  margin-top: 1rem;
+  width: 100%;
+}
+.login__content .form__input--select, .login__content .login__input--select {
+  border-bottom: none;
+}
+@media only screen and (max-width: 760px) {
+  .login__content .form__input, .login__content .login__input {
+    margin-top: 0.5rem;
+  }
+}
+.login__content .form__input:focus, .login__content .login__input:focus {
+  outline: none;
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+  border-bottom: 3px solid #125aff;
+  background-color: #ffffff;
+}
+.login__content .form__input::-webkit-input-placeholder, .login__content .login__input::-webkit-input-placeholder {
+  color: #838083;
+}
+.login__content .form__close:link, .login__content .form__close:visited, .login__content .login__close:link, .login__content .login__close:visited {
+  color: #001647;
+  padding-right: 1rem;
+  font-size: 4rem;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.2s;
+  line-height: 1;
+  justify-content: flex-end;
+  align-self: flex-end;
+  margin-left: auto;
+}
+@media only screen and (max-width: 760px) {
+  .login__content .form__close:link, .login__content .form__close:visited, .login__content .login__close:link, .login__content .login__close:visited {
+    color: #ffffff;
+  }
+  .login__content .form__close:link:hover, .login__content .form__close:visited:hover, .login__content .login__close:link:hover, .login__content .login__close:visited:hover {
+    color: #f3f3f3;
+  }
+}
+.login__content .form__close:hover, .login__content .login__close:hover {
+  color: #052877;
+}
+.login__content .form__label, .login__content .login__label {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-left: 2rem;
+  margin-top: 0.5rem;
+  display: block;
+  transition: all 0.3s;
+}
+@media only screen and (max-width: 760px) {
+  .login__content .form__label, .login__content .login__label {
+    display: none;
+  }
+}
+.login__content .form__input:placeholder-shown + .form__label, .login__content .login__input:placeholder-shown + .form__label {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4rem);
+}
+.login__content .form__btn, .login__content .login__btn {
+  display: flex;
+  align-self: center;
+  padding: 2rem;
+}
+.login__content .form__btn--login, .login__content .login__btn--login {
   padding: 0 0 1rem 0;
 }
 
@@ -453,7 +605,7 @@ a:hover, a:focus, a:active {
   color: #838083 !important;
 }
 
-.addEditForm, .loginForm {
+.loginForm {
   box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
 }
 
@@ -1249,7 +1401,8 @@ body {
 }
 @media only screen and (max-width: 760px) {
   .heading1 {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
+    padding: 2rem;
   }
 }
 @media only screen and (max-width: 420px) {
