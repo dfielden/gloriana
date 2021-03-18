@@ -1,24 +1,32 @@
 let deleteValue = -1;
 let clickedBtn = undefined;
 const noPermission = "You don't have permission to do that. Please login as admin."
+const ADMIN = 'ADMIN'; // Must match PSFS ADMIN in GlorianaApplication.java
+const GUEST = 'GUEST';// Must match PSFS GUEST in GlorianaApplication.java
+const LOGGEDOUT = 'LOGGEDOUT';// Must match PSFS LOGEDOUT in GlorianaApplication.java
+
 
 document.addEventListener('DOMContentLoaded', function () {
-    ajax_get('/entries', function(data) {
-        populateMainTable(data.library_entries);
-    });
+    ajax_get(`/loginstatus`, function(data) {
+        console.log(data);
+        if (data === LOGGEDOUT) {
+            redirectToLogin();
+        } else {
+            ajax_get('/entries', function(data) {
+                populateMainTable(data.library_entries);
+            });
 
-    document.getElementById('accompanied').addEventListener('click', function(e) {
-        toggleLabelPlaceholderStyle(document.getElementById('accompanied'));
-        document.getElementById('accompanied').style.color = 'inherit';
-    });
+            document.getElementById('accompanied').addEventListener('click', function(e) {
+                toggleLabelPlaceholderStyle(document.getElementById('accompanied'));
+                document.getElementById('accompanied').style.color = 'inherit';
+            });
 
-    document.getElementById('season').addEventListener('click', function(e) {
-        toggleLabelPlaceholderStyle(document.getElementById('season'));
-        document.getElementById('season').style.color = 'inherit';
-    });
-
-    redirectLogin();
-
+            document.getElementById('season').addEventListener('click', function(e) {
+                toggleLabelPlaceholderStyle(document.getElementById('season'));
+                document.getElementById('season').style.color = 'inherit';
+            });
+        }
+    })
 });
 
 
@@ -30,13 +38,8 @@ window.addEventListener('load', function(event) {
 });
 
 document.getElementById('btn_createNewEntry').addEventListener('click', function() {
-    let user = getCurrentUser();
-    if (user === null) {
-        alert(noPermission);
-        return;
-    }
-    ajax_get(`/loginstatus/${user}`, function(data) {
-        if (data !== 1) {
+    ajax_get(`/loginstatus`, function(data) {
+        if (data !== ADMIN) {
             alert(noPermission);
         } else {
             toggleAddEditText();
@@ -49,15 +52,20 @@ document.getElementById('btn_createNewEntry').addEventListener('click', function
 })
 
 document.getElementById('btn_logout').addEventListener('click', function() {
-    let user = getCurrentUser();
-    if (user === null) {
-        return;
-    }
-    ajax_get(`/logout/${user}`, function(data) {
-        document.getElementById('message-loggedout').style.display = 'inline-block';
-        clearNewEntryForm(true);
-    })
+    logout();
 })
+
+document.getElementById('hamburger_logout').addEventListener('click', function() {
+    logout();
+})
+
+function logout() {
+
+    ajax_get(`/logout`, function(data) {
+        document.getElementById('message-loggedout').style.display = 'inline-block';
+        redirectToLogin();
+    })
+}
 
 
 document.getElementById('accompanied').addEventListener('click', function() {
@@ -84,13 +92,8 @@ Use Event bubbling to add event listeners to current and future button elements 
  */
 document.addEventListener('click',function(e) {
     if (getBtnIdDescription(e.target.id) === ('delete')) {
-        let user = getCurrentUser();
-        if (user === null) {
-            alert(noPermission);
-            return;
-        }
-        ajax_get(`/loginstatus/${user}`, function(data) {
-            if (data !== 1) {
+        ajax_get(`/loginstatus/`, function(data) {
+            if (data !== ADMIN) {
                 alert(noPermission);
             } else {
                 document.getElementById('delete-alert').classList.add('visible');
@@ -112,13 +115,8 @@ document.getElementById('btn_cancelDelete').addEventListener('click', function()
 
 
 document.getElementById('btn_confirmDelete').addEventListener('click', function() {
-    let user = getCurrentUser();
-    if (user === null) {
-        alert(noPermission);
-        return;
-    }
-    ajax_get(`/loginstatus/${user}`, function (data) {
-        if (data !== 1) {
+    ajax_get(`/loginstatus`, function (data) {
+        if (data !== ADMIN) {
             alert(noPermission);
             clearNewEntryForm(false);
         } else {
@@ -148,13 +146,8 @@ document.getElementById('btn_confirmDelete').addEventListener('click', function(
 
 document.addEventListener('click',function(e) {
     if (getBtnIdDescription(e.target.id) === ('edit')) {
-        let user = getCurrentUser();
-        if (user === null) {
-            alert(noPermission);
-            return;
-        }
-        ajax_get(`/loginstatus/${user}`, function(data) {
-            if (data !== 1) {
+        ajax_get(`/loginstatus`, function(data) {
+            if (data !== ADMIN) {
                 clearNewEntryForm(false);
                 alert(noPermission);
             } else {
@@ -259,7 +252,7 @@ function addRowMainTable(tableBody, data) {
 
     // FINALLY CREATE CELL WITH ACTION BUTTONS
     containerDiv = document.createElement('div')
-    containerDiv.classList.add('table--action', 'flex__oneEleventh');
+    containerDiv.classList.add('table--action', 'flex__oneEleventh', 'displayNone');
     row.appendChild(containerDiv);
 
     let buttonDiv = document.createElement('div');
@@ -534,32 +527,19 @@ const tableParameters = ["pseudo--ID", "pseudo--title", "pseudo--lastName", "pse
 
 
 // AUTHENTICATION
-
-
-
 function setEditPermissions() {
-    let user = getCurrentUser();
-    if (user === null) {
-        rescindAdminPermissions();
-    } else {
-        // user is logged in with guest or admin credentials
-        let url = `/loginstatus/${user}`;
-        //TODO: Add guest status (data=0)
-        ajax_get(url, function(data) {
-            if (data === 1) {
-                // admin access
-                grantAdminPermissions();
-            } else if (data === 0) {
-                // guest access
-                rescindAdminPermissions();
-            } else {
-                // no access
-                sessionStorage.removeItem('user');
-                redirectLogin();
-            }
-        })
-    }
-
+    ajax_get(`/loginstatus`, function (data) {
+        if (data === ADMIN) {
+            // admin access
+            grantAdminPermissions();
+        } else if (data === GUEST) {
+            // guest access
+            rescindAdminPermissions();
+        } else {
+            // no access
+            redirectToLogin();
+        }
+    })
 }
 
 function rescindAdminPermissions() {
@@ -572,6 +552,10 @@ function rescindAdminPermissions() {
     document.getElementById('btn_changePassword').classList.add('displayNone');
     document.getElementById('hamburger_createNewEntry').classList.add('displayNone');
     document.getElementById('hamburger_changePassword').classList.add('displayNone');
+    let actionCells = document.querySelectorAll('.flex__oneEleventh');
+    for(let i = 0; i < actionCells.length; i++) {
+        actionCells[i].classList.add("displayNone");
+    }
 }
 
 function grantAdminPermissions() {
@@ -584,15 +568,13 @@ function grantAdminPermissions() {
     document.getElementById('btn_changePassword').classList.remove('displayNone');
     document.getElementById('hamburger_createNewEntry').classList.remove('displayNone');
     document.getElementById('hamburger_changePassword').classList.remove('displayNone');
-}
 
-
-function getCurrentUser() {
-    return sessionStorage.getItem('user');
-}
-
-function redirectLogin() {
-    if (getCurrentUser() === null) {
-        window.location = '/login';
+    let actionCells = document.querySelectorAll('.flex__oneEleventh');
+    for(let i = 0; i < actionCells.length; i++) {
+        actionCells[i].classList.remove("displayNone");
     }
+}
+
+function redirectToLogin() {
+    window.location = '/login';
 }

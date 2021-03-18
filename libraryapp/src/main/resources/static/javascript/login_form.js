@@ -1,3 +1,7 @@
+const LOGIN_SUCCESS = 'LOGIN_SUCCESS'; // Must match PSFS LOGIN_SUCCESS in GlorianaApplication.java
+const LOGIN_FAIL = 'LOGIN_FAIL';// Must match PSFS LOGIN_FAIL in GlorianaApplication.java
+
+
 document.getElementById('btn_login').addEventListener("click", function (e) {
     e.preventDefault();
     let username =  document.getElementById('username').value;
@@ -19,10 +23,13 @@ document.getElementById('btn_login').addEventListener("click", function (e) {
                 document.getElementById('loginForm').reset();
 
                 // if logged in
-                if (xhr.responseText !== -1) {
+                if (xhr.responseText === LOGIN_SUCCESS) {
                     sessionStorage.setItem('display-message', 'loggedin');
-                    sessionStorage.setItem('user', username);
+                    document.getElementById('login-failed').classList.add('displayNone');
                     window.location = '/';
+                } else {
+                    document.getElementById('login-failed').innerText = xhr.responseText;
+                    document.getElementById('login-failed').classList.remove('displayNone');
                 }
             } catch (err) {
                 console.log(err.message + " in " + xhr.responseText);

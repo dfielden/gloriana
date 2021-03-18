@@ -65,6 +65,17 @@
 
   }
 
+  &--login {
+    @media only screen and (max-width: $break-small) {
+      background-image: linear-gradient(to right bottom, $color-grey-medium, $color-grey-light) !important;
+      color: $color-primary !important;
+
+      &::after {
+        background-image: linear-gradient(to right bottom, $color-grey-medium, $color-grey-light) !important;
+      }
+    }
+  }
+
   &--alert {
     width: 20rem;
     //font-size: 1.3rem;

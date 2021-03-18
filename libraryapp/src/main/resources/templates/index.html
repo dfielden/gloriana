@@ -35,13 +35,12 @@
             <div class="menu">
                 <ul class="menu__list">
                     <div class="menu__list--left">
-                        <li class="menu__list--item" id="btn_createNewEntry"><a href="#">Create entry</a></li>
+                        <li class="menu__list--item displayNone" id="btn_createNewEntry"><a href="#">Create entry</a></li>
                     </div>
                     <div class="menu__list--right">
                         <li class="menu__list--item"><a href="#glossary">View glossary</a></li>
-<!--                        <li class="menu__list&#45;&#45;item"><a href="#login">Login</a></li>-->
                         <li class="menu__list--item" id="btn_logout"><a href="#">Logout</a></li>
-                        <li class="menu__list--item" id="btn_changePassword"><a href="#">Change password</a></li>
+                        <li class="menu__list--item displayNone" id="btn_changePassword"><a href="#">Change password</a></li>
                     </div>
                 </ul>
             </div>
@@ -52,12 +51,11 @@
         <div class="hamburger-menu__background">
                 <a href="#" class="hamburger-menu__close" id="hamburger-menu__close">&times;</a>
             <div class="hamburger-menu__list">
-                <a href='#addEdit' id="hamburger_createNewEntry"><div class="hamburger-menu__list__item">Create new entry</div></a>
+                <a href='#addEdit' id="hamburger_createNewEntry" class="displayNone"><div class="hamburger-menu__list__item">Create new entry</div></a>
                 <div class="hamburger-menu__list__item" id="searchMusic">Search music</div>
                 <a href='#glossary'><div class="hamburger-menu__list__item">View glossary</div></a>
-<!--                <a href='#login'><div class="hamburger-menu__list__item">Login</div></a>-->
-                <a href='#'><div class="hamburger-menu__list__item">Logout</div></a>
-                <a href='#' id="hamburger_changePassword"><div class="hamburger-menu__list__item">Change password</div></a>
+                <a href='#' id="hamburger_logout"><div class="hamburger-menu__list__item">Logout</div></a>
+                <a href='#' id="hamburger_changePassword" class="displayNone"><div class="hamburger-menu__list__item">Change password</div></a>
             </div>
 
             <div class="search search--hamburger" id="search--hamburger">
@@ -204,7 +202,7 @@
                         <div class="cell flex__full">Location</div>
                         <div class="cell flex__full">Collection</div>
                     </div>
-                    <div class="table--action flex__oneEleventh">
+                    <div class="table--action flex__oneEleventh displayNone">
                         <div class="cell flex__full cell--action">Action</div>
                     </div>
                 </div>

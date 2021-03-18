@@ -225,6 +225,15 @@ a:hover, a:focus, a:active {
     width: 10rem;
   }
 }
+@media only screen and (max-width: 760px) {
+  .btn--login {
+    background-image: linear-gradient(to right bottom, #838083, #bebcbe) !important;
+    color: #001647 !important;
+  }
+  .btn--login::after {
+    background-image: linear-gradient(to right bottom, #838083, #bebcbe) !important;
+  }
+}
 .btn--alert {
   width: 20rem;
   line-height: 1.3rem;
@@ -595,7 +604,7 @@ a:hover, a:focus, a:active {
 .login__content .form__btn, .login__content .login__btn {
   display: flex;
   align-self: center;
-  padding: 2rem;
+  padding: 1.8rem;
 }
 .login__content .form__btn--login, .login__content .login__btn--login {
   padding: 0 0 1rem 0;
@@ -927,6 +936,11 @@ a:hover, a:focus, a:active {
   align-items: center;
   justify-content: space-evenly;
   position: relative;
+}
+@media only screen and (max-width: 1000px) {
+  .search {
+    height: 0%;
+  }
 }
 .search--hamburger {
   animation-name: scrolldown;
@@ -1450,6 +1464,12 @@ body {
 .link:hover {
   color: #125aff;
   cursor: pointer;
+}
+
+.login-failed {
+  color: red;
+  font-size: 1.5rem;
+  padding-left: 1.5rem;
 }
 
 /*# sourceMappingURL=main.css.map */

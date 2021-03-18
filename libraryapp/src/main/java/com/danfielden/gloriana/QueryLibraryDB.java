@@ -27,9 +27,9 @@ public final class QueryLibraryDB implements QueryLibrary {
                 "deleted BOOLEAN)";
         connect.createStatement().execute(query);
 
-//        query = "DROP TABLE IF EXISTS users";
-//        connect.createStatement().execute(query);
-//
+        query = "DROP TABLE IF EXISTS users";
+        connect.createStatement().execute(query);
+
         query = "CREATE TABLE IF NOT EXISTS users (" +
                 "id INTEGER PRIMARY KEY NOT NULL, " +
                 "user_name TEXT UNIQUE, " +
@@ -38,18 +38,18 @@ public final class QueryLibraryDB implements QueryLibrary {
                 "auth TEXT)";
         connect.createStatement().execute(query);
 
-//        query = "REPLACE INTO users (" +
-//                "id, user_name, password, salt, auth) " +
-//                "VALUES(1, 'admin', '70284fde35e31074df6c4e16804995cba23ac1395758348cdb39bd8908cfa667', 'salt1', 'admin')";
-//        PreparedStatement stmt = connect.prepareStatement(query);
-//        stmt.executeUpdate();
-//
-//
-//        query = "REPLACE INTO users (" +
-//                "id, user_name, password, salt, auth) " +
-//                "VALUES(2, 'guest', '82408c8bc309132d91c9d521b29b8bd3eda8c9d176c742358dbed9efde0bc487', 'salt2', 'guest')";
-//        stmt = connect.prepareStatement(query);
-//        stmt.executeUpdate();
+        query = "REPLACE INTO users (" +
+                "id, user_name, password, salt, auth) " +
+                "VALUES(1, 'admin', '70284fde35e31074df6c4e16804995cba23ac1395758348cdb39bd8908cfa667', 'salt1', 'ADMIN')";
+        PreparedStatement stmt = connect.prepareStatement(query);
+        stmt.executeUpdate();
+
+
+        query = "REPLACE INTO users (" +
+                "id, user_name, password, salt, auth) " +
+                "VALUES(2, 'guest', '82408c8bc309132d91c9d521b29b8bd3eda8c9d176c742358dbed9efde0bc487', 'salt2', 'GUEST')";
+        stmt = connect.prepareStatement(query);
+        stmt.executeUpdate();
     }
 
     public synchronized void close() throws SQLException {
@@ -237,7 +237,7 @@ public final class QueryLibraryDB implements QueryLibrary {
     // AUTHENTICATION
     public synchronized Map<String, String> getuserDetails(String username) throws Exception {
         String salt = "";
-        Map<String, String> userDetails = new HashMap<>();
+        HashMap<String, String> userDetails = new HashMap<>();
 
         String query = "SELECT * FROM users WHERE user_name = ?";
         try (PreparedStatement stmt = connect.prepareStatement(query)) {
@@ -256,24 +256,6 @@ public final class QueryLibraryDB implements QueryLibrary {
             }
         }
         return userDetails;
-    }
-
-    public synchronized List<String> getUserNames() throws Exception {
-        List<String> userNames = new ArrayList<>();
-
-        String query = "SELECT * FROM users";
-        try (PreparedStatement stmt = connect.prepareStatement(query)) {
-            ResultSet rs = stmt.executeQuery();
-
-            if (!rs.isBeforeFirst() ) {
-                throw new IllegalArgumentException("No users found");
-            }
-
-            while (rs.next()) {
-                userNames.add(rs.getString("user_name"));
-            }
-        }
-        return userNames;
     }
 
 

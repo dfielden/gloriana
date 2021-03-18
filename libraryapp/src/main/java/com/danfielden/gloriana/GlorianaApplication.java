@@ -9,29 +9,29 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import com.google.gson.Gson;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.util.*;
 
 
 @SpringBootApplication
-//@RestController
 @Controller
 public class GlorianaApplication {
     private static final Gson gson = new Gson();
     private final QueryLibraryDB ql;
-    private static final int NOT_RECOGNISED = -1;
-    private static final int GUEST = 0;
-    private static final int ADMIN = 1;
+    private final Map<String, String> sessions = new HashMap<>(); // cookieValue, authStatus
+    public static final String LOGIN_SUCCESS = "LOGIN_SUCCESS";
+    public static final String LOGIN_FAIL = "LOGIN_FAIL";
+    public static final String ADMIN = "ADMIN";
+    public static final String GUEST = "GUEST";
+    public static final String LOGGEDOUT = "LOGGEDOUT";
 
-    private final Map<String, Integer> authStatus = new HashMap<>();
 
     public GlorianaApplication(@Value("${goat}") String database) throws Exception {
         ql = new QueryLibraryDB(new File(database));
-
-        List<String> users = ql.getUserNames();
-        for (String user : users) {
-            authStatus.put(user, NOT_RECOGNISED);
-        }
     }
 
     public static void main(String[] args) {
@@ -52,7 +52,15 @@ public class GlorianaApplication {
     }
 
     @GetMapping("/login")
-    public String login() {
+    public String login(HttpServletRequest req) throws Exception {
+        HttpSession session = req.getSession();
+        String loginStatus = getLoginStatus(req);
+
+        // TODO fix this hack - make the getLoginStatus method return pure String not json
+        if (loginStatus.equals("\"" + ADMIN + "\"") || loginStatus.equals("\"" + GUEST + "\"")) {
+            // already logged in so redirect to index
+            return "index";
+        }
         return "login";
     }
 
@@ -129,38 +137,96 @@ public class GlorianaApplication {
     }
 
 
-    //@ResponseBody
     @PostMapping(value="/loginform",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody int returnUser(@RequestBody Login login) throws Exception {
-        String user = login.getUsername();
-        String enteredPassword = login.getPassword();
-        Map userDetails = ql.getuserDetails(user);
-        String salt = (String)userDetails.get("salt");
-        String hashedPassword = (String)userDetails.get("hashedPassword");
-        String userAuth = (String)userDetails.get("auth");
+    public @ResponseBody String returnUser(@RequestBody Login login, HttpServletRequest req) throws Exception {
 
 
-        if (hashedPassword.equals(GlorianaAuth.hashString(enteredPassword + salt))) {
-            authStatus.put(user, userAuth.equals("admin") ? ADMIN : GUEST);
-        } else {
-            authStatus.put(user, NOT_RECOGNISED);
-            throw new IllegalArgumentException("Incorrect password. Please try again.");
+        try {
+            String userName = login.getUsername();
+            String enteredPassword = login.getPassword();
+            Map userDetails = ql.getuserDetails(userName);
+            String salt = (String)userDetails.get("salt");
+            String hashedPassword = (String)userDetails.get("hashedPassword");
+            String authStatus = (String)userDetails.get("auth");
+
+            if (hashedPassword.equals(GlorianaAuth.hashString(enteredPassword + salt))) {
+                // User credentials OK.
+                GlorianaSessionState state = getOrCreateStateFromRequest(req);
+
+                // Update session that user is now logged in.
+                state.userName = userName;
+                state.authStatus = authStatus;
+
+                // Add session to internal memory
+                saveSessionToMemory(req, authStatus);
+
+                return LOGIN_SUCCESS;
+            } else {
+                // User credentials BAD.
+                return "Incorrect password. Please try again.";
+            }
+        } catch (IllegalArgumentException e) {
+            return e.getMessage();
         }
-        return authStatus.get(user);
     }
 
 
-    @RequestMapping(value="/loginstatus/{user}")
-    public @ResponseBody int getLoginStatus(@PathVariable(value="user") String user) throws Exception {
-        return authStatus.get(user);
+    @RequestMapping(value="/loginstatus")
+    public @ResponseBody String getLoginStatus(HttpServletRequest req) throws Exception {
+        Cookie[] cookie = req.getCookies();
+        if (cookie == null) {
+            return gson.toJson(LOGGEDOUT);
+        }
+        for (Cookie c : cookie) {
+            String s = sessions.get(c.getValue());
+            if (s != null && (s.equals(GUEST) || s.equals(ADMIN))) {
+                return gson.toJson(s);
+            }
+        }
+        return gson.toJson(LOGGEDOUT);
     }
 
-    @RequestMapping(value="/logout/{user}")
-    public @ResponseBody int logout(@PathVariable(value="user") String user) throws Exception {
-        authStatus.put(user, NOT_RECOGNISED);
-        return authStatus.get(user);
+    private void saveSessionToMemory(HttpServletRequest req, String authStatus) {
+        Cookie[] cookie = req.getCookies();
+        if (cookie != null) {
+            for (Cookie c : cookie) {
+                sessions.put(c.getValue(), authStatus);
+            }
+        }
     }
 
+
+    @RequestMapping(value="/logout")
+    public @ResponseBody String logout(HttpServletRequest req) throws Exception {
+        HttpSession session = req.getSession();
+        session.invalidate();
+        req.logout();
+        return gson.toJson(LOGGEDOUT);
+
+        // GlorianaSessionState state = (GlorianaSessionState) session.getAttribute("GLORIANA_SESSION_STATE");
+    }
+
+
+    private static GlorianaSessionState getOrCreateStateFromRequest(HttpServletRequest req) {
+        // Don't forget - the HttpSession will always exist. But we don't know if it's a brand new session that was just
+        // created for a new user, or one for an existing logged-in user.
+        HttpSession session = req.getSession();
+
+        // Look up the existing GlorianaSessionState object.
+        GlorianaSessionState state = (GlorianaSessionState) session.getAttribute("GLORIANA_SESSION_STATE");
+        if (state == null) {
+            // This is a new session. Create a new empty GlorianaSessionState object and add to the session.
+            state = new GlorianaSessionState();
+            session.setAttribute("GLORIANA_SESSION_STATE", state);
+        }
+        return state;
+    }
+
+    /** This object represents all the state we store in the HttpSession. */
+    private static final class GlorianaSessionState {
+        private String authStatus;
+        private String userName;
+    }
 }
