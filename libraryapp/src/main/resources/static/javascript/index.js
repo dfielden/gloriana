@@ -1,15 +1,15 @@
 let deleteValue = -1;
 let clickedBtn = undefined;
 const noPermission = "You don't have permission to do that. Please login as admin."
-const ADMIN = 'ADMIN'; // Must match PSFS ADMIN in GlorianaApplication.java
-const GUEST = 'GUEST';// Must match PSFS GUEST in GlorianaApplication.java
-const LOGGEDOUT = 'LOGGEDOUT';// Must match PSFS LOGEDOUT in GlorianaApplication.java
+const ADMIN = 'ADMIN_AUTH_STATUS'; // Must match enum in GlorianaApplication.java
+const GUEST = 'GUEST_AUTH_STATUS';// Must match enum in GlorianaApplication.java
+const LOGGEDOUT = 'LOGGEDOUT_AUTH_STATUS';// Must match enum in GlorianaApplication.java
 
 
 document.addEventListener('DOMContentLoaded', function () {
     ajax_get(`/loginstatus`, function(data) {
-        console.log(data);
-        if (data === LOGGEDOUT) {
+        if (data.authStatus === LOGGEDOUT) {
+            console.log('redirect to login');
             redirectToLogin();
         } else {
             ajax_get('/entries', function(data) {
@@ -39,7 +39,7 @@ window.addEventListener('load', function(event) {
 
 document.getElementById('btn_createNewEntry').addEventListener('click', function() {
     ajax_get(`/loginstatus`, function(data) {
-        if (data !== ADMIN) {
+        if (data.authStatus !== ADMIN) {
             alert(noPermission);
         } else {
             toggleAddEditText();
@@ -92,8 +92,8 @@ Use Event bubbling to add event listeners to current and future button elements 
  */
 document.addEventListener('click',function(e) {
     if (getBtnIdDescription(e.target.id) === ('delete')) {
-        ajax_get(`/loginstatus/`, function(data) {
-            if (data !== ADMIN) {
+        ajax_get(`/loginstatus`, function(data) {
+            if (data.authStatus !== ADMIN) {
                 alert(noPermission);
             } else {
                 document.getElementById('delete-alert').classList.add('visible');
@@ -116,7 +116,7 @@ document.getElementById('btn_cancelDelete').addEventListener('click', function()
 
 document.getElementById('btn_confirmDelete').addEventListener('click', function() {
     ajax_get(`/loginstatus`, function (data) {
-        if (data !== ADMIN) {
+        if (data.authStatus !== ADMIN) {
             alert(noPermission);
             clearNewEntryForm(false);
         } else {
@@ -147,7 +147,7 @@ document.getElementById('btn_confirmDelete').addEventListener('click', function(
 document.addEventListener('click',function(e) {
     if (getBtnIdDescription(e.target.id) === ('edit')) {
         ajax_get(`/loginstatus`, function(data) {
-            if (data !== ADMIN) {
+            if (data.authStatus !== ADMIN) {
                 clearNewEntryForm(false);
                 alert(noPermission);
             } else {
@@ -206,7 +206,6 @@ function populateMainTable(data) {
     for (let i = 0; i < data.length; i++) {
         addRowMainTable(tableBody, data[i]);
     }
-
     // add ability to edit entries, based on login status
     setEditPermissions();
 }
@@ -295,6 +294,7 @@ function ajax_get(url, callback) {
         if (xhr.readyState === 4 && xhr.status === 200) {
             try {
                 data = JSON.parse(xhr.responseText);
+                console.log(data);
             } catch (err) {
                 console.log(err.message + " in " + xhr.responseText);
                 return;
@@ -529,10 +529,10 @@ const tableParameters = ["pseudo--ID", "pseudo--title", "pseudo--lastName", "pse
 // AUTHENTICATION
 function setEditPermissions() {
     ajax_get(`/loginstatus`, function (data) {
-        if (data === ADMIN) {
+        if (data.authStatus === ADMIN) {
             // admin access
             grantAdminPermissions();
-        } else if (data === GUEST) {
+        } else if (data.authStatus === GUEST) {
             // guest access
             rescindAdminPermissions();
         } else {

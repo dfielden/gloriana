@@ -24,10 +24,12 @@ document.getElementById('btn_login').addEventListener("click", function (e) {
 
                 // if logged in
                 if (xhr.responseText === LOGIN_SUCCESS) {
+                    console.log('logged in!');
                     sessionStorage.setItem('display-message', 'loggedin');
                     document.getElementById('login-failed').classList.add('displayNone');
                     window.location = '/';
                 } else {
+                    console.log('logged failed');
                     document.getElementById('login-failed').innerText = xhr.responseText;
                     document.getElementById('login-failed').classList.remove('displayNone');
                 }
