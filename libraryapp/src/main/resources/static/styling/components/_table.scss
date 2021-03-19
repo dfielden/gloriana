@@ -113,11 +113,15 @@
         }
       }
 
+      @media only screen and (max-width: $break-medium) {
+        &:not(:first-of-type) {
+          padding: 1rem;
+        }
+      }
+
       @media only screen and (max-width: $break-smallest) {
         flex-direction: column;
         align-items: flex-start;
-        //font-size: 1.5rem;
-        padding: 0 1rem;
       }
     }
   }

@@ -5,7 +5,6 @@ import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -25,10 +24,7 @@ public class GlorianaApplication {
     private static final Gson gson = new Gson();
     private final QueryLibraryDB ql;
     private final Map<String, GlorianaSessionState> sessions = new HashMap<>(); // cookieValue, GlorianaSessionState
-
     public static final String LOGIN_SUCCESS_RESPONSE_VALUE = "LOGIN_SUCCESS";
-    public static final String LOGIN_FAIL_RESPONSE_VALUE = "LOGIN_FAIL";
-
 
     public GlorianaApplication(@Value("${goat}") String database) throws Exception {
         ql = new QueryLibraryDB(new File(database));
@@ -51,18 +47,24 @@ public class GlorianaApplication {
         app.run(args);
     }
 
+
     @GetMapping("/login")
     public String login(HttpServletRequest req) throws Exception {
-        String loginStatus = getLoginStatus(req);
-        System.out.println("loginStatus = " + loginStatus);
+        GlorianaSessionState state = getSessionFromReq(req);
+        AuthStatus authStatus;
+        if (state != null) {
+            authStatus = state.authStatus;
+        } else {
+            authStatus = AuthStatus.LOGGEDOUT_AUTH_STATUS;
+        }
 
-        // TODO fix this hack - make the getLoginStatus method return pure String not json
-        if (loginStatus.equals("\"" + AuthStatus.ADMIN_AUTH_STATUS + "\"") || loginStatus.equals("\"" + AuthStatus.GUEST_AUTH_STATUS + "\"")) {
+        if (authStatus.equals(AuthStatus.ADMIN_AUTH_STATUS) || authStatus.equals(AuthStatus.GUEST_AUTH_STATUS)) {
             // already logged in so redirect to index
             return "index";
         }
         return "login";
     }
+
 
     @ResponseBody // indicates that we should return in response body rather than render a file with the name 'returnString.html'
     @GetMapping("/entries")
@@ -83,6 +85,7 @@ public class GlorianaApplication {
         return gson.toJson(result);
     }
 
+
     @ResponseBody // indicates that we should return in response body rather than render a file with the name 'returnString.html'
     @PostMapping(value="/newentry",
             consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -101,10 +104,12 @@ public class GlorianaApplication {
         return id;
     }
 
+
     @RequestMapping(value="/entry/{id}")
     public @ResponseBody LibraryEntry getEntryById(@PathVariable(value="id") long id) throws Exception {
         return ql.getEntry(id);
     }
+
 
     @ResponseBody
     @PostMapping(value="/edit",
@@ -114,6 +119,7 @@ public class GlorianaApplication {
         ql.updateEntry(le);
         return le.toJson().toString();
     }
+
 
     @ResponseBody
     @PostMapping(value="/searchentries",
@@ -141,8 +147,6 @@ public class GlorianaApplication {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody String returnUser(@RequestBody Login login, HttpServletRequest req) throws Exception {
-
-
         try {
             String userName = login.getUsername();
             String enteredPassword = login.getPassword();
@@ -157,7 +161,6 @@ public class GlorianaApplication {
 
                 // State does not exist - new user
                 if (state == null) {
-                    System.out.println("state is null");
                     state = new GlorianaSessionState();
                 }
 
@@ -176,6 +179,7 @@ public class GlorianaApplication {
             return e.getMessage();
         }
     }
+
 
     @Nullable
     public GlorianaSessionState getSessionFromReq(HttpServletRequest req) {
@@ -198,12 +202,12 @@ public class GlorianaApplication {
         JsonObject result = new JsonObject();
         if (state != null) {
             result.addProperty("authStatus", state.authStatus.toString());
-            System.out.println(result);
             return gson.toJson(result);
         }
         result.addProperty("authStatus", AuthStatus.LOGGEDOUT_AUTH_STATUS.toString());
         return gson.toJson(result);
     }
+
 
     private void saveSessionToMemory(HttpServletRequest req, GlorianaSessionState state) {
         Cookie[] cookie = req.getCookies();
@@ -221,10 +225,7 @@ public class GlorianaApplication {
         session.invalidate();
         req.logout();
         return gson.toJson(AuthStatus.LOGGEDOUT_AUTH_STATUS);
-
-        // GlorianaSessionState state = (GlorianaSessionState) session.getAttribute("GLORIANA_SESSION_STATE");
     }
-
 
 
     /** This object represents all the state we store in the HttpSession. */
@@ -232,6 +233,7 @@ public class GlorianaApplication {
         private AuthStatus authStatus = AuthStatus.LOGGEDOUT_AUTH_STATUS;
         private String userName;
     }
+
 
     private enum AuthStatus {
         ADMIN_AUTH_STATUS,

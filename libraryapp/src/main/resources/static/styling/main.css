@@ -1163,11 +1163,15 @@ svg, embed {
     padding: 0.5rem 0 0.5rem 0;
   }
 }
+@media only screen and (max-width: 1000px) {
+  .table__body .row:not(:first-of-type) {
+    padding: 1rem;
+  }
+}
 @media only screen and (max-width: 420px) {
   .table__body .row {
     flex-direction: column;
     align-items: flex-start;
-    padding: 0 1rem;
   }
 }
 
