@@ -8,7 +8,7 @@
   z-index: 9999;
   opacity: 0;
   visibility: hidden;
-  display: none;
+  display: flex;
   transition: all .3s;
   align-items: center;
   justify-content: center;
@@ -21,14 +21,19 @@
   }
 
 
-  &:target {
-    opacity: 1;
-    visibility: visible;
-    display: flex;
-  }
+  //&:target {
+  //  opacity: 1;
+  //  visibility: visible;
+  //  display: flex;
+  //
+  //  @supports (-webkit-backdrop-filter: blur(30px)) or (backdrop-filter: blur(30px)) {
+  //    -webkit-backdrop-filter: blur(30px);
+  //    backdrop-filter: blur(30px);
+  //    background-color: rgba($color-black, .3);
+  //  }
+  //}
 
-  &:target &__content {
-    opacity: 1;
+  &__content {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -86,35 +91,31 @@
 
 
   &__close {
+    color: $color-primary;
+    font-size: 4rem;
+    text-decoration: none;
+    display: inline-block;
+    transition: all .2s;
+    line-height: 1;
+    justify-content: flex-end;
+    align-self: flex-end;
+    margin-left: auto;
+    position: relative;
+    right: -5rem;
+    top: -1rem;
 
-    &:link,
-    &:visited {
-      color: $color-primary;
-      font-size: 4rem;
-      text-decoration: none;
-      display: inline-block;
-      transition: all .2s;
-      line-height: 1;
-      justify-content: flex-end;
-      align-self: flex-end;
-      margin-left: auto;
-      position: relative;
-      right: -5rem;
-      top: -1rem;
+    @media only screen and (max-width: $break-medium) {
+      font-size: 3.5rem;
+    }
+    @media only screen and (max-width: $break-small) {
+      font-size: 3rem;
+      right: -3rem;
 
-      @media only screen and (max-width: $break-medium) {
-        font-size: 3.5rem;
-      }
-      @media only screen and (max-width: $break-small) {
-        font-size: 3rem;
-        right: -3rem;
-
-      }
-      @media only screen and (max-width: $break-smallest) {
-        right: -1rem;
-      }
-      @media only screen and (max-width: $break-tiny) {
-      }
+    }
+    @media only screen and (max-width: $break-smallest) {
+      right: -1rem;
+    }
+    @media only screen and (max-width: $break-tiny) {
     }
 
     &:hover {

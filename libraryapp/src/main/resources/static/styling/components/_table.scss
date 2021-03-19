@@ -65,6 +65,9 @@
       display: flex;
       align-items: center;
       flex-wrap: wrap;
+      &:not(:first-of-type) {
+        height: 8rem; // the hdight of the 'action' cell - ensures constant row height when action cells hidden in guest mode
+      }
 
 
       &:nth-of-type(even) {
@@ -72,7 +75,6 @@
       }
 
       &:hover {
-
         //MIN-WIDTH BREAK POINT
         @media only screen and (min-width: $break-medium) {
           color: $color-primary;
@@ -116,6 +118,7 @@
       @media only screen and (max-width: $break-medium) {
         &:not(:first-of-type) {
           padding: 1rem;
+          height: auto;
         }
       }
 

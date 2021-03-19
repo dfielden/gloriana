@@ -60,11 +60,15 @@
 .visible {
   opacity: 1 !important;
   visibility: visible !important;
-  display: flex !important;
+  //display: flex !important;
 }
 
 .displayNone {
   display: none !important;
+}
+
+.centerModalView {
+  transform: translate(-50%, -50%) scale(1) !important;
 }
 
 

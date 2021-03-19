@@ -11,9 +11,6 @@
   left: 0;
   background-color: rgba($color-black, .8);
   z-index: 9999;
-  opacity: 0;
-  visibility: hidden;
-  display: none;
   transition: all .3s;
 
 
@@ -25,18 +22,6 @@
 
   @media only screen and (max-width: $break-small) {
     overflow-y: auto;
-  }
-
-  //Open states
-  &:target {
-    opacity: 1;
-    visibility: visible;
-    display: flex;
-  }
-
-  &:target &__content {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
   }
 
   &__content {
@@ -54,8 +39,6 @@
     display: flex;
     justify-content: center;
     overflow: hidden;
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(.25);
     transition: all .5s .2s;
     overflow-y: auto;
     @include boxShadow;

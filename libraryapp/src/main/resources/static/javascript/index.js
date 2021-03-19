@@ -38,18 +38,28 @@ window.addEventListener('load', function(event) {
 });
 
 document.getElementById('btn_createNewEntry').addEventListener('click', function() {
+    createNewEntry();
+})
+
+document.getElementById('hamburger_createNewEntry').addEventListener('click', function() {
+    createNewEntry();
+})
+
+function createNewEntry() {
     ajax_get(`/loginstatus`, function(data) {
         if (data.authStatus !== ADMIN) {
             alert(noPermission);
         } else {
             toggleAddEditText();
+            clearNewEntryForm();
+            showAddEditForm();
             document.getElementById('accompanied-label').style.display = "none";
             document.getElementById('accompanied').style.color = '#838083'; // COLOR_LIGHT_GREY
             document.getElementById('season-label').style.display = "none";
             document.getElementById('season').style.color = '#838083'; // COLOR_LIGHT_GREY
         }
     })
-})
+}
 
 document.getElementById('btn_logout').addEventListener('click', function() {
     logout();
@@ -118,7 +128,8 @@ document.getElementById('btn_confirmDelete').addEventListener('click', function(
     ajax_get(`/loginstatus`, function (data) {
         if (data.authStatus !== ADMIN) {
             alert(noPermission);
-            clearNewEntryForm(false);
+            clearNewEntryForm();
+            window.location = '/';
         } else {
             document.getElementById('delete-alert').classList.remove('visible');
             let xhr = new XMLHttpRequest();
@@ -131,7 +142,7 @@ document.getElementById('btn_confirmDelete').addEventListener('click', function(
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     deleteRowOfBtnClick(clickedBtn);
                     sessionStorage.setItem('display-message', 'deleted');
-                    clearNewEntryForm(true);
+                    clearNewEntryForm();
 
                     // Reset delete params
                     deleteValue = -1;
@@ -148,9 +159,10 @@ document.addEventListener('click',function(e) {
     if (getBtnIdDescription(e.target.id) === ('edit')) {
         ajax_get(`/loginstatus`, function(data) {
             if (data.authStatus !== ADMIN) {
-                clearNewEntryForm(false);
+                clearNewEntryForm();
                 alert(noPermission);
             } else {
+                showAddEditForm();
                 let id = getBtnIdNum(e.target.id);
                 let url = '/entry/' + id;
 
@@ -199,6 +211,26 @@ document.addEventListener('click',function(e) {
         });
     }
 });
+
+function showAddEditForm() {
+    let form = document.getElementById('addEdit');
+    let formContent = document.getElementById('addEdit__content');
+
+    form.classList.remove('displayNone');
+    formContent.classList.remove('displayNone');
+    form.classList.add('visible');
+    formContent.classList.add('visible', 'centerModalView');
+}
+
+function hideAddEditForm() {
+    let form = document.getElementById('addEdit');
+    let formContent = document.getElementById('addEdit__content');
+
+    form.classList.add('displayNone');
+    formContent.classList.add('displayNone');
+    form.classList.remove('visible');
+    formContent.classList.remove('visible', 'centerModalView');
+}
 
 
 function populateMainTable(data) {
@@ -273,14 +305,10 @@ function addRowMainTable(tableBody, data) {
 }
 
 
-function clearNewEntryForm(boolRefresh) {
+function clearNewEntryForm() {
     document.getElementById('addEditForm').reset();
     document.getElementById('id').value = '-1';
-    if (boolRefresh) {
-        window.location = '/';
-    } else {
-        window.location = '/#';
-    }
+    hideAddEditForm();
 }
 
 
@@ -341,7 +369,8 @@ function addEdit__add(xhr) {
                 addRowMainTable(tableBody, data);
                 sessionStorage.setItem('display-message', 'added');
                 console.log(sessionStorage.getItem('display-message'));
-                clearNewEntryForm(true);
+                clearNewEntryForm();
+                window.location = '/';
             }
         }
     }
@@ -461,13 +490,41 @@ function updateRowOfBtnClick(btn, data) {
 
 
 document.getElementById('form__close').addEventListener('click', function() {
-    clearNewEntryForm(false);
+    clearNewEntryForm();
+
 });
 
 
 document.getElementById('nav--burger').addEventListener('click', function() {
-    window.location = '/#hamburger-menu';
+    showHamburgerMenu();
 });
+
+
+document.getElementById('hamburger-menu__close').addEventListener('click', function() {
+    hideHamburgerMenu();
+});
+
+
+function showHamburgerMenu() {
+    let menu = document.getElementById('hamburger-menu');
+    let menuBackground = document.getElementById('hamburger-menu__background');
+
+    menu.classList.remove('displayNone');
+    menuBackground.classList.remove('displayNone');
+    menu.classList.add('visible');
+    menuBackground.classList.add('visible');
+}
+
+
+function hideHamburgerMenu() {
+    let menu = document.getElementById('hamburger-menu');
+    let menuBackground = document.getElementById('hamburger-menu__background');
+
+    menu.classList.add('displayNone');
+    menuBackground.classList.add('displayNone');
+    menu.classList.remove('visible');
+    menuBackground.classList.remove('visible');
+}
 
 
 function toggleLabelPlaceholderStyle(labelElement) {
@@ -525,6 +582,42 @@ const tableParameters = ["pseudo--ID", "pseudo--title", "pseudo--lastName", "pse
     "pseudo--collection", "pseudo--action"];
 
 
+// GLOSSARY
+document.getElementById('btn_glossary').addEventListener('click', function() {
+    showGlossary();
+})
+
+document.getElementById('hamburger_glossary').addEventListener('click', function() {
+    showGlossary();
+})
+
+document.getElementById('glossary__close').addEventListener('click', function() {
+    hideGlossary();
+})
+
+function showGlossary() {
+    hideHamburgerMenu()
+    let glossary = document.getElementById('glossary');
+    let glossaryContent = document.getElementById('glossary__content');
+
+    glossary.classList.remove('displayNone');
+    glossaryContent.classList.remove('displayNone');
+    glossary.classList.add('visible');
+    glossaryContent.classList.add('visible');
+}
+
+
+function hideGlossary() {
+    let glossary = document.getElementById('glossary');
+    let glossaryContent = document.getElementById('glossary__content');
+
+    glossary.classList.add('displayNone');
+    glossaryContent.classList.add('displayNone');
+    glossary.classList.remove('visible');
+    glossaryContent.classList.remove('visible');
+}
+
+
 
 // AUTHENTICATION
 function setEditPermissions() {
@@ -547,7 +640,6 @@ function rescindAdminPermissions() {
     for (let i = 0; i < btns.length; i++) {
         btns[i].removeAttribute("href");
     }
-    document.getElementById('btn_createNewEntry').querySelector("a").removeAttribute("href")
     document.getElementById('btn_createNewEntry').classList.add('displayNone');
     document.getElementById('btn_changePassword').classList.add('displayNone');
     document.getElementById('hamburger_createNewEntry').classList.add('displayNone');
@@ -560,10 +652,9 @@ function rescindAdminPermissions() {
 
 function grantAdminPermissions() {
     let btns = document.querySelectorAll('.btn--primary.btn--table'); // all edit buttons
-    for (let i = 0; i < btns.length; i++) {
-        btns[i].setAttribute("href", "#addEdit");
-    }
-    document.getElementById('btn_createNewEntry').querySelector("a").setAttribute("href", "#addEdit");
+    // for (let i = 0; i < btns.length; i++) {
+    //     btns[i].setAttribute("href", "#addEdit");
+    // }
     document.getElementById('btn_createNewEntry').classList.remove('displayNone');
     document.getElementById('btn_changePassword').classList.remove('displayNone');
     document.getElementById('hamburger_createNewEntry').classList.remove('displayNone');
