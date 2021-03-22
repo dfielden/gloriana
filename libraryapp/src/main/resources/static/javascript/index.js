@@ -127,7 +127,7 @@ document.getElementById('btn_confirmDelete').addEventListener('click', function(
         if (data.authStatus !== ADMIN) {
             alert(noPermission);
             clearNewEntryForm();
-            window.location = '/';
+            window.location.href = '/';
         } else {
             document.getElementById('delete-alert').classList.remove('visible');
             let xhr = new XMLHttpRequest();
@@ -368,7 +368,7 @@ function addEdit__add(xhr) {
                 sessionStorage.setItem('display-message', 'added');
                 console.log(sessionStorage.getItem('display-message'));
                 clearNewEntryForm();
-                window.location = '/';
+                window.location.href = '/';
             }
         }
     }
@@ -405,7 +405,7 @@ document.getElementById('search__button').addEventListener("click", function (e)
     if (searchString === '') {
         ajax_get('/entries', function (data) {
             populateMainTable(data.library_entries);
-            window.location = '/';
+            window.location.href = '/';
         });
     } else {
         let xhr = new XMLHttpRequest();
@@ -438,7 +438,7 @@ document.getElementById('search__button--hamburger').addEventListener("click", f
     if (searchString === '') {
         ajax_get('/entries', function(data) {
             populateMainTable(data.library_entries);
-            window.location = '/';
+            window.location.href = '/';
         });
     } else {
         let xhr = new XMLHttpRequest();
@@ -456,7 +456,7 @@ document.getElementById('search__button--hamburger').addEventListener("click", f
                     clearClassFromDOM('row--visible');
                     populateMainTable(data.library_entries);
                     document.getElementById('search__input').value = searchString;
-                    window.location = '/#';
+                    window.location.href = '/#';
                 }
             }
         }
@@ -555,7 +555,7 @@ function clearClassFromDOM(className) {
 
 document.getElementById('search__clear').addEventListener('click', function() {
     clearSearchForms();
-    window.location = '/';
+    window.location.href = '/';
 })
 
 
@@ -657,5 +657,5 @@ function grantAdminPermissions() {
 }
 
 function redirectToLogin() {
-    window.location = '/login';
+    window.location.href = '/login';
 }

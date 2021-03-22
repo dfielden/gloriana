@@ -26,7 +26,7 @@ document.getElementById('btn_login').addEventListener("click", function (e) {
                     console.log('logged in!');
                     sessionStorage.setItem('display-message', 'loggedin');
                     document.getElementById('login-failed').classList.add('displayNone');
-                    window.location = '/';
+                    window.location.href = '/';
                 } else {
                     console.log('logged failed');
                     document.getElementById('login-failed').innerText = xhr.responseText;
