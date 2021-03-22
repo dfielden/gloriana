@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import com.google.gson.Gson;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -17,15 +18,19 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 @SpringBootApplication
 @Controller
 public class GlorianaApplication {
-    private static final Gson gson = new Gson();
-    private final QueryLibraryDB ql;
-    private final Map<String, GlorianaSessionState> sessions = new HashMap<>(); // cookieValue, GlorianaSessionState
+    private static final String GLORIANA_COOKIE_NAME = "GLORICOOKIE";
     public static final String LOGIN_SUCCESS_RESPONSE_VALUE = "LOGIN_SUCCESS";
+    private static final Gson gson = new Gson();
+    private static final Random rand = new Random();
+
+    private final QueryLibraryDB ql;
+    private final Map<String, GlorianaSessionState> sessions = new ConcurrentHashMap<>(); // cookieValue, GlorianaSessionState
 
     public GlorianaApplication(@Value("${goat}") String database) throws Exception {
         ql = new QueryLibraryDB(new File(database));
@@ -52,37 +57,45 @@ public class GlorianaApplication {
     @GetMapping("/")
     public String home(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-        return loginOrHome(req);
+
+        if (req.getCookies() != null) {
+            for (Cookie cookie : req.getCookies()) {
+                System.out.println(cookie.getName() + " = " + cookie.getValue());
+            }
+        }
+
+        return loginOrHome(req, resp);
     }
 
 
     @GetMapping("/login")
     public String login(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-        return loginOrHome(req);
+        return loginOrHome(req, resp);
     }
 
 
-    private String loginOrHome(HttpServletRequest req) {
-        GlorianaSessionState state = getSessionFromReq(req);
-        AuthStatus authStatus;
-        if (state != null) {
-            authStatus = state.authStatus;
-        } else {
-            authStatus = AuthStatus.LOGGEDOUT_AUTH_STATUS;
-        }
+    private String loginOrHome(HttpServletRequest req, HttpServletResponse resp) {
+        GlorianaSessionState state = getOrCreateSession(req, resp);
 
-        if (authStatus.equals(AuthStatus.ADMIN_AUTH_STATUS) || authStatus.equals(AuthStatus.GUEST_AUTH_STATUS)) {
+        if (state.isLoggedIn()) {
             // already logged in so go to index
             return "index";
+        } else {
+            return "login";
         }
-        return "login";
     }
 
 
     @ResponseBody // indicates that we should return in response body rather than render a file with the name 'returnString.html'
     @GetMapping("/entries")
-    public String entries() throws Exception {
+    public String entries(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        GlorianaSessionState state = getOrCreateSession(req, resp);
+        if (!state.isLoggedIn()) {
+            // TODO this should be an error, not just some un-parseable JSON.
+            return "User not authorised to view content.";
+        }
+
         JsonArray entries = new JsonArray();
         Collection<LibraryEntry> entriesCollection = ql.getAllEntries().values();
         ArrayList<LibraryEntry> allEntriesList = new ArrayList<>(entriesCollection);
@@ -120,7 +133,12 @@ public class GlorianaApplication {
 
 
     @RequestMapping(value="/entry/{id}")
-    public @ResponseBody LibraryEntry getEntryById(@PathVariable(value="id") long id) throws Exception {
+    public @ResponseBody LibraryEntry getEntryById(
+            @PathVariable(value="id") long id, HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        GlorianaSessionState state = getOrCreateSession(req, resp);
+        if (!state.isLoggedIn()) {
+            throw new IllegalStateException("User not authorised to view content. Please login");
+        }
         return ql.getEntry(id);
     }
 
@@ -160,7 +178,7 @@ public class GlorianaApplication {
     @PostMapping(value="/loginform",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody String returnUser(@RequestBody Login login, HttpServletRequest req) throws Exception {
+    public @ResponseBody String returnUser(@RequestBody Login login, HttpServletRequest req, HttpServletResponse resp) throws Exception {
         try {
             String userName = login.getUsername();
             String enteredPassword = login.getPassword();
@@ -171,19 +189,12 @@ public class GlorianaApplication {
 
             if (hashedPassword.equals(GlorianaAuth.hashString(enteredPassword + salt))) {
                 // User credentials OK.
-                GlorianaSessionState state = getSessionFromReq(req);
-
-                // State does not exist - new user
-                if (state == null) {
-                    state = new GlorianaSessionState();
-                }
+                GlorianaSessionState state = getOrCreateSession(req, resp);
 
                 // Update session that user is now logged in.
                 state.userName = userName;
                 state.authStatus = authStatus.equals("ADMIN") ? AuthStatus.ADMIN_AUTH_STATUS : AuthStatus.GUEST_AUTH_STATUS;
 
-                // Add session to internal memory
-                saveSessionToMemory(req, state);
                 return LOGIN_SUCCESS_RESPONSE_VALUE;
             } else {
                 // User credentials BAD.
@@ -194,44 +205,35 @@ public class GlorianaApplication {
         }
     }
 
+    @Nonnull
+    private synchronized GlorianaSessionState getOrCreateSession(HttpServletRequest req, HttpServletResponse resp) {
+        // First, get the Cookie from the request.
+        Cookie cookie = findOrSetOurSessionCookie(req, resp);
 
-    @Nullable
-    public GlorianaSessionState getSessionFromReq(HttpServletRequest req) {
-        Cookie[] cookie = req.getCookies();
-        if (cookie != null) {
-            for (Cookie c : cookie) {
-                GlorianaSessionState state = sessions.get(c.getValue());
-                if (state != null) {
-                    return state;
-                }
-            }
+        // Use the cookie value as the session ID.
+        String sessionId = cookie.getValue();
+
+        // Then, look up the corresponding session for this Cookie ID.
+        GlorianaSessionState state = sessions.get(sessionId);
+
+        if (state == null) {
+            // Create a new session (findOrSetOurSessionCookie probably just created the Cookie, so there is not yet a
+            // corresponding session).
+            state = new GlorianaSessionState();
+            sessions.put(sessionId, state);
         }
-        return null;
-    }
 
+        return state;
+    }
 
     @RequestMapping(value="/loginstatus")
-    public @ResponseBody String getLoginStatus(HttpServletRequest req) throws Exception {
-        GlorianaSessionState state = getSessionFromReq(req);
+    public @ResponseBody String getLoginStatus(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        GlorianaSessionState state = getOrCreateSession(req, resp);
+
         JsonObject result = new JsonObject();
-        if (state != null) {
-            result.addProperty("authStatus", state.authStatus.toString());
-            return gson.toJson(result);
-        }
-        result.addProperty("authStatus", AuthStatus.LOGGEDOUT_AUTH_STATUS.toString());
+        result.addProperty("authStatus", state.authStatus.toString());
         return gson.toJson(result);
     }
-
-
-    private void saveSessionToMemory(HttpServletRequest req, GlorianaSessionState state) {
-        Cookie[] cookie = req.getCookies();
-        if (cookie != null) {
-            for (Cookie c : cookie) {
-                sessions.put(c.getValue(), state);
-            }
-        }
-    }
-
 
     @RequestMapping(value="/logout")
     public @ResponseBody String logout(HttpServletRequest req) throws Exception {
@@ -242,12 +244,37 @@ public class GlorianaApplication {
     }
 
 
-    /** This object represents all the state we store in the HttpSession. */
-    private static final class GlorianaSessionState {
-        private AuthStatus authStatus = AuthStatus.LOGGEDOUT_AUTH_STATUS;
-        private String userName;
+    // Private/utils.
+
+    @Nonnull
+    private static Cookie findOrSetOurSessionCookie(HttpServletRequest req, HttpServletResponse resp) {
+        Cookie[] cookies = req.getCookies();
+        if (cookies != null) {
+            for (Cookie c : cookies) {
+                if (GLORIANA_COOKIE_NAME.equals(c.getName())) {
+                    // Found our cookie.
+                    return c;
+                }
+            }
+        }
+
+        // No cookie. Set a new one.
+        Cookie cookie = new Cookie(GLORIANA_COOKIE_NAME, String.format("%x%xgub", rand.nextLong(), rand.nextLong()));
+        resp.addCookie(cookie);
+        return cookie;
     }
 
+    /** This object represents all the state we store in the HttpSession. */
+    private static final class GlorianaSessionState {
+        @Nonnull
+        private AuthStatus authStatus = AuthStatus.LOGGEDOUT_AUTH_STATUS;
+        @Nullable  // If logged out, this is null.
+        private String userName;
+
+        boolean isLoggedIn() {
+            return authStatus == AuthStatus.ADMIN_AUTH_STATUS || authStatus == AuthStatus.GUEST_AUTH_STATUS;
+        }
+    }
 
     private enum AuthStatus {
         ADMIN_AUTH_STATUS,
