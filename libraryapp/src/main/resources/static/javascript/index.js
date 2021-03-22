@@ -438,7 +438,7 @@ document.getElementById('search__button--hamburger').addEventListener("click", f
     if (searchString === '') {
         ajax_get('/entries', function(data) {
             populateMainTable(data.library_entries);
-            window.location.href = '/';
+            hideHamburgerMenu();
         });
     } else {
         let xhr = new XMLHttpRequest();
@@ -456,7 +456,7 @@ document.getElementById('search__button--hamburger').addEventListener("click", f
                     clearClassFromDOM('row--visible');
                     populateMainTable(data.library_entries);
                     document.getElementById('search__input').value = searchString;
-                    window.location.href = '/#';
+                    hideHamburgerMenu();
                 }
             }
         }
@@ -560,6 +560,7 @@ document.getElementById('search__clear').addEventListener('click', function() {
 
 document.getElementById('search__clear--hamburger').addEventListener('click', function() {
     clearSearchForms();
+    window.location.href = '/';
 })
 
 
