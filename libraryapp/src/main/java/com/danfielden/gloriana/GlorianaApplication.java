@@ -236,11 +236,29 @@ public class GlorianaApplication {
     }
 
     @RequestMapping(value="/logout")
-    public @ResponseBody String logout(HttpServletRequest req) throws Exception {
+    public @ResponseBody String logout(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        Cookie c = findOrSetOurSessionCookie(req, resp);
+        c.setMaxAge(0);
+        resp.addCookie(c);
         HttpSession session = req.getSession();
         session.invalidate();
         req.logout();
         return gson.toJson(AuthStatus.LOGGEDOUT_AUTH_STATUS);
+    }
+
+    @RequestMapping(value="/changepw")
+    public @ResponseBody String changePassword(HttpServletRequest req, HttpServletResponse resp, String user, String oldPw, String newPw) throws Exception {
+        try {
+            String currentHashedPw = ql.getuserDetails(user).get("hashedPassword");
+            if (!currentHashedPw.equals(GlorianaAuth.hashString(oldPw))) {
+                return "Incorrect current password. Please try again";
+            }
+            // set new password
+            String[] newPassword = GlorianaAuth.createHashedPassword(newPw);
+            return "hello";
+        } catch (IllegalArgumentException e) {
+            return e.getMessage();
+        }
     }
 
 

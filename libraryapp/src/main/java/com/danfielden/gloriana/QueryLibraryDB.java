@@ -50,6 +50,19 @@ public final class QueryLibraryDB implements QueryLibrary {
                 "VALUES(2, 'guest', '82408c8bc309132d91c9d521b29b8bd3eda8c9d176c742358dbed9efde0bc487', 'salt2', 'GUEST')";
         stmt = connect.prepareStatement(query);
         stmt.executeUpdate();
+
+        query = "REPLACE INTO users (" +
+                "id, user_name, password, salt, auth) " +
+                "VALUES(3, 'devAdmin', '70284fde35e31074df6c4e16804995cba23ac1395758348cdb39bd8908cfa667', 'salt1', 'ADMIN')";
+        stmt = connect.prepareStatement(query);
+        stmt.executeUpdate();
+
+
+        query = "REPLACE INTO users (" +
+                "id, user_name, password, salt, auth) " +
+                "VALUES(4, 'devGuest', '82408c8bc309132d91c9d521b29b8bd3eda8c9d176c742358dbed9efde0bc487', 'salt2', 'GUEST')";
+        stmt = connect.prepareStatement(query);
+        stmt.executeUpdate();
     }
 
     public synchronized void close() throws SQLException {

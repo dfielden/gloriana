@@ -489,7 +489,6 @@ function updateRowOfBtnClick(btn, data) {
 
 document.getElementById('form__close').addEventListener('click', function() {
     clearNewEntryForm();
-
 });
 
 
