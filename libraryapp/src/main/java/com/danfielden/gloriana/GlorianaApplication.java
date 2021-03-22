@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import javax.annotation.Nullable;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.util.*;
@@ -48,8 +49,21 @@ public class GlorianaApplication {
     }
 
 
+    @GetMapping("/")
+    public String home(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        return loginOrHome(req);
+    }
+
+
     @GetMapping("/login")
-    public String login(HttpServletRequest req) throws Exception {
+    public String login(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        return loginOrHome(req);
+    }
+
+
+    private String loginOrHome(HttpServletRequest req) {
         GlorianaSessionState state = getSessionFromReq(req);
         AuthStatus authStatus;
         if (state != null) {
@@ -59,7 +73,7 @@ public class GlorianaApplication {
         }
 
         if (authStatus.equals(AuthStatus.ADMIN_AUTH_STATUS) || authStatus.equals(AuthStatus.GUEST_AUTH_STATUS)) {
-            // already logged in so redirect to index
+            // already logged in so go to index
             return "index";
         }
         return "login";

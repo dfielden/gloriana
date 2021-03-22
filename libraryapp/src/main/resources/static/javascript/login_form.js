@@ -1,6 +1,6 @@
 const LOGIN_SUCCESS = 'LOGIN_SUCCESS'; // Must match PSFS LOGIN_SUCCESS in GlorianaApplication.java
 const LOGIN_FAIL = 'LOGIN_FAIL';// Must match PSFS LOGIN_FAIL in GlorianaApplication.java
-
+const hello = 'hi';
 
 document.getElementById('btn_login').addEventListener("click", function (e) {
     e.preventDefault();

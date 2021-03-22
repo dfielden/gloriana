@@ -18,7 +18,7 @@ html {
 body {
   box-sizing: border-box;
   /*changes box model so that borders and paddings are not added to total width/height specified for a box*/
-  padding: 3rem;
+  padding: 2rem;
   /* padding around body - not inherited to other elements*/
 }
 @media only screen and (max-width: 1000px) {

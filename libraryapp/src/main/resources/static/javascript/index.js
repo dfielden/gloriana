@@ -9,7 +9,6 @@ const LOGGEDOUT = 'LOGGEDOUT_AUTH_STATUS';// Must match enum in GlorianaApplicat
 document.addEventListener('DOMContentLoaded', function () {
     ajax_get(`/loginstatus`, function(data) {
         if (data.authStatus === LOGGEDOUT) {
-            console.log('redirect to login');
             redirectToLogin();
         } else {
             ajax_get('/entries', function(data) {
@@ -70,7 +69,6 @@ document.getElementById('hamburger_logout').addEventListener('click', function()
 })
 
 function logout() {
-
     ajax_get(`/logout`, function(data) {
         document.getElementById('message-loggedout').style.display = 'inline-block';
         redirectToLogin();
@@ -636,10 +634,6 @@ function setEditPermissions() {
 }
 
 function rescindAdminPermissions() {
-    let btns = document.querySelectorAll('.btn--primary.btn--table'); // all edit buttons
-    for (let i = 0; i < btns.length; i++) {
-        btns[i].removeAttribute("href");
-    }
     document.getElementById('btn_createNewEntry').classList.add('displayNone');
     document.getElementById('btn_changePassword').classList.add('displayNone');
     document.getElementById('hamburger_createNewEntry').classList.add('displayNone');
@@ -651,10 +645,6 @@ function rescindAdminPermissions() {
 }
 
 function grantAdminPermissions() {
-    let btns = document.querySelectorAll('.btn--primary.btn--table'); // all edit buttons
-    // for (let i = 0; i < btns.length; i++) {
-    //     btns[i].setAttribute("href", "#addEdit");
-    // }
     document.getElementById('btn_createNewEntry').classList.remove('displayNone');
     document.getElementById('btn_changePassword').classList.remove('displayNone');
     document.getElementById('hamburger_createNewEntry').classList.remove('displayNone');
