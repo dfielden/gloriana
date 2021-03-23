@@ -507,9 +507,7 @@ a:hover, a:focus, a:active {
   flex-direction: column;
   margin: 2rem;
   max-width: 60rem;
-  height: 32rem;
   align-self: center;
-  height: 32rem;
 }
 @media only screen and (max-width: 760px) {
   .login__content .form, .login__content .login {

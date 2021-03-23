@@ -1,7 +1,9 @@
 package com.danfielden.gloriana;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import org.springframework.aop.scope.ScopedProxyUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -26,6 +29,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class GlorianaApplication {
     private static final String GLORIANA_COOKIE_NAME = "GLORICOOKIE";
     public static final String LOGIN_SUCCESS_RESPONSE_VALUE = "LOGIN_SUCCESS";
+    public static final String PW_CHANGE_SUCCESS_RESPONSE_VALUE = "PW_SUCCESS";
+
     private static final Gson gson = new Gson();
     private static final Random rand = new Random();
 
@@ -86,14 +91,24 @@ public class GlorianaApplication {
         }
     }
 
+    private String passwordOrHome(HttpServletRequest req, HttpServletResponse resp) {
+        GlorianaSessionState state = getOrCreateSession(req, resp);
+
+        if (state.isAdmin()) {
+            // Has permission
+            return "change_password";
+        } else {
+            return "index";
+        }
+    }
+
 
     @ResponseBody // indicates that we should return in response body rather than render a file with the name 'returnString.html'
     @GetMapping("/entries")
     public String entries(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         GlorianaSessionState state = getOrCreateSession(req, resp);
         if (!state.isLoggedIn()) {
-            // TODO this should be an error, not just some un-parseable JSON.
-            return "User not authorised to view content.";
+            throw new IllegalArgumentException( "User not authorised to view content.");
         }
 
         JsonArray entries = new JsonArray();
@@ -246,16 +261,42 @@ public class GlorianaApplication {
         return gson.toJson(AuthStatus.LOGGEDOUT_AUTH_STATUS);
     }
 
+    @GetMapping("/password")
+    public String password(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        resp.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        return passwordOrHome(req, resp);
+    }
+
     @RequestMapping(value="/changepw")
-    public @ResponseBody String changePassword(HttpServletRequest req, HttpServletResponse resp, String user, String oldPw, String newPw) throws Exception {
+    public @ResponseBody String changePassword(HttpServletRequest req, HttpServletResponse resp, @RequestBody String formSubmission) throws Exception {
+        System.out.println(formSubmission);
+        JsonObject formParams = new Gson().fromJson(formSubmission, JsonObject.class);
+        String user = formParams.get("user").getAsString();
+        String currentPw = formParams.get("passwordCurrent").getAsString();
+        String newPw = formParams.get("passwordNew1").getAsString();
+        System.out.println(currentPw);
+
+
+        GlorianaSessionState state = getOrCreateSession(req, resp);
+        if (!state.isAdmin()) {
+            throw new IllegalStateException("User '" + user + " not authorised to change passwords. Please log in as admin.");
+        }
+
         try {
             String currentHashedPw = ql.getuserDetails(user).get("hashedPassword");
-            if (!currentHashedPw.equals(GlorianaAuth.hashString(oldPw))) {
-                return "Incorrect current password. Please try again";
+            String salt = ql.getuserDetails(user).get("salt");
+
+            if (!currentHashedPw.equals(GlorianaAuth.hashString(currentPw + salt))) {
+                throw new IllegalArgumentException("Current password entered incorrectly. Please try again");
             }
             // set new password
-            String[] newPassword = GlorianaAuth.createHashedPassword(newPw);
-            return "hello";
+            String[] newPassword = GlorianaAuth.createHashedPassword(newPw); // new password: [hashed pw, salt];
+            try {
+                ql.updatePassword(user, newPassword[0], newPassword[1]);
+            } catch (SQLException e) {
+                return e.getMessage();
+            }
+            return PW_CHANGE_SUCCESS_RESPONSE_VALUE;
         } catch (IllegalArgumentException e) {
             return e.getMessage();
         }
@@ -291,6 +332,10 @@ public class GlorianaApplication {
 
         boolean isLoggedIn() {
             return authStatus == AuthStatus.ADMIN_AUTH_STATUS || authStatus == AuthStatus.GUEST_AUTH_STATUS;
+        }
+
+        boolean isAdmin() {
+            return authStatus == AuthStatus.ADMIN_AUTH_STATUS;
         }
     }
 

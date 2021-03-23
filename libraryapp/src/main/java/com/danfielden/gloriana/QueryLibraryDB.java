@@ -27,42 +27,42 @@ public final class QueryLibraryDB implements QueryLibrary {
                 "deleted BOOLEAN)";
         connect.createStatement().execute(query);
 
-        query = "DROP TABLE IF EXISTS users";
-        connect.createStatement().execute(query);
-
-        query = "CREATE TABLE IF NOT EXISTS users (" +
-                "id INTEGER PRIMARY KEY NOT NULL, " +
-                "user_name TEXT UNIQUE, " +
-                "password TEXT, " +
-                "salt TEXT, " +
-                "auth TEXT)";
-        connect.createStatement().execute(query);
-
-        query = "REPLACE INTO users (" +
-                "id, user_name, password, salt, auth) " +
-                "VALUES(1, 'admin', '70284fde35e31074df6c4e16804995cba23ac1395758348cdb39bd8908cfa667', 'salt1', 'ADMIN')";
-        PreparedStatement stmt = connect.prepareStatement(query);
-        stmt.executeUpdate();
-
-
-        query = "REPLACE INTO users (" +
-                "id, user_name, password, salt, auth) " +
-                "VALUES(2, 'guest', '82408c8bc309132d91c9d521b29b8bd3eda8c9d176c742358dbed9efde0bc487', 'salt2', 'GUEST')";
-        stmt = connect.prepareStatement(query);
-        stmt.executeUpdate();
-
-        query = "REPLACE INTO users (" +
-                "id, user_name, password, salt, auth) " +
-                "VALUES(3, 'devAdmin', '70284fde35e31074df6c4e16804995cba23ac1395758348cdb39bd8908cfa667', 'salt1', 'ADMIN')";
-        stmt = connect.prepareStatement(query);
-        stmt.executeUpdate();
-
-
-        query = "REPLACE INTO users (" +
-                "id, user_name, password, salt, auth) " +
-                "VALUES(4, 'devGuest', '82408c8bc309132d91c9d521b29b8bd3eda8c9d176c742358dbed9efde0bc487', 'salt2', 'GUEST')";
-        stmt = connect.prepareStatement(query);
-        stmt.executeUpdate();
+//        query = "DROP TABLE IF EXISTS users";
+//        connect.createStatement().execute(query);
+//
+//        query = "CREATE TABLE IF NOT EXISTS users (" +
+//                "id INTEGER PRIMARY KEY NOT NULL, " +
+//                "user_name TEXT UNIQUE, " +
+//                "password TEXT, " +
+//                "salt TEXT, " +
+//                "auth TEXT)";
+//        connect.createStatement().execute(query);
+//
+//        query = "REPLACE INTO users (" +
+//                "id, user_name, password, salt, auth) " +
+//                "VALUES(1, 'admin', '70284fde35e31074df6c4e16804995cba23ac1395758348cdb39bd8908cfa667', 'salt1', 'ADMIN')";
+//        PreparedStatement stmt = connect.prepareStatement(query);
+//        stmt.executeUpdate();
+//
+//
+//        query = "REPLACE INTO users (" +
+//                "id, user_name, password, salt, auth) " +
+//                "VALUES(2, 'guest', '82408c8bc309132d91c9d521b29b8bd3eda8c9d176c742358dbed9efde0bc487', 'salt2', 'GUEST')";
+//        stmt = connect.prepareStatement(query);
+//        stmt.executeUpdate();
+//
+//        query = "REPLACE INTO users (" +
+//                "id, user_name, password, salt, auth) " +
+//                "VALUES(3, 'devAdmin', '70284fde35e31074df6c4e16804995cba23ac1395758348cdb39bd8908cfa667', 'salt1', 'ADMIN')";
+//        stmt = connect.prepareStatement(query);
+//        stmt.executeUpdate();
+//
+//
+//        query = "REPLACE INTO users (" +
+//                "id, user_name, password, salt, auth) " +
+//                "VALUES(4, 'devGuest', '82408c8bc309132d91c9d521b29b8bd3eda8c9d176c742358dbed9efde0bc487', 'salt2', 'GUEST')";
+//        stmt = connect.prepareStatement(query);
+//        stmt.executeUpdate();
     }
 
     public synchronized void close() throws SQLException {
@@ -271,5 +271,21 @@ public final class QueryLibraryDB implements QueryLibrary {
         return userDetails;
     }
 
+    public synchronized void updatePassword(String userName, String hashedPassword, String salt) throws Exception {
+
+        String query = "UPDATE users SET " +
+                "password = ?, " +
+                "salt = ? " +
+                "WHERE user_name = ?";
+
+        try (PreparedStatement stmt = connect.prepareStatement(query)) {
+            stmt.setString(1, hashedPassword);
+            stmt.setString(2, salt);
+            stmt.setString(3, userName);
+
+            // Execute SQL query.
+            stmt.executeUpdate();
+        }
+    }
 
 }

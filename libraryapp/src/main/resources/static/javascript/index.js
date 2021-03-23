@@ -320,7 +320,6 @@ function ajax_get(url, callback) {
         if (xhr.readyState === 4 && xhr.status === 200) {
             try {
                 data = JSON.parse(xhr.responseText);
-                console.log(data);
             } catch (err) {
                 console.log(err.message + " in " + xhr.responseText);
                 return;
@@ -366,7 +365,6 @@ function addEdit__add(xhr) {
                 let tableBody = document.getElementById('table__body');
                 addRowMainTable(tableBody, data);
                 sessionStorage.setItem('display-message', 'added');
-                console.log(sessionStorage.getItem('display-message'));
                 clearNewEntryForm();
                 window.location.href = '/';
             }

@@ -52,9 +52,7 @@
       flex-direction: column;
       margin: 2rem;
       max-width: 60rem;
-      height: 32rem;
       align-self: center;
-      height: 32rem;
 
       @media only screen and (max-width: $break-small) {
         background-color: rgba($color-grey-light, 0);

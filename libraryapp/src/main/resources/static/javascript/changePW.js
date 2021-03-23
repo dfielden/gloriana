@@ -1,10 +1,9 @@
-const LOGIN_SUCCESS = 'LOGIN_SUCCESS'; // Must match PSFS LOGIN_SUCCESS in GlorianaApplication.java
-const LOGIN_FAIL = 'LOGIN_FAIL';// Must match PSFS LOGIN_FAIL in GlorianaApplication.java
+const PW_CHANGE_SUCCESS_RESPONSE_VALUE = "PW_SUCCESS"; // Must match PSFS LOGIN_SUCCESS in GlorianaApplication.java
 
 document.getElementById('btn_pw').addEventListener("click", function (e) {
     e.preventDefault();
     let user = document.getElementById('select-user').value;
-    let passwordOld = document.getElementById('oldPassword').value;
+    let passwordCurrent = document.getElementById('currentPassword').value;
     let passwordNew1 = document.getElementById('newPassword1').value;
     let passwordNew2 = document.getElementById('newPassword2').value;
 
@@ -14,14 +13,14 @@ document.getElementById('btn_pw').addEventListener("click", function (e) {
         return;
     }
 
-    if (passwordOld === passwordNew1 || passwordOld === papasswordNew2) {
-        document.getElementById('changePW-failed').innerText = "Please ensure new password is different to the current password";
+    if (passwordCurrent === passwordNew1 || passwordCurrent === passwordNew2) {
+        document.getElementById('changePW-failed').innerText = "Please ensure the proposed new password is different to your current password";
         document.getElementById('changePW-failed').classList.remove('displayNone');
         return;
     }
 
 
-    let object = {"user": user, "passwordOld" : passwordOld, "passwordNew1": passwordNew1, "passwordNew2": passwordNew2};
+    let object = {"user": user, "passwordCurrent" : passwordCurrent, "passwordNew1": passwordNew1, "passwordNew2": passwordNew2};
     let json = JSON.stringify(object);
 
     let xhr = new XMLHttpRequest();
@@ -36,16 +35,16 @@ document.getElementById('btn_pw').addEventListener("click", function (e) {
                 console.log(xhr.responseText);
                 document.getElementById('changePWForm').reset();
 
-                // if logged in
-                if (xhr.responseText === LOGIN_SUCCESS) {
-                    console.log('logged in!');
-                    sessionStorage.setItem('display-message', 'loggedin');
-                    document.getElementById('login-failed').classList.add('displayNone');
-                    window.location.href = '/';
+                // if success
+                if (xhr.responseText === PW_CHANGE_SUCCESS_RESPONSE_VALUE) {
+                    console.log('Changed PW');
+                     sessionStorage.setItem('display-message', 'passwordchanged');
+                     document.getElementById('changePW-failed').classList.add('displayNone');
+                     window.location.href = '/';
                 } else {
-                    console.log('logged failed');
-                    document.getElementById('login-failed').innerText = xhr.responseText;
-                    document.getElementById('login-failed').classList.remove('displayNone');
+                    console.log('pw change failed');
+                    document.getElementById('changePW-failed').innerText = xhr.responseText;
+                    document.getElementById('changePW-failed').classList.remove('displayNone');
                 }
             } catch (err) {
                 console.log(err.message + " in " + xhr.responseText);
@@ -55,6 +54,7 @@ document.getElementById('btn_pw').addEventListener("click", function (e) {
     xhr.send(json);
 })
 
-document.getElementById('login__close').addEventListener('click', function() {
-    document.getElementById('loginForm').reset();
+document.getElementById('pw__close').addEventListener('click', function() {
+    document.getElementById('changePWForm').reset();
+    window.location.href = '/';
 })
