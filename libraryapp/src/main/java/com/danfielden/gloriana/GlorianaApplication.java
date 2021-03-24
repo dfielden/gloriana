@@ -91,6 +91,7 @@ public class GlorianaApplication {
         }
     }
 
+
     private String passwordOrHome(HttpServletRequest req, HttpServletResponse resp) {
         GlorianaSessionState state = getOrCreateSession(req, resp);
 
@@ -101,7 +102,7 @@ public class GlorianaApplication {
             return "index";
         }
     }
-
+    
 
     @ResponseBody // indicates that we should return in response body rather than render a file with the name 'returnString.html'
     @GetMapping("/entries")
@@ -269,12 +270,10 @@ public class GlorianaApplication {
 
     @RequestMapping(value="/changepw")
     public @ResponseBody String changePassword(HttpServletRequest req, HttpServletResponse resp, @RequestBody String formSubmission) throws Exception {
-        System.out.println(formSubmission);
         JsonObject formParams = new Gson().fromJson(formSubmission, JsonObject.class);
         String user = formParams.get("user").getAsString();
         String currentPw = formParams.get("passwordCurrent").getAsString();
         String newPw = formParams.get("passwordNew1").getAsString();
-        System.out.println(currentPw);
 
 
         GlorianaSessionState state = getOrCreateSession(req, resp);

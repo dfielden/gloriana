@@ -22,6 +22,7 @@
   justify-content: space-around;
 
   &--justify-end {
+    display: flex;
     justify-content: flex-end;
 
   }
@@ -29,6 +30,7 @@
   &--form {
     @media only screen and (max-width: $break-small) {
       flex-direction: column;
+      margin: -1px, 0; /*hack to prevent extra spacing being added on iphone/iPad - does not affect appearence on Chrome*/
     }
   }
 
@@ -60,7 +62,6 @@
 .visible {
   opacity: 1 !important;
   visibility: visible !important;
-  //display: flex !important;
 }
 
 .displayNone {

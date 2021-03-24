@@ -5,6 +5,10 @@ const ADMIN = 'ADMIN_AUTH_STATUS'; // Must match enum in GlorianaApplication.jav
 const GUEST = 'GUEST_AUTH_STATUS';// Must match enum in GlorianaApplication.java
 const LOGGEDOUT = 'LOGGEDOUT_AUTH_STATUS';// Must match enum in GlorianaApplication.java
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// LOAD AND DOM EVENT LISTENERS
+
 
 document.addEventListener('DOMContentLoaded', function () {
     ajax_get(`/loginstatus`, function(data) {
@@ -36,200 +40,14 @@ window.addEventListener('load', function(event) {
     sessionStorage.setItem('display-message', undefined);
 });
 
-document.getElementById('btn_createNewEntry').addEventListener('click', function() {
-    createNewEntry();
-})
 
-document.getElementById('hamburger_createNewEntry').addEventListener('click', function() {
-    createNewEntry();
-})
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-function createNewEntry() {
-    ajax_get(`/loginstatus`, function(data) {
-        if (data.authStatus !== ADMIN) {
-            alert(noPermission);
-        } else {
-            toggleAddEditText();
-            clearNewEntryForm();
-            showAddEditForm();
-            document.getElementById('accompanied-label').style.display = "none";
-            document.getElementById('accompanied').style.color = '#838083'; // COLOR_LIGHT_GREY
-            document.getElementById('season-label').style.display = "none";
-            document.getElementById('season').style.color = '#838083'; // COLOR_LIGHT_GREY
-        }
-    })
-}
+// POPULATE TABLE
 
-document.getElementById('btn_logout').addEventListener('click', function() {
-    logout();
-})
-
-document.getElementById('hamburger_logout').addEventListener('click', function() {
-    logout();
-})
-
-function logout() {
-    ajax_get(`/logout`, function(data) {
-        document.getElementById('message-loggedout').style.display = 'inline-block';
-        redirectToLogin();
-    })
-}
-
-
-document.getElementById('accompanied').addEventListener('click', function() {
-    toggleAddEditText();
-    if (window.matchMedia("(max-width: 700px)").matches) {
-        document.getElementById('accompanied-label').style.display = "none";
-    } else {
-        document.getElementById('accompanied-label').style.display = "block";
-    }
-})
-
-
-document.getElementById('season').addEventListener('click', function() {
-    toggleAddEditText();
-    if (window.matchMedia("(max-width: 700px)").matches) {
-        document.getElementById('season-label').style.display = "none";
-    } else {
-        document.getElementById('season-label').style.display = "block";
-    }
-})
-
-/*
-Use Event bubbling to add event listeners to current and future button elements from the document object.
- */
-document.addEventListener('click',function(e) {
-    if (getBtnIdDescription(e.target.id) === ('delete')) {
-        ajax_get(`/loginstatus`, function(data) {
-            if (data.authStatus !== ADMIN) {
-                alert(noPermission);
-            } else {
-                document.getElementById('delete-alert').classList.add('visible');
-                // Set params for delete ajax
-                deleteValue = getBtnIdNum(e.target.id);
-                clickedBtn = e.target;
-            }
-        });
-    }
-});
-
-
-document.getElementById('btn_cancelDelete').addEventListener('click', function() {
-    document.getElementById('delete-alert').classList.remove('visible');
-    // Reset delete params
-    deleteValue = -1;
-    clickedBtn = undefined;
-})
-
-
-document.getElementById('btn_confirmDelete').addEventListener('click', function() {
-    ajax_get(`/loginstatus`, function (data) {
-        if (data.authStatus !== ADMIN) {
-            alert(noPermission);
-            clearNewEntryForm();
-            window.location.href = '/';
-        } else {
-            document.getElementById('delete-alert').classList.remove('visible');
-            let xhr = new XMLHttpRequest();
-            let url = '/delete/' + deleteValue;
-            xhr.open('POST', url, true);
-
-            //Send the proper header information along with the request
-            xhr.setRequestHeader('Content-type', 'application/json');
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    deleteRowOfBtnClick(clickedBtn);
-                    sessionStorage.setItem('display-message', 'deleted');
-                    clearNewEntryForm();
-
-                    // Reset delete params
-                    deleteValue = -1;
-                    clickedBtn = undefined;
-                }
-            }
-            xhr.send();
-        }
-    })
-})
-
-
-document.addEventListener('click',function(e) {
-    if (getBtnIdDescription(e.target.id) === ('edit')) {
-        ajax_get(`/loginstatus`, function(data) {
-            if (data.authStatus !== ADMIN) {
-                clearNewEntryForm();
-                alert(noPermission);
-            } else {
-                showAddEditForm();
-                let id = getBtnIdNum(e.target.id);
-                let url = '/entry/' + id;
-
-                ajax_get(url, function (data) {
-                    document.getElementById('id').value = data.id;
-                    document.getElementById('title').value = data.title;
-                    document.getElementById('composerLastName').value = data.composerLastName;
-                    document.getElementById('composerFirstName').value = data.composerFirstName;
-                    document.getElementById('arranger').value = data.arranger;
-                    document.getElementById('voiceParts').value = data.voiceParts;
-                    document.getElementById('season').value = data.season == null ? '-1' : data.season;
-                    document.getElementById('seasonAdditional').value = data.seasonAdditional;
-                    document.getElementById('location').value = data.location;
-                    document.getElementById('collection').value = data.collection;
-                    document.getElementById('accompanied').value = data.accompanied == null ? '-1' : data.accompanied;
-
-                    if (document.getElementById('accompanied').value === '') {
-                        document.getElementById('accompanied-label').style.display = "none";
-                        document.getElementById('accompanied').selectedIndex = 0;
-                        document.getElementById('accompanied').style.color = '#838083'; // COLOR_LIGHT_GREY
-                    } else {
-                        if (window.matchMedia("(max-width: 700px)").matches) {
-                            document.getElementById('accompanied-label').style.display = "none";
-                        } else {
-                            document.getElementById('accompanied-label').style.display = "block";
-                        }
-                    }
-
-                    if (document.getElementById('season').value === '') {
-                        document.getElementById('season-label').style.display = "none";
-                        document.getElementById('season').selectedIndex = 0;
-                        document.getElementById('season').style.color = '#838083'; // COLOR_LIGHT_GREY
-                    } else {
-                        if (window.matchMedia("(max-width: 700px)").matches) {
-                            document.getElementById('season-label').style.display = "none";
-                        } else {
-                            document.getElementById('season-label').style.display = "block";
-                        }
-                    }
-
-                    toggleLabelPlaceholderStyle(document.getElementById('accompanied'));
-                    toggleLabelPlaceholderStyle(document.getElementById('season'));
-                    toggleAddEditText();
-                });
-            }
-        });
-    }
-});
-
-function showAddEditForm() {
-    let form = document.getElementById('addEdit');
-    let formContent = document.getElementById('addEdit__content');
-
-    form.classList.remove('displayNone');
-    formContent.classList.remove('displayNone');
-    form.classList.add('visible');
-    formContent.classList.add('visible', 'centerModalView');
-}
-
-function hideAddEditForm() {
-    let form = document.getElementById('addEdit');
-    let formContent = document.getElementById('addEdit__content');
-
-    form.classList.add('displayNone');
-    formContent.classList.add('displayNone');
-    form.classList.remove('visible');
-    formContent.classList.remove('visible', 'centerModalView');
-}
-
+const tableParameters = ["pseudo--ID", "pseudo--title", "pseudo--lastName", "pseudo--firstName", "pseudo--arranger",
+    "pseudo--voiceParts", "pseudo--accompanied", "pseudo--season", "pseudo--seasonAdditional", "pseudo--location",
+    "pseudo--collection", "pseudo--action"];
 
 function populateMainTable(data) {
     let tableBody = document.getElementById('table__body');
@@ -303,97 +121,99 @@ function addRowMainTable(tableBody, data) {
 }
 
 
-function clearNewEntryForm() {
-    document.getElementById('addEditForm').reset();
-    document.getElementById('id').value = '-1';
-    hideAddEditForm();
+function getBtnIdNum(string) {
+    return string.split('_')[1];
 }
 
 
-/*
-general ajax call to get json from url then pass it into a function.
- */
-function ajax_get(url, callback) {
-    let xhr = new XMLHttpRequest();
-    let data;
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            try {
-                data = JSON.parse(xhr.responseText);
-            } catch (err) {
-                console.log(err.message + " in " + xhr.responseText);
-                return;
-            }
-            callback(data);
-        }
-    };
-    xhr.open("GET", url, true);
-    xhr.send();
+function getBtnIdDescription(string) {
+    return string.split('_')[0];
 }
 
 
-document.getElementById('addEditForm').addEventListener("submit", function (e) {
-    e.preventDefault();
+function deleteRowOfBtnClick(btn) {
+    let row = btn.parentNode.parentNode.parentNode;
+    row.parentNode.removeChild(row);
+}
 
-    let formData = new FormData(this);
-    let object = {};
-    formData.forEach(function(value, key){
-        object[key] = value;
-    });
-    let json = JSON.stringify(object);
-    let xhr = new XMLHttpRequest();
 
-    if (document.getElementById('id').value === '-1') {
-        addEdit__add(xhr);
-    } else {
-        addEdit__edit(xhr);
+function updateRowOfBtnClick(btn, data) {
+    let row = btn.parentNode.parentNode;
+    addRowMainTable(row, data);
+}
+
+function clearClassFromDOM(className) {
+    let classList = document.getElementsByClassName(className);
+    while(classList[0]) {
+        classList[0].parentNode.removeChild(classList[0]);
     }
-    xhr.send(json);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// SHOW HIDE HAMBURGER MENU
+
+document.getElementById('nav--burger').addEventListener('click', function() {
+    showHamburgerMenu();
 });
 
 
-function addEdit__add(xhr) {
-    if (document.getElementById('id').value === '-1') {
-        let url = '/newentry';
-        xhr.open('POST', url, true);
-
-        //Send the proper header information along with the request
-        xhr.setRequestHeader('Content-type', 'application/json');
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                let data = JSON.parse(xhr.responseText);
-                let tableBody = document.getElementById('table__body');
-                addRowMainTable(tableBody, data);
-                sessionStorage.setItem('display-message', 'added');
-                clearNewEntryForm();
-                window.location.href = '/';
-            }
-        }
-    }
-}
-
-
-function addEdit__edit(xhr) {
-    let url = '/edit';
-    xhr.open('POST', url, true);
-
-    //Send the proper header information along with the request
-    xhr.setRequestHeader('Content-type', 'application/json');
-    xhr.onreadystatechange = function() {
-        if(xhr.readyState === 4 && xhr.status === 200) {
-            let data = JSON.parse(xhr.responseText);
-            let btn = document.getElementById('edit_' + document.getElementById('id').value);
-            updateRowOfBtnClick(btn, data);
-            sessionStorage.setItem('display-message', 'updated');
-            clearNewEntryForm(true);
-        }
-    }
-}
-
-
-document.getElementById('btn_cancelNewEntry').addEventListener('click', function() {
-    clearNewEntryForm(false);
+document.getElementById('hamburger-menu__close').addEventListener('click', function() {
+    hideHamburgerMenu();
 });
+
+
+function showHamburgerMenu() {
+    let menu = document.getElementById('hamburger-menu');
+    let menuBackground = document.getElementById('hamburger-menu__background');
+
+    menu.classList.remove('displayNone');
+    menuBackground.classList.remove('displayNone');
+    menu.classList.add('visible');
+    menuBackground.classList.add('visible');
+}
+
+
+function hideHamburgerMenu() {
+    let menu = document.getElementById('hamburger-menu');
+    let menuBackground = document.getElementById('hamburger-menu__background');
+
+    menu.classList.add('displayNone');
+    menuBackground.classList.add('displayNone');
+    menu.classList.remove('visible');
+    menuBackground.classList.remove('visible');
+}
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// SEARCH ENTRIES
+
+
+document.getElementById('search__clear').addEventListener('click', function() {
+    clearSearchForms();
+    window.location.href = '/';
+})
+
+
+document.getElementById('search__clear--hamburger').addEventListener('click', function() {
+    clearSearchForms();
+    window.location.href = '/';
+})
+
+
+function clearSearchForms() {
+    document.getElementById('searchForm').reset();
+    document.getElementById('searchForm--hamburger').reset();
+}
+
+
+document.getElementById('searchMusic').addEventListener('click', function() {
+    document.getElementById('search--hamburger').style.display = 'flex';
+})
 
 
 document.getElementById('search__button').addEventListener("click", function (e) {
@@ -462,65 +282,202 @@ document.getElementById('search__button--hamburger').addEventListener("click", f
     }
 });
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-function getBtnIdNum(string) {
-    return string.split('_')[1];
+// ADD AND EDIT ENTRIES
+
+document.getElementById('btn_createNewEntry').addEventListener('click', function() {
+    createNewEntry();
+})
+
+document.getElementById('hamburger_createNewEntry').addEventListener('click', function() {
+    createNewEntry();
+})
+
+function createNewEntry() {
+    ajax_get(`/loginstatus`, function(data) {
+        if (data.authStatus !== ADMIN) {
+            alert(noPermission);
+        } else {
+            toggleAddEditText();
+            clearNewEntryForm();
+            showAddEditForm();
+            document.getElementById('accompanied-label').style.display = "none";
+            document.getElementById('accompanied').style.color = '#838083'; // COLOR_LIGHT_GREY
+            document.getElementById('season-label').style.display = "none";
+            document.getElementById('season').style.color = '#838083'; // COLOR_LIGHT_GREY
+        }
+    })
 }
 
 
-function getBtnIdDescription(string) {
-    return string.split('_')[0];
-}
+// ADD EDIT AJAX
 
+document.getElementById('addEditForm').addEventListener("submit", function (e) {
+    e.preventDefault();
 
-function deleteRowOfBtnClick(btn) {
-    let row = btn.parentNode.parentNode.parentNode;
-    row.parentNode.removeChild(row);
-}
+    let formData = new FormData(this);
+    let object = {};
+    formData.forEach(function(value, key){
+        object[key] = value;
+    });
+    let json = JSON.stringify(object);
+    let xhr = new XMLHttpRequest();
 
-
-function updateRowOfBtnClick(btn, data) {
-    let row = btn.parentNode.parentNode;
-    addRowMainTable(row, data);
-}
-
-
-document.getElementById('form__close').addEventListener('click', function() {
-    clearNewEntryForm();
+    if (document.getElementById('id').value === '-1') {
+        addEdit__add(xhr);
+    } else {
+        addEdit__edit(xhr);
+    }
+    xhr.send(json);
 });
 
 
-document.getElementById('nav--burger').addEventListener('click', function() {
-    showHamburgerMenu();
-});
+function addEdit__add(xhr) {
+    if (document.getElementById('id').value === '-1') {
+        let url = '/newentry';
+        xhr.open('POST', url, true);
 
+        //Send the proper header information along with the request
+        xhr.setRequestHeader('Content-type', 'application/json');
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                let data = JSON.parse(xhr.responseText);
+                let tableBody = document.getElementById('table__body');
+                addRowMainTable(tableBody, data);
+                sessionStorage.setItem('display-message', 'added');
+                clearNewEntryForm();
+                window.location.href = '/';
+            }
+        }
+    }
+}
 
-document.getElementById('hamburger-menu__close').addEventListener('click', function() {
-    hideHamburgerMenu();
-});
+function addEdit__edit(xhr) {
+    let url = '/edit';
+    xhr.open('POST', url, true);
 
-
-function showHamburgerMenu() {
-    let menu = document.getElementById('hamburger-menu');
-    let menuBackground = document.getElementById('hamburger-menu__background');
-
-    menu.classList.remove('displayNone');
-    menuBackground.classList.remove('displayNone');
-    menu.classList.add('visible');
-    menuBackground.classList.add('visible');
+    //Send the proper header information along with the request
+    xhr.setRequestHeader('Content-type', 'application/json');
+    xhr.onreadystatechange = function() {
+        if(xhr.readyState === 4 && xhr.status === 200) {
+            let data = JSON.parse(xhr.responseText);
+            let btn = document.getElementById('edit_' + document.getElementById('id').value);
+            updateRowOfBtnClick(btn, data);
+            sessionStorage.setItem('display-message', 'updated');
+            clearNewEntryForm(true);
+        }
+    }
 }
 
 
-function hideHamburgerMenu() {
-    let menu = document.getElementById('hamburger-menu');
-    let menuBackground = document.getElementById('hamburger-menu__background');
+document.addEventListener('click',function(e) {
+    if (getBtnIdDescription(e.target.id) === ('edit')) {
+        ajax_get(`/loginstatus`, function(data) {
+            if (data.authStatus !== ADMIN) {
+                clearNewEntryForm();
+                alert(noPermission);
+            } else {
+                showAddEditForm();
+                let id = getBtnIdNum(e.target.id);
+                let url = '/entry/' + id;
 
-    menu.classList.add('displayNone');
-    menuBackground.classList.add('displayNone');
-    menu.classList.remove('visible');
-    menuBackground.classList.remove('visible');
+                ajax_get(url, function (data) {
+                    document.getElementById('id').value = data.id;
+                    document.getElementById('title').value = data.title;
+                    document.getElementById('composerLastName').value = data.composerLastName;
+                    document.getElementById('composerFirstName').value = data.composerFirstName;
+                    document.getElementById('arranger').value = data.arranger;
+                    document.getElementById('voiceParts').value = data.voiceParts;
+                    document.getElementById('season').value = (data.season == null || data.season === ' ') ? '-1' : data.season;
+                    document.getElementById('seasonAdditional').value = data.seasonAdditional;
+                    document.getElementById('location').value = data.location;
+                    document.getElementById('collection').value = data.collection;
+                    document.getElementById('accompanied').value = data.accompanied == null ? '-1' : data.accompanied;
+
+                    if (document.getElementById('accompanied').value === '') {
+                        document.getElementById('accompanied-label').style.display = "none";
+                        document.getElementById('accompanied').selectedIndex = 0;
+                        document.getElementById('accompanied').style.color = '#838083'; // COLOR_LIGHT_GREY
+                    } else {
+                        if (window.matchMedia("(max-width: 700px)").matches) {
+                            document.getElementById('accompanied-label').style.display = "none";
+                        } else {
+                            document.getElementById('accompanied-label').style.display = "block";
+                        }
+                    }
+
+                    if (document.getElementById('season').value === '') {
+                        document.getElementById('season-label').style.display = "none";
+                        document.getElementById('season').selectedIndex = 0;
+                        document.getElementById('season').style.color = '#838083'; // COLOR_LIGHT_GREY
+                    } else {
+                        if (window.matchMedia("(max-width: 700px)").matches) {
+                            document.getElementById('season-label').style.display = "none";
+                        } else {
+                            document.getElementById('season-label').style.display = "block";
+                        }
+                    }
+
+                    toggleLabelPlaceholderStyle(document.getElementById('accompanied'));
+                    toggleLabelPlaceholderStyle(document.getElementById('season'));
+                    toggleAddEditText();
+                });
+            }
+        });
+    }
+});
+
+// SHOW AND FORMAT ADD EDIT FORM
+
+function showAddEditForm() {
+    let form = document.getElementById('addEdit');
+    let formContent = document.getElementById('addEdit__content');
+
+    form.classList.remove('displayNone');
+    formContent.classList.remove('displayNone');
+    form.classList.add('visible');
+    formContent.classList.add('visible', 'centerModalView');
+
 }
 
+
+function clearNewEntryForm() {
+    document.getElementById('addEditForm').reset();
+    document.getElementById('id').value = '-1';
+    hideAddEditForm();
+}
+
+
+function hideAddEditForm() {
+    let form = document.getElementById('addEdit');
+    let formContent = document.getElementById('addEdit__content');
+
+    form.classList.add('displayNone');
+    formContent.classList.add('displayNone');
+    form.classList.remove('visible');
+    formContent.classList.remove('visible', 'centerModalView');
+}
+
+
+document.getElementById('accompanied').addEventListener('click', function() {
+    toggleAddEditText();
+    if (window.matchMedia("(max-width: 700px)").matches) {
+        document.getElementById('accompanied-label').style.display = "none";
+    } else {
+        document.getElementById('accompanied-label').style.display = "block";
+    }
+})
+
+
+document.getElementById('season').addEventListener('click', function() {
+    toggleAddEditText();
+    if (window.matchMedia("(max-width: 700px)").matches) {
+        document.getElementById('season-label').style.display = "none";
+    } else {
+        document.getElementById('season-label').style.display = "block";
+    }
+})
 
 function toggleLabelPlaceholderStyle(labelElement) {
     if (labelElement.value === '-1') {
@@ -542,54 +499,167 @@ function toggleAddEditText() {
 }
 
 
-function clearClassFromDOM(className) {
-    let classList = document.getElementsByClassName(className);
-    while(classList[0]) {
-        classList[0].parentNode.removeChild(classList[0]);
+// CLOSE NEW ENTRY FORM
+
+document.getElementById('form__close').addEventListener('click', function() {
+    clearNewEntryForm();
+});
+
+document.getElementById('btn_cancelNewEntry').addEventListener('click', function() {
+    clearNewEntryForm();
+});
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// DELETE ENTRIES
+
+/*
+Use Event bubbling to add event listeners to current and future button elements from the document object.
+ */
+document.addEventListener('click',function(e) {
+    if (getBtnIdDescription(e.target.id) === ('delete')) {
+        console.log('delete');
+        ajax_get(`/loginstatus`, function(data) {
+            if (data.authStatus !== ADMIN) {
+                alert(noPermission);
+            } else {
+                console.log('make it visible');
+                document.getElementById('delete-alert').classList.add('visible');
+                document.getElementById('delete-alert').style.display = 'flex';
+
+                // Set params for delete ajax
+                deleteValue = getBtnIdNum(e.target.id);
+                clickedBtn = e.target;
+            }
+        });
+    }
+});
+
+
+document.getElementById('btn_cancelDelete').addEventListener('click', function() {
+    document.getElementById('delete-alert').classList.remove('visible');
+    document.getElementById('delete-alert').style.display = 'none';
+
+    // Reset delete params
+    deleteValue = -1;
+    clickedBtn = undefined;
+})
+
+
+document.getElementById('btn_confirmDelete').addEventListener('click', function() {
+    ajax_get(`/loginstatus`, function (data) {
+        if (data.authStatus !== ADMIN) {
+            alert(noPermission);
+            clearNewEntryForm();
+            window.location.href = '/';
+        } else {
+            document.getElementById('delete-alert').classList.remove('visible');
+            let xhr = new XMLHttpRequest();
+            let url = '/delete/' + deleteValue;
+            xhr.open('POST', url, true);
+
+            //Send the proper header information along with the request
+            xhr.setRequestHeader('Content-type', 'application/json');
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    deleteRowOfBtnClick(clickedBtn);
+                    sessionStorage.setItem('display-message', 'deleted');
+                    clearNewEntryForm();
+
+                    // Reset delete params
+                    deleteValue = -1;
+                    clickedBtn = undefined;
+
+                    window.location.href = '/';
+                }
+            }
+            xhr.send();
+        }
+    })
+})
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// AUTHENTICATION
+function setEditPermissions() {
+    ajax_get(`/loginstatus`, function (data) {
+        if (data.authStatus === ADMIN) {
+            // admin access
+            grantAdminPermissions();
+        } else if (data.authStatus === GUEST) {
+            // guest access
+            rescindAdminPermissions();
+        } else {
+            // no access
+            redirectToLogin();
+        }
+    })
+}
+
+
+function rescindAdminPermissions() {
+    document.getElementById('btn_createNewEntry').classList.add('displayNone');
+    document.getElementById('btn_changePassword').classList.add('displayNone');
+    document.getElementById('hamburger_createNewEntry').classList.add('displayNone');
+    document.getElementById('hamburger_changePassword').classList.add('displayNone');
+    let actionCells = document.querySelectorAll('.flex__oneEleventh');
+    for(let i = 0; i < actionCells.length; i++) {
+        actionCells[i].classList.add("displayNone");
     }
 }
 
 
-document.getElementById('search__clear').addEventListener('click', function() {
-    clearSearchForms();
-    window.location.href = '/';
-})
+function grantAdminPermissions() {
+    document.getElementById('btn_createNewEntry').classList.remove('displayNone');
+    document.getElementById('btn_changePassword').classList.remove('displayNone');
+    document.getElementById('hamburger_createNewEntry').classList.remove('displayNone');
+    document.getElementById('hamburger_changePassword').classList.remove('displayNone');
 
-
-document.getElementById('search__clear--hamburger').addEventListener('click', function() {
-    clearSearchForms();
-    window.location.href = '/';
-})
-
-
-function clearSearchForms() {
-    document.getElementById('searchForm').reset();
-    document.getElementById('searchForm--hamburger').reset();
+    let actionCells = document.querySelectorAll('.flex__oneEleventh');
+    for(let i = 0; i < actionCells.length; i++) {
+        actionCells[i].classList.remove("displayNone");
+    }
 }
 
 
-document.getElementById('searchMusic').addEventListener('click', function() {
-    document.getElementById('search--hamburger').style.display = 'flex';
+function redirectToLogin() {
+    window.location.href = '/login';
+}
+
+document.getElementById('btn_logout').addEventListener('click', function() {
+    logout();
 })
 
+document.getElementById('hamburger_logout').addEventListener('click', function() {
+    logout();
+})
 
-const tableParameters = ["pseudo--ID", "pseudo--title", "pseudo--lastName", "pseudo--firstName", "pseudo--arranger",
-    "pseudo--voiceParts", "pseudo--accompanied", "pseudo--season", "pseudo--seasonAdditional", "pseudo--location",
-    "pseudo--collection", "pseudo--action"];
+function logout() {
+    ajax_get(`/logout`, function(data) {
+        document.getElementById('message-loggedout').style.display = 'inline-block';
+        redirectToLogin();
+    })
+}
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // GLOSSARY
+
 document.getElementById('btn_glossary').addEventListener('click', function() {
     showGlossary();
 })
+
 
 document.getElementById('hamburger_glossary').addEventListener('click', function() {
     showGlossary();
 })
 
+
 document.getElementById('glossary__close').addEventListener('click', function() {
     hideGlossary();
 })
+
 
 function showGlossary() {
     hideHamburgerMenu()
@@ -613,47 +683,25 @@ function hideGlossary() {
     glossaryContent.classList.remove('visible');
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-// AUTHENTICATION
-function setEditPermissions() {
-    ajax_get(`/loginstatus`, function (data) {
-        if (data.authStatus === ADMIN) {
-            // admin access
-            grantAdminPermissions();
-        } else if (data.authStatus === GUEST) {
-            // guest access
-            rescindAdminPermissions();
-        } else {
-            // no access
-            redirectToLogin();
+/*
+general ajax call to get json from url then pass it into a function.
+ */
+function ajax_get(url, callback) {
+    let xhr = new XMLHttpRequest();
+    let data;
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            try {
+                data = JSON.parse(xhr.responseText);
+            } catch (err) {
+                console.log(err.message + " in " + xhr.responseText);
+                return;
+            }
+            callback(data);
         }
-    })
-}
-
-function rescindAdminPermissions() {
-    document.getElementById('btn_createNewEntry').classList.add('displayNone');
-    document.getElementById('btn_changePassword').classList.add('displayNone');
-    document.getElementById('hamburger_createNewEntry').classList.add('displayNone');
-    document.getElementById('hamburger_changePassword').classList.add('displayNone');
-    let actionCells = document.querySelectorAll('.flex__oneEleventh');
-    for(let i = 0; i < actionCells.length; i++) {
-        actionCells[i].classList.add("displayNone");
-    }
-}
-
-function grantAdminPermissions() {
-    document.getElementById('btn_createNewEntry').classList.remove('displayNone');
-    document.getElementById('btn_changePassword').classList.remove('displayNone');
-    document.getElementById('hamburger_createNewEntry').classList.remove('displayNone');
-    document.getElementById('hamburger_changePassword').classList.remove('displayNone');
-
-    let actionCells = document.querySelectorAll('.flex__oneEleventh');
-    for(let i = 0; i < actionCells.length; i++) {
-        actionCells[i].classList.remove("displayNone");
-    }
-}
-
-function redirectToLogin() {
-    window.location.href = '/login';
+    };
+    xhr.open("GET", url, true);
+    xhr.send();
 }

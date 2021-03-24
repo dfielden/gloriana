@@ -35,6 +35,10 @@ a:hover, a:focus, a:active {
   color: #ffffff;
 }
 
+select {
+  -webkit-appearance: none;
+}
+
 .flex__full {
   flex: 0 0 100%;
 }
@@ -58,11 +62,14 @@ a:hover, a:focus, a:active {
   justify-content: space-around;
 }
 .flexwrapper--justify-end {
+  display: flex;
   justify-content: flex-end;
 }
 @media only screen and (max-width: 760px) {
   .flexwrapper--form {
     flex-direction: column;
+    margin: -1px, 0;
+    /*hack to prevent extra spacing being added on iphone/iPad - does not affect appearence on Chrome*/
   }
 }
 .flexwrapper__vertical {
@@ -306,7 +313,7 @@ a:hover, a:focus, a:active {
 }
 
 .addEdit {
-  height: 100vh;
+  height: 100%;
   width: 100%;
   position: fixed;
   top: 0;
@@ -363,7 +370,7 @@ a:hover, a:focus, a:active {
   .addEdit__content .form {
     background-color: rgba(190, 188, 190, 0);
     max-width: 100%;
-    height: 100vh;
+    height: 100%;
     margin: 0;
   }
 }
@@ -400,14 +407,9 @@ a:hover, a:focus, a:active {
 .addEdit__content .form__close:link, .addEdit__content .form__close:visited {
   color: #001647;
   padding-right: 1rem;
+  padding-top: 10rem;
   font-size: 4rem;
-  text-decoration: none;
-  display: inline-block;
   transition: all 0.2s;
-  line-height: 1;
-  justify-content: flex-end;
-  align-self: flex-end;
-  margin-left: auto;
 }
 @media only screen and (max-width: 760px) {
   .addEdit__content .form__close:link, .addEdit__content .form__close:visited {
