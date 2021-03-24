@@ -1,5 +1,14 @@
 const PW_CHANGE_SUCCESS_RESPONSE_VALUE = "PW_SUCCESS"; // Must match PSFS LOGIN_SUCCESS in GlorianaApplication.java
 
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('select-user-label').style.visibility = "hidden";
+    document.getElementById('select-user').addEventListener('click', function(e) {
+        styleSelectAsClicked(document.getElementById('select-user'));
+    });
+});
+
 document.getElementById('btn_pw').addEventListener("click", function (e) {
     e.preventDefault();
     let user = document.getElementById('select-user').value;
@@ -58,3 +67,10 @@ document.getElementById('pw__close').addEventListener('click', function() {
     document.getElementById('changePWForm').reset();
     window.location.href = '/';
 })
+
+function styleSelectAsClicked(labelElement) {
+    let labelID = labelElement.name + '-label'; // TODO - this needs to change from a dom element to its name
+    console.log(labelID);
+    labelElement.classList.remove('select-text-default');
+    document.getElementById(labelID).style.visibility = "visible";
+}
