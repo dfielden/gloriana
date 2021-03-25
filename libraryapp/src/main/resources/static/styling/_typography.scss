@@ -65,6 +65,10 @@ body {
     }
   }
 
+  &--glossary {
+    color: $color-white;
+  }
+
   &--warning {
     color: $color-warning;
   }
