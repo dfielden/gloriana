@@ -213,7 +213,7 @@ select {
     margin: 0.5rem 2.5rem;
   }
 }
-@media only screen and (max-width: 260px) {
+@media only screen and (max-width: 280px) {
   .btn--table {
     min-width: 6rem;
     margin: 0.3rem;
@@ -236,9 +236,10 @@ select {
     width: 14rem;
   }
 }
-@media only screen and (max-width: 260px) {
+@media only screen and (max-width: 280px) {
   .btn--form {
-    width: 10rem;
+    width: 12rem;
+    margin: 0.5rem 0.5rem;
   }
 }
 @media only screen and (max-width: 760px) {
@@ -260,7 +261,7 @@ select {
     width: 20rem;
   }
 }
-@media only screen and (max-width: 760px) and (max-width: 260px) {
+@media only screen and (max-width: 760px) and (max-width: 280px) {
   .btn--login {
     width: 15rem;
   }
@@ -681,7 +682,7 @@ select {
     font-size: 1.1rem;
   }
 }
-@media only screen and (max-width: 260px) {
+@media only screen and (max-width: 280px) {
   .glossary .g-table {
     width: 100%;
     font-size: 1rem;
@@ -1055,7 +1056,7 @@ svg, embed {
     margin: 1.5rem 0;
   }
 }
-@media only screen and (max-width: 260px) {
+@media only screen and (max-width: 280px) {
   .table--action {
     margin: 0.5rem 0;
   }
@@ -1174,7 +1175,7 @@ svg, embed {
     content: "Title: \a";
   }
 }
-@media only screen and (max-width: 1000px) and (max-width: 260px) {
+@media only screen and (max-width: 1000px) and (max-width: 280px) {
   .pseudo--title::before {
     padding: 0;
   }
@@ -1191,7 +1192,7 @@ svg, embed {
     content: "Composer first name:\a ";
   }
 }
-@media only screen and (max-width: 1000px) and (max-width: 260px) {
+@media only screen and (max-width: 1000px) and (max-width: 280px) {
   .pseudo--firstName::before {
     padding: 0;
   }
@@ -1208,7 +1209,7 @@ svg, embed {
     content: "Composer last name:\a ";
   }
 }
-@media only screen and (max-width: 1000px) and (max-width: 260px) {
+@media only screen and (max-width: 1000px) and (max-width: 280px) {
   .pseudo--lastName::before {
     padding: 0;
   }
@@ -1225,7 +1226,7 @@ svg, embed {
     content: "Arranger: \a";
   }
 }
-@media only screen and (max-width: 1000px) and (max-width: 260px) {
+@media only screen and (max-width: 1000px) and (max-width: 280px) {
   .pseudo--arranger::before {
     padding: 0;
   }
@@ -1242,7 +1243,7 @@ svg, embed {
     content: "Voice parts:\a";
   }
 }
-@media only screen and (max-width: 1000px) and (max-width: 260px) {
+@media only screen and (max-width: 1000px) and (max-width: 280px) {
   .pseudo--voiceParts::before {
     padding: 0;
   }
@@ -1259,7 +1260,7 @@ svg, embed {
     content: "Accompanied:\a";
   }
 }
-@media only screen and (max-width: 1000px) and (max-width: 260px) {
+@media only screen and (max-width: 1000px) and (max-width: 280px) {
   .pseudo--accompanied::before {
     padding: 0;
   }
@@ -1276,7 +1277,7 @@ svg, embed {
     content: "Season:\a";
   }
 }
-@media only screen and (max-width: 1000px) and (max-width: 260px) {
+@media only screen and (max-width: 1000px) and (max-width: 280px) {
   .pseudo--season::before {
     padding: 0;
   }
@@ -1293,7 +1294,7 @@ svg, embed {
     content: "Season (additional):\a";
   }
 }
-@media only screen and (max-width: 1000px) and (max-width: 260px) {
+@media only screen and (max-width: 1000px) and (max-width: 280px) {
   .pseudo--seasonAdditional::before {
     padding: 0;
   }
@@ -1310,7 +1311,7 @@ svg, embed {
     content: "Location:\a";
   }
 }
-@media only screen and (max-width: 1000px) and (max-width: 260px) {
+@media only screen and (max-width: 1000px) and (max-width: 280px) {
   .pseudo--location::before {
     padding: 0;
   }
@@ -1327,7 +1328,7 @@ svg, embed {
     content: "Collection:\a\a";
   }
 }
-@media only screen and (max-width: 1000px) and (max-width: 260px) {
+@media only screen and (max-width: 1000px) and (max-width: 280px) {
   .pseudo--collection::before {
     padding: 0;
   }
@@ -1344,7 +1345,7 @@ svg, embed {
     content: "Action:\a";
   }
 }
-@media only screen and (max-width: 1000px) and (max-width: 260px) {
+@media only screen and (max-width: 1000px) and (max-width: 280px) {
   .pseudo--action::before {
     padding: 0;
   }
@@ -1382,7 +1383,7 @@ body {
     font-size: 1.5rem;
   }
 }
-@media only screen and (max-width: 260px) {
+@media only screen and (max-width: 280px) {
   body {
     font-size: 1rem;
   }
@@ -1417,7 +1418,7 @@ body {
     padding: 1rem;
   }
 }
-@media only screen and (max-width: 260px) {
+@media only screen and (max-width: 280px) {
   .heading1 {
     font-size: 1.2rem;
   }
