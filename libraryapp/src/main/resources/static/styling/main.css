@@ -13,6 +13,7 @@ html {
   font-size: 62.5%;
   /*We want default size of 10px to make our lives easier - now we know that 1rem = 10px*/
   /*Therefore, we assume that default font size is 16px, and set the font-size to the appropriate % so that 1rem = 10px (10/16)*/
+  height: 100%;
 }
 
 body {
@@ -20,6 +21,7 @@ body {
   /*changes box model so that borders and paddings are not added to total width/height specified for a box*/
   padding: 2rem;
   /* padding around body - not inherited to other elements*/
+  height: 100%;
 }
 @media only screen and (max-width: 1000px) {
   body {
@@ -78,6 +80,10 @@ select {
 
 .flex__wrap {
   flex-wrap: wrap;
+}
+
+.flex--form {
+  margin: 0 1rem;
 }
 
 .flex__half--form {
@@ -244,6 +250,21 @@ select {
     background-image: linear-gradient(to right bottom, #838083, #bebcbe) !important;
   }
 }
+@media only screen and (max-width: 760px) and (max-width: 760px) {
+  .btn--login {
+    width: 20rem;
+  }
+}
+@media only screen and (max-width: 760px) and (max-width: 420px) {
+  .btn--login {
+    width: 20rem;
+  }
+}
+@media only screen and (max-width: 760px) and (max-width: 260px) {
+  .btn--login {
+    width: 15rem;
+  }
+}
 .btn--alert {
   width: 20rem;
   line-height: 1.3rem;
@@ -331,7 +352,7 @@ select {
 }
 @media only screen and (max-width: 760px) {
   .addEdit {
-    overflow-y: auto;
+    overflow-y: scroll;
   }
 }
 .addEdit__content {
@@ -340,18 +361,14 @@ select {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
+  height: 100%;
   margin: 0rem;
-  background: #001647;
   background: linear-gradient(135deg, #001647 0%, #052877 50%, #eaf1ff 100%);
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
   border-radius: 3px;
   display: flex;
   justify-content: center;
-  overflow: hidden;
+  overflow: auto;
   transition: all 0.5s 0.2s;
-  overflow-y: auto;
   box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
 }
 @media only screen and (max-width: 760px) {
@@ -407,7 +424,6 @@ select {
 .addEdit__content .form__close:link, .addEdit__content .form__close:visited {
   color: #001647;
   padding-right: 1rem;
-  padding-top: 10rem;
   font-size: 4rem;
   transition: all 0.2s;
 }
@@ -452,6 +468,13 @@ select {
 
 .addEditForm {
   box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.2);
+  align-self: center;
+  max-height: 60rem;
+}
+@media only screen and (max-width: 1000px) {
+  .addEditForm {
+    height: 100%;
+  }
 }
 
 .login {
@@ -613,7 +636,7 @@ select {
   position: fixed;
   top: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.8);
+  background: linear-gradient(135deg, #001647 0%, #052877 50%, #eaf1ff 100%);
   z-index: 9999;
   opacity: 0;
   visibility: hidden;
@@ -622,13 +645,6 @@ select {
   align-items: center;
   justify-content: center;
   font-size: 1.6rem;
-}
-@supports (-webkit-backdrop-filter: blur(30px)) or (backdrop-filter: blur(30px)) {
-  .glossary {
-    -webkit-backdrop-filter: blur(30px);
-    backdrop-filter: blur(30px);
-    background-color: rgba(0, 0, 0, 0.3);
-  }
 }
 .glossary__content {
   display: flex;
@@ -646,6 +662,7 @@ select {
   align-self: center;
   border: none;
   border-collapse: collapse;
+  color: #ffffff;
 }
 @media only screen and (max-width: 1000px) {
   .glossary .g-table {
@@ -680,14 +697,14 @@ select {
 }
 .glossary .g-table--left {
   width: 20%;
-  border: 1px solid #838083;
+  border: 1px solid #ffffff;
 }
 .glossary .g-table--right {
   width: 80%;
-  border: 1px solid #838083;
+  border: 1px solid #ffffff;
 }
 .glossary__close {
-  color: #001647;
+  color: #ffffff;
   font-size: 4rem;
   text-decoration: none;
   cursor: pointer;
@@ -717,27 +734,23 @@ select {
     right: -1rem;
   }
 }
-.glossary__close:hover {
-  color: #052877;
-}
-
 .hamburger-menu {
   height: 100vh;
   width: 100%;
   position: fixed;
-  top: 0;
-  left: 0;
   background-color: rgba(0, 0, 0, 0.8);
   z-index: 999;
   transition: all 0.3s;
   color: #ffffff;
   font-size: 8vw;
   display: flex;
+  overflow-y: scroll;
 }
 .hamburger-menu__background {
   background-color: #001647;
   width: 100%;
   height: 100%;
+  overflow: auto;
 }
 .hamburger-menu__list {
   display: flex;
@@ -912,15 +925,11 @@ select {
   justify-content: space-evenly;
   position: relative;
 }
-@media only screen and (max-width: 1000px) {
-  .search {
-    height: 0%;
-  }
-}
 .search--hamburger {
   animation-name: scrolldown;
   animation-duration: 200ms;
   animation-fill-mode: forwards;
+  height: 5rem;
 }
 .search__input {
   font-family: inherit;
@@ -1001,7 +1010,7 @@ select {
 }
 .search--hamburger {
   display: none;
-  margin: 1rem 0 0 2rem;
+  margin: 1rem 0 5rem 2rem;
 }
 
 svg, embed {

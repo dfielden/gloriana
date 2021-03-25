@@ -73,6 +73,17 @@
       &::after {
         background-image: linear-gradient(to right bottom, $color-grey-medium, $color-grey-light) !important;
       }
+      @media only screen and (max-width: $break-small) {
+        width: 20rem;
+      }
+
+      @media only screen and (max-width: $break-smallest) {
+        width: 20rem;
+      }
+
+      @media only screen and (max-width: $break-tiny) {
+        width: 15rem;
+      }
     }
   }
 

@@ -165,14 +165,15 @@
   justify-content: space-evenly;
   position: relative;
 
-  @media only screen and (max-width: $break-medium) {
-    height: 0%;
-  }
+  //@media only screen and (max-width: $break-medium) {
+  //  height: 0%;
+  //}
 
   &--hamburger {
     animation-name: scrolldown;
     animation-duration: 200ms;
     animation-fill-mode: forwards;
+    height: 5rem;
   }
 
 
@@ -275,7 +276,7 @@
   &--hamburger {
     display: none;
     //margin: 1rem 3rem 0 2rem;
-    margin: 1rem 0 0 2rem;
+    margin: 1rem 0 5rem 2rem;
 
   }
 

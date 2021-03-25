@@ -4,7 +4,10 @@
   position: fixed;
   top: 0;
   left: 0;
-  background-color: rgba($color-black, .8);
+  //background-color: rgba($color-black, .8);
+  background: linear-gradient(135deg, rgba($color-primary, 1) 0%,
+          rgba($color-primary-gradient,1) 50%,
+          rgba($color-primary-pale,1) 100%);
   z-index: 9999;
   opacity: 0;
   visibility: hidden;
@@ -14,11 +17,11 @@
   justify-content: center;
   font-size: 1.6rem;
 
-  @supports (-webkit-backdrop-filter: blur(30px)) or (backdrop-filter: blur(30px)) {
-    -webkit-backdrop-filter: blur(30px);
-    backdrop-filter: blur(30px);
-    background-color: rgba($color-black, .3);
-  }
+  //@supports (-webkit-backdrop-filter: blur(30px)) or (backdrop-filter: blur(30px)) {
+  //  -webkit-backdrop-filter: blur(30px);
+  //  backdrop-filter: blur(30px);
+  //  background-color: rgba($color-black, .3);
+  //}
 
 
   //&:target {
@@ -50,6 +53,7 @@
     align-self: center;
     border: none;
     border-collapse: collapse;
+    color: $color-white;
 
     @media only screen and (max-width: $break-medium) {
       width: 65%;
@@ -79,19 +83,19 @@
 
     &--left {
       width: 20%;
-      border: 1px solid $color-grey-medium;
+      border: 1px solid $color-white;
     }
 
     &--right {
       width: 80%;
-      border: 1px solid $color-grey-medium;
+      border: 1px solid $color-white;
 
     }
   }
 
 
   &__close {
-    color: $color-primary;
+    color: $color-white;
     font-size: 4rem;
     text-decoration: none;
     cursor: pointer;
@@ -119,9 +123,6 @@
     @media only screen and (max-width: $break-tiny) {
     }
 
-    &:hover {
-      color: $color-primary-gradient;
-    }
   }
 
 }

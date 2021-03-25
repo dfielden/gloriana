@@ -44,11 +44,13 @@ $font-display: 'Josefin Sans', sans-serif;
 html {
   font-size: 62.5%; /*We want default size of 10px to make our lives easier - now we know that 1rem = 10px*/
   /*Therefore, we assume that default font size is 16px, and set the font-size to the appropriate % so that 1rem = 10px (10/16)*/
+  height: 100%;
 }
 
 body {
   box-sizing: border-box; /*changes box model so that borders and paddings are not added to total width/height specified for a box*/
   padding: 2rem; /* padding around body - not inherited to other elements*/
+  height: 100%;
 
   @media only screen and (max-width: $break-medium) {
     padding: 0;

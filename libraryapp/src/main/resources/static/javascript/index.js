@@ -622,18 +622,24 @@ function grantAdminPermissions() {
     }
 }
 
+document.getElementById('hamburger_changePassword').addEventListener('click', function() {
+    window.location.href = '/password';
+})
 
 function redirectToLogin() {
     window.location.href = '/login';
 }
 
+
 document.getElementById('btn_logout').addEventListener('click', function() {
     logout();
 })
 
+
 document.getElementById('hamburger_logout').addEventListener('click', function() {
     logout();
 })
+
 
 function logout() {
     ajax_get(`/logout`, function(data) {
