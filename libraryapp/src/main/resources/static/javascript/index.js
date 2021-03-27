@@ -99,7 +99,7 @@ function addRowMainTable(tableBody, data) {
 
     // FINALLY CREATE CELL WITH ACTION BUTTONS
     containerDiv = document.createElement('div')
-    containerDiv.classList.add('table--action', 'flex__oneEleventh', 'displayNone');
+    containerDiv.classList.add('table--action', 'flex__oneEleventh');
     row.appendChild(containerDiv);
 
     let buttonDiv = document.createElement('div');
@@ -359,9 +359,10 @@ function addEdit__add(xhr) {
                 let data = JSON.parse(xhr.responseText);
                 let tableBody = document.getElementById('table__body');
                 addRowMainTable(tableBody, data);
-                sessionStorage.setItem('display-message', 'added');
+                document.getElementById('message-added').style.display = 'inline-block';
+                resetAnimation('message-updated');
                 clearNewEntryForm();
-                window.location.href = '/';
+                //window.location.href = '/';
             }
         }
     }
