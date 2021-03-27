@@ -23,12 +23,23 @@
     max-width: 60rem;
     max-height: 15rem;
     background-color: $color-grey-lightest;
+
+    @media only screen and (max-width: $break-smallest) {
+      width: 100%;
+      max-width: 60rem;
+    }
   }
 
   &__btn {
     display: flex;
     align-self: center;
     padding: 1rem;
+
+
+    @media only screen and (max-width: $break-smallest) {
+      padding: 0.5rem;
+
+    }
   }
 
 }
@@ -51,9 +62,12 @@
   background-color: $color-white;
   text-align: center;
 
+  @media only screen and (max-width: $break-smallest) {
+    font-size: 2.5rem;
+  }
+
   @media only screen and (max-width: $break-tiny) {
     font-size: 2rem;
-  ;
   }
 
   &--warning {

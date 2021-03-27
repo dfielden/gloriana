@@ -101,6 +101,18 @@
       margin: 0.5rem 1rem
     }
 
+    @media only screen and (max-width: $break-smallest) {
+      width: 14rem;
+      margin: 0.5rem 0.5rem
+    }
+
+    @media only screen and (max-width: $break-tiny) {
+      width: 10rem;
+      font-size: 1rem;
+      line-height: 1rem;
+    }
+
+
   }
 
   &:hover {

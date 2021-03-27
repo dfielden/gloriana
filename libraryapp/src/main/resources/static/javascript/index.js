@@ -138,8 +138,20 @@ function deleteRowOfBtnClick(btn) {
 
 
 function updateRowOfBtnClick(btn, data) {
-    let row = btn.parentNode.parentNode;
-    addRowMainTable(row, data);
+    let row = btn.parentNode.parentNode.parentNode;
+    row.children[0].children[0].innerHTML = data.title;
+    row.children[0].children[1].innerHTML = data.composerLastName;
+    row.children[0].children[2].innerHTML = data.composerFirstName;
+    row.children[0].children[3].innerHTML = data.arranger;
+    row.children[0].children[4].innerHTML = data.voiceParts;
+
+    row.children[1].children[0].innerHTML = data.accompanied;
+    row.children[1].children[1].innerHTML = data.season;
+    row.children[1].children[2].innerHTML = data.seasonAdditional;
+    row.children[1].children[3].innerHTML = data.location;
+    row.children[1].children[4].innerHTML = data.collection;
+
+
 }
 
 function clearClassFromDOM(className) {
@@ -237,6 +249,7 @@ document.getElementById('search__button').addEventListener("click", function (e)
                 let data = JSON.parse(xhr.responseText);
                 if (data.library_entries.length === 0) {
                     document.getElementById('message-searchNotFound').style.display = 'inline-block';
+                    resetAnimation('message-searchNotFound');
                 }
                 clearClassFromDOM('row--visible');
                 populateMainTable(data.library_entries);
@@ -270,6 +283,7 @@ document.getElementById('search__button--hamburger').addEventListener("click", f
                 let data = JSON.parse(xhr.responseText);
                 if (data.library_entries.length === 0) {
                     document.getElementById('message-searchNotFound').style.display = 'inline-block';
+                    resetAnimation('message-searchNotFound');
                 } else {
                     clearClassFromDOM('row--visible');
                     populateMainTable(data.library_entries);
@@ -364,8 +378,9 @@ function addEdit__edit(xhr) {
             let data = JSON.parse(xhr.responseText);
             let btn = document.getElementById('edit_' + document.getElementById('id').value);
             updateRowOfBtnClick(btn, data);
-            sessionStorage.setItem('display-message', 'updated');
-            clearNewEntryForm(true);
+            document.getElementById('message-updated').style.display = 'inline-block';
+            resetAnimation('message-updated');
+            clearNewEntryForm();
         }
     }
 }
@@ -479,6 +494,7 @@ document.getElementById('season').addEventListener('click', function() {
     }
 })
 
+
 function toggleLabelPlaceholderStyle(labelElement) {
     if (labelElement.value === '-1') {
         labelElement.classList.add('select-text-default');
@@ -518,12 +534,10 @@ Use Event bubbling to add event listeners to current and future button elements 
  */
 document.addEventListener('click',function(e) {
     if (getBtnIdDescription(e.target.id) === ('delete')) {
-        console.log('delete');
         ajax_get(`/loginstatus`, function(data) {
             if (data.authStatus !== ADMIN) {
                 alert(noPermission);
             } else {
-                console.log('make it visible');
                 document.getElementById('delete-alert').classList.add('visible');
                 document.getElementById('delete-alert').style.display = 'flex';
 
@@ -551,7 +565,7 @@ document.getElementById('btn_confirmDelete').addEventListener('click', function(
         if (data.authStatus !== ADMIN) {
             alert(noPermission);
             clearNewEntryForm();
-            window.location.href = '/';
+            window.location.href = '/#';
         } else {
             document.getElementById('delete-alert').classList.remove('visible');
             let xhr = new XMLHttpRequest();
@@ -563,13 +577,16 @@ document.getElementById('btn_confirmDelete').addEventListener('click', function(
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     deleteRowOfBtnClick(clickedBtn);
-                    sessionStorage.setItem('display-message', 'deleted');
+                    document.getElementById('message-deleted').style.display = 'inline-block';
+                    resetAnimation('message-deleted');
+                    //sessionStorage.setItem('display-message', 'deleted');
                     clearNewEntryForm();
 
                     // Reset delete params
                     deleteValue = -1;
                     clickedBtn = undefined;
 
+                    // TODO: remove this - currently have to reload page to prevent buttons becoming unresponsive...
                     window.location.href = '/';
                 }
             }
@@ -622,9 +639,10 @@ function grantAdminPermissions() {
     }
 }
 
+
 document.getElementById('hamburger_changePassword').addEventListener('click', function() {
-    window.location.href = '/password';
 })
+
 
 function redirectToLogin() {
     window.location.href = '/login';
@@ -644,6 +662,7 @@ document.getElementById('hamburger_logout').addEventListener('click', function()
 function logout() {
     ajax_get(`/logout`, function(data) {
         document.getElementById('message-loggedout').style.display = 'inline-block';
+        resetAnimation('message-loggedout');
         redirectToLogin();
     })
 }
@@ -710,4 +729,11 @@ function ajax_get(url, callback) {
     };
     xhr.open("GET", url, true);
     xhr.send();
+}
+
+function resetAnimation(elementName) {
+    let element = document.getElementById(elementName);
+    element.classList.remove('message');
+    element.classList.add('message');
+
 }

@@ -140,10 +140,21 @@ select {
   max-height: 15rem;
   background-color: #f3f3f3;
 }
+@media only screen and (max-width: 420px) {
+  .alert .alert__background {
+    width: 100%;
+    max-width: 60rem;
+  }
+}
 .alert__btn {
   display: flex;
   align-self: center;
   padding: 1rem;
+}
+@media only screen and (max-width: 420px) {
+  .alert__btn {
+    padding: 0.5rem;
+  }
 }
 
 .message {
@@ -162,6 +173,11 @@ select {
   z-index: 9999;
   background-color: #ffffff;
   text-align: center;
+}
+@media only screen and (max-width: 420px) {
+  .message {
+    font-size: 2.5rem;
+  }
 }
 @media only screen and (max-width: 280px) {
   .message {
@@ -281,6 +297,19 @@ select {
   .btn--alert {
     width: 16rem;
     margin: 0.5rem 1rem;
+  }
+}
+@media only screen and (max-width: 420px) {
+  .btn--alert {
+    width: 14rem;
+    margin: 0.5rem 0.5rem;
+  }
+}
+@media only screen and (max-width: 280px) {
+  .btn--alert {
+    width: 10rem;
+    font-size: 1rem;
+    line-height: 1rem;
   }
 }
 .btn:hover {
@@ -1451,6 +1480,17 @@ body {
   font-size: 1.5rem;
   margin: 0.5rem 2.5rem;
   font-weight: 600;
+}
+@media only screen and (max-width: 420px) {
+  .alert-box-text {
+    font-size: 1.2rem;
+    margin: 0.5rem 1.3rem;
+  }
+}
+@media only screen and (max-width: 280px) {
+  .alert-box-text {
+    font-size: 1rem;
+  }
 }
 
 .para {
