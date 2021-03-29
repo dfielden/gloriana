@@ -1,8 +1,6 @@
 package com.danfielden.gloriana;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 import org.springframework.aop.scope.ScopedProxyUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -10,7 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import com.google.gson.Gson;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -113,8 +110,7 @@ public class GlorianaApplication {
         }
 
         JsonArray entries = new JsonArray();
-        Collection<LibraryEntry> entriesCollection = ql.getAllEntries().values();
-        ArrayList<LibraryEntry> allEntriesList = new ArrayList<>(entriesCollection);
+        ArrayList<LibraryEntry> allEntriesList = new ArrayList<>(ql.getAllEntries().values());
         Collections.sort(allEntriesList, new LibraryEntrySort());
 
         for (LibraryEntry le : allEntriesList) {
@@ -142,9 +138,11 @@ public class GlorianaApplication {
     }
 
     @RequestMapping(value="/delete/{id}")
-    public @ResponseBody long getId(@PathVariable(value="id") long id) throws Exception {
+    public @ResponseBody String getId(@PathVariable(value="id") long id) throws Exception {
         ql.deleteEntry(id);
-        return id;
+        JsonObject result = new JsonObject();
+        result.add("deleted_entry", new JsonPrimitive(id));
+        return gson.toJson(result);
     }
 
 

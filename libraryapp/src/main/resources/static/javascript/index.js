@@ -41,6 +41,14 @@ window.addEventListener('load', function(event) {
 });
 
 
+document.addEventListener('click',function(e) {
+    if (getBtnIdDescription(e.target.id) === ('edit')) {
+        editAjax(e);
+    } else if (getBtnIdDescription(e.target.id) === ('delete')) {
+        deleteAjax(e);
+    }
+})
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // POPULATE TABLE
@@ -413,62 +421,62 @@ function addEdit__edit(xhr) {
 }
 
 
-document.addEventListener('click',function(e) {
-    if (getBtnIdDescription(e.target.id) === ('edit')) {
-        ajax_get(`/loginstatus`, function(data) {
-            if (data.authStatus !== ADMIN) {
-                clearNewEntryForm();
-                alert(noPermission);
-            } else {
-                showAddEditForm();
-                let id = getBtnIdNum(e.target.id);
-                let url = '/entry/' + id;
 
-                ajax_get(url, function (data) {
-                    document.getElementById('id').value = data.id;
-                    document.getElementById('title').value = data.title;
-                    document.getElementById('composerLastName').value = data.composerLastName;
-                    document.getElementById('composerFirstName').value = data.composerFirstName;
-                    document.getElementById('arranger').value = data.arranger;
-                    document.getElementById('voiceParts').value = data.voiceParts;
-                    document.getElementById('season').value = (data.season == null || data.season === ' ') ? '-1' : data.season;
-                    document.getElementById('seasonAdditional').value = data.seasonAdditional;
-                    document.getElementById('location').value = data.location;
-                    document.getElementById('collection').value = data.collection;
-                    document.getElementById('accompanied').value = data.accompanied == null ? '-1' : data.accompanied;
+function editAjax(e) {
+    ajax_get(`/loginstatus`, function (data) {
+        if (data.authStatus !== ADMIN) {
+            clearNewEntryForm();
+            alert(noPermission);
+        } else {
+            showAddEditForm();
+            let id = getBtnIdNum(e.target.id);
+            let url = '/entry/' + id;
 
-                    if (document.getElementById('accompanied').value === '') {
+            ajax_get(url, function (data) {
+                document.getElementById('id').value = data.id;
+                document.getElementById('title').value = data.title;
+                document.getElementById('composerLastName').value = data.composerLastName;
+                document.getElementById('composerFirstName').value = data.composerFirstName;
+                document.getElementById('arranger').value = data.arranger;
+                document.getElementById('voiceParts').value = data.voiceParts;
+                document.getElementById('season').value = (data.season == null || data.season === ' ') ? '-1' : data.season;
+                document.getElementById('seasonAdditional').value = data.seasonAdditional;
+                document.getElementById('location').value = data.location;
+                document.getElementById('collection').value = data.collection;
+                document.getElementById('accompanied').value = data.accompanied == null ? '-1' : data.accompanied;
+
+                if (document.getElementById('accompanied').value === '') {
+                    document.getElementById('accompanied-label').style.display = "none";
+                    document.getElementById('accompanied').selectedIndex = 0;
+                    document.getElementById('accompanied').style.color = '#838083'; // COLOR_LIGHT_GREY
+                } else {
+                    if (window.matchMedia("(max-width: 700px)").matches) {
                         document.getElementById('accompanied-label').style.display = "none";
-                        document.getElementById('accompanied').selectedIndex = 0;
-                        document.getElementById('accompanied').style.color = '#838083'; // COLOR_LIGHT_GREY
                     } else {
-                        if (window.matchMedia("(max-width: 700px)").matches) {
-                            document.getElementById('accompanied-label').style.display = "none";
-                        } else {
-                            document.getElementById('accompanied-label').style.display = "block";
-                        }
+                        document.getElementById('accompanied-label').style.display = "block";
                     }
+                }
 
-                    if (document.getElementById('season').value === '') {
+                if (document.getElementById('season').value === '') {
+                    document.getElementById('season-label').style.display = "none";
+                    document.getElementById('season').selectedIndex = 0;
+                    document.getElementById('season').style.color = '#838083'; // COLOR_LIGHT_GREY
+                } else {
+                    if (window.matchMedia("(max-width: 700px)").matches) {
                         document.getElementById('season-label').style.display = "none";
-                        document.getElementById('season').selectedIndex = 0;
-                        document.getElementById('season').style.color = '#838083'; // COLOR_LIGHT_GREY
                     } else {
-                        if (window.matchMedia("(max-width: 700px)").matches) {
-                            document.getElementById('season-label').style.display = "none";
-                        } else {
-                            document.getElementById('season-label').style.display = "block";
-                        }
+                        document.getElementById('season-label').style.display = "block";
                     }
+                }
 
-                    toggleLabelPlaceholderStyle(document.getElementById('accompanied'));
-                    toggleLabelPlaceholderStyle(document.getElementById('season'));
-                    toggleAddEditText();
-                });
-            }
-        });
-    }
-});
+                toggleLabelPlaceholderStyle(document.getElementById('accompanied'));
+                toggleLabelPlaceholderStyle(document.getElementById('season'));
+                toggleAddEditText();
+            });
+        }
+    });
+}
+
 
 // SHOW AND FORMAT ADD EDIT FORM
 
@@ -559,32 +567,35 @@ document.getElementById('btn_cancelNewEntry').addEventListener('click', function
 /*
 Use Event bubbling to add event listeners to current and future button elements from the document object.
  */
-document.addEventListener('click',function(e) {
-    if (getBtnIdDescription(e.target.id) === ('delete')) {
-        ajax_get(`/loginstatus`, function(data) {
-            if (data.authStatus !== ADMIN) {
-                alert(noPermission);
-            } else {
-                document.getElementById('delete-alert').classList.add('visible');
-                document.getElementById('delete-alert').style.display = 'flex';
 
-                // Set params for delete ajax
-                deleteValue = getBtnIdNum(e.target.id);
-                clickedBtn = e.target;
-            }
-        });
-    }
-});
+function deleteAjax(e) {
+    ajax_get(`/loginstatus`, function (data) {
+        if (data.authStatus !== ADMIN) {
+            alert(noPermission);
+        } else {
+            document.getElementById('delete-alert').classList.add('visible');
+            document.getElementById('delete-alert').style.display = 'flex';
+
+            // Set params for delete ajax
+            deleteValue = getBtnIdNum(e.target.id);
+            clickedBtn = e.target;
+        }
+    });
+}
 
 
 document.getElementById('btn_cancelDelete').addEventListener('click', function() {
+    cancelDelete();
+})
+
+function cancelDelete() {
     document.getElementById('delete-alert').classList.remove('visible');
     document.getElementById('delete-alert').style.display = 'none';
 
     // Reset delete params
     deleteValue = -1;
     clickedBtn = undefined;
-})
+}
 
 
 document.getElementById('btn_confirmDelete').addEventListener('click', function() {
@@ -592,29 +603,33 @@ document.getElementById('btn_confirmDelete').addEventListener('click', function(
         if (data.authStatus !== ADMIN) {
             alert(noPermission);
             clearNewEntryForm();
-            window.location.href = '/#';
+            cancelDelete();
         } else {
             document.getElementById('delete-alert').classList.remove('visible');
+            document.getElementById('delete-alert').style.display = 'none';
             let xhr = new XMLHttpRequest();
-            let url = '/delete/' + deleteValue;
+            let url = `/delete/${deleteValue}`;
             xhr.open('POST', url, true);
 
             //Send the proper header information along with the request
             xhr.setRequestHeader('Content-type', 'application/json');
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4 && xhr.status === 200) {
-                    deleteRowOfBtnClick(clickedBtn);
-                    document.getElementById('message-deleted').style.display = 'inline-block';
-                    resetAnimation('message-deleted');
-                    //sessionStorage.setItem('display-message', 'deleted');
-                    clearNewEntryForm();
+                    try {
+                        deleteRowOfBtnClick(clickedBtn);
+                        document.getElementById('message-deleted').style.display = 'inline-block';
+                        resetAnimation('message-deleted');
+                        clearNewEntryForm();
 
-                    // Reset delete params
-                    deleteValue = -1;
-                    clickedBtn = undefined;
+                        // Reset delete params
+                        deleteValue = -1;
+                        clickedBtn = undefined;
 
-                    // TODO: remove this - currently have to reload page to prevent buttons becoming unresponsive...
-                    window.location.href = '/';
+                        // TODO: remove this - currently have to reload page to prevent buttons becoming unresponsive...
+                        //window.location.href = '/';
+                    } catch (err) {
+                        console.log(err.message + " in " + xhr.responseText);
+                    }
                 }
             }
             xhr.send();
