@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 window.addEventListener('load', function(event) {
-    if (sessionStorage.getItem(clearNewEntryForm) !== 'undefined') {
+    if (sessionStorage.getItem('display-message') !== 'undefined' && sessionStorage.getItem('display-message') !== null) {
         document.getElementById('message-' + sessionStorage.getItem('display-message')).style.display = 'inline-block';
     }
     sessionStorage.setItem('display-message', undefined);
@@ -52,17 +52,35 @@ const tableParameters = ["pseudo--ID", "pseudo--title", "pseudo--lastName", "pse
 function populateMainTable(data) {
     let tableBody = document.getElementById('table__body');
     for (let i = 0; i < data.length; i++) {
-        addRowMainTable(tableBody, data[i]);
+        if (i < 100) {
+            addRowMainTable(tableBody, data[i], true);
+        } else {
+            addRowMainTable(tableBody, data[i], false);
+        }
     }
+    // set the display more button based on number of entries
+    if (data.length <= 100) {
+        document.getElementById('showMore').classList.add('displayNone')
+    } else {
+        document.getElementById('showMore').classList.remove('displayNone')
+
+    }
+
     // add ability to edit entries, based on login status
     setEditPermissions();
 }
 
 
-function addRowMainTable(tableBody, data) {
+function addRowMainTable(tableBody, data, boolShowRow) {
     // CREATE NEW ROW
     let row = document.createElement('div');
-    row.classList.add('row', 'row--body', 'row--visible');
+    if (boolShowRow) {
+        row.classList.add('row', 'row--body', 'row--visible');
+
+    } else {
+        row.classList.add('row', 'row--body', 'row--visible', 'displayNone');
+
+    }
     let containerDiv;
     tableBody.appendChild(row);
 
@@ -119,6 +137,15 @@ function addRowMainTable(tableBody, data) {
     deleteBtn.innerText = "Delete";
     buttonDiv.appendChild(deleteBtn);
 }
+
+
+document.getElementById('btn_showMore').addEventListener('click', function() {
+    let rows = document.querySelectorAll('.row--visible.displayNone');
+    rows.forEach(function(currentEl) {
+        currentEl.classList.remove('displayNone');
+    })
+    document.getElementById('showMore').classList.add('displayNone');
+})
 
 
 function getBtnIdNum(string) {
@@ -358,11 +385,10 @@ function addEdit__add(xhr) {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 let data = JSON.parse(xhr.responseText);
                 let tableBody = document.getElementById('table__body');
-                addRowMainTable(tableBody, data);
+                addRowMainTable(tableBody, data, true);
                 document.getElementById('message-added').style.display = 'inline-block';
                 resetAnimation('message-updated');
                 clearNewEntryForm();
-                //window.location.href = '/';
             }
         }
     }
