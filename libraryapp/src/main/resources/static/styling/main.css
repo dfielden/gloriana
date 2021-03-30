@@ -114,6 +114,10 @@ select {
   transform: translate(-50%, -50%) scale(1) !important;
 }
 
+.width100 {
+  width: 100%;
+}
+
 .alert {
   display: none;
   height: 100vh;
@@ -216,6 +220,7 @@ select {
 .btn--table {
   width: 80%;
   min-width: 5rem;
+  max-width: 10rem;
   font-size: 1rem;
   line-height: 1rem;
   padding: 0.5rem 0rem;
@@ -577,7 +582,7 @@ select {
     background-color: rgba(190, 188, 190, 0);
     max-width: 100%;
     height: 100vh;
-    margin: 0;
+    margin: 5rem 0 0 0;
   }
 }
 .login__content .form__input, .login__content .login__input {
@@ -669,19 +674,21 @@ select {
 }
 
 .glossary {
-  height: 100vh;
+  height: 100%;
   width: 100%;
   position: fixed;
+  display: flex;
+  flex-direction: column;
   top: 0;
   left: 0;
   background: linear-gradient(135deg, #001647 0%, #052877 50%, #eaf1ff 100%);
   z-index: 9999;
   opacity: 0;
   visibility: hidden;
-  display: flex;
   transition: all 0.3s;
   align-items: center;
   justify-content: center;
+  overflow: auto;
   font-size: 1.6rem;
 }
 .glossary__content {
@@ -753,23 +760,18 @@ select {
   align-self: flex-end;
   margin-left: auto;
   position: relative;
-  right: -5rem;
+  left: 80%;
   top: -1rem;
 }
 @media only screen and (max-width: 1000px) {
   .glossary__close {
     font-size: 3.5rem;
+    left: 90%;
   }
 }
 @media only screen and (max-width: 760px) {
   .glossary__close {
     font-size: 3rem;
-    right: -3rem;
-  }
-}
-@media only screen and (max-width: 420px) {
-  .glossary__close {
-    right: -1rem;
   }
 }
 .hamburger-menu {

@@ -625,8 +625,6 @@ document.getElementById('btn_confirmDelete').addEventListener('click', function(
                         deleteValue = -1;
                         clickedBtn = undefined;
 
-                        // TODO: remove this - currently have to reload page to prevent buttons becoming unresponsive...
-                        //window.location.href = '/';
                     } catch (err) {
                         console.log(err.message + " in " + xhr.responseText);
                     }
@@ -683,6 +681,7 @@ function grantAdminPermissions() {
 
 
 document.getElementById('hamburger_changePassword').addEventListener('click', function() {
+    window.location.href = '/password'
 })
 
 
