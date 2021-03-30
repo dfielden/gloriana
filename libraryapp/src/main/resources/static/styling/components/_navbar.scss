@@ -205,30 +205,39 @@
       width: 95%;
       background-color: $color-white;
       color: $color-primary;
+      border: 1px solid $color-primary;
 
       @media only screen and (max-width: $break-small) {
         width: 90%;
       }
     }
 
+    &--hamburger {
+      &:focus {
+        border: none;
+      }
+    }
+
   }
 
   &__input:focus + &__button {
-    background-color: $color-white;
+    background-color: rgba($color-white, 0);
   }
 
   &__button {
     border: none;
-    background-color: $color-white;
+    background-color: rgba($color-white, 0);
     cursor: pointer;
 
     &:focus {
       outline: none;
+      background-color: rgba($color-white, 0);
     }
 
     &:active {
       transform: translateY(1px);
       background-color: rgba($color-white, 0);
+
 
     }
   }
