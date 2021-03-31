@@ -395,7 +395,7 @@ function addEdit__add(xhr) {
                 let tableBody = document.getElementById('table__body');
                 addRowMainTable(tableBody, data, true);
                 document.getElementById('message-added').style.display = 'inline-block';
-                resetAnimation('message-updated');
+                resetAnimation('message-added');
                 clearNewEntryForm();
             }
         }
@@ -703,6 +703,7 @@ document.getElementById('hamburger_logout').addEventListener('click', function()
 function logout() {
     ajax_get(`/logout`, function(data) {
         document.getElementById('message-loggedout').style.display = 'inline-block';
+
         resetAnimation('message-loggedout');
         redirectToLogin();
     })
@@ -774,7 +775,8 @@ function ajax_get(url, callback) {
 
 function resetAnimation(elementName) {
     let element = document.getElementById(elementName);
-    element.classList.remove('message');
-    element.classList.add('message');
+    element.classList.remove('message-animation');
+    void element.offsetWidth; // required to reset animation
+    element.classList.add('message-animation');
 
 }

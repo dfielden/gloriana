@@ -44,11 +44,6 @@
 }
 
 .message {
-  opacity: 0;
-  display: none;
-  animation-name: fadeout;
-  animation-duration: 3s;
-  animation-fill-mode: forwards;
   width: 100%;
   color:$color-success;
   font-size: 3rem;
@@ -71,6 +66,14 @@
   &--warning {
     color:$color-warning;
   }
+}
+
+.message-animation {
+  opacity: 0;
+  display: none;
+  animation-name: fadeout;
+  animation-duration: 3s;
+  animation-fill-mode: forwards;
 }
 
 @keyframes fadeout {

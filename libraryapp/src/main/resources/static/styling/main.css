@@ -166,11 +166,6 @@ select {
 }
 
 .message {
-  opacity: 0;
-  display: none;
-  animation-name: fadeout;
-  animation-duration: 3s;
-  animation-fill-mode: forwards;
   width: 100%;
   color: #0da000;
   font-size: 3rem;
@@ -194,6 +189,14 @@ select {
 }
 .message--warning {
   color: #e53508;
+}
+
+.message-animation {
+  opacity: 0;
+  display: none;
+  animation-name: fadeout;
+  animation-duration: 3s;
+  animation-fill-mode: forwards;
 }
 
 @keyframes fadeout {
