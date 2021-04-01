@@ -907,7 +907,6 @@ select {
 .nav--burger {
   display: none;
   width: 4rem;
-  height: 2rem;
   justify-content: center;
   margin: 2rem;
   cursor: pointer;
