@@ -289,6 +289,7 @@ document.getElementById('search__button').addEventListener("click", function (e)
                 clearClassFromDOM('row--visible');
                 populateMainTable(data.library_entries);
                 document.getElementById('search__input--hamburger').value = searchString;
+                document.getElementById('search__input').blur(); // remove focus styling
             }
         }
         xhr.send(searchString);
