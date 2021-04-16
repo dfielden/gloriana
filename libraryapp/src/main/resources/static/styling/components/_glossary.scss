@@ -6,22 +6,19 @@
   flex-direction: column;
   top: 0;
   left: 0;
-  background: linear-gradient(135deg, rgba($color-primary, 1) 0%,
-          rgba($color-primary-gradient,1) 50%,
-          rgba($color-primary-pale,1) 100%);
+  background-color: $color-primary;
   z-index: 9999;
   opacity: 0;
   visibility: hidden;
   transition: all .3s;
   align-items: center;
-  justify-content: center;
   overflow: auto; // ensures blue background entirely covers div, rather than just 100vh
-
   font-size: 1.6rem;
 
 
   &__content {
     display: flex;
+    margin-bottom: 3rem;
     flex-direction: column;
     width: 100%;
 
@@ -91,7 +88,7 @@
     margin-left: auto;
     position: relative;
     left: 80%;
-    top: -1rem;
+    top: 2rem;
 
     @media only screen and (max-width: $break-medium) {
       font-size: 3.5rem;

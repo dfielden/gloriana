@@ -691,18 +691,18 @@ select {
   flex-direction: column;
   top: 0;
   left: 0;
-  background: linear-gradient(135deg, #001647 0%, #052877 50%, #eaf1ff 100%);
+  background-color: #001647;
   z-index: 9999;
   opacity: 0;
   visibility: hidden;
   transition: all 0.3s;
   align-items: center;
-  justify-content: center;
   overflow: auto;
   font-size: 1.6rem;
 }
 .glossary__content {
   display: flex;
+  margin-bottom: 3rem;
   flex-direction: column;
   width: 100%;
 }
@@ -771,7 +771,7 @@ select {
   margin-left: auto;
   position: relative;
   left: 80%;
-  top: -1rem;
+  top: 2rem;
 }
 @media only screen and (max-width: 1000px) {
   .glossary__close {
@@ -1276,7 +1276,7 @@ svg, embed {
     display: flex;
     padding: 0 0.5rem 0 0;
     font-weight: 700;
-    content: "Arranger: \a";
+    content: "Arranger/editor: \a";
   }
 }
 @media only screen and (max-width: 1000px) and (max-width: 280px) {

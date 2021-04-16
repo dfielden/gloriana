@@ -169,7 +169,7 @@
 
     @media only screen and (max-width: $break-medium) {
       @include pseudoElement--before;
-      content: "Arranger: " + "\00000a";
+      content: "Arranger/editor: " + "\00000a";
     }
   }
 }
