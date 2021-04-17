@@ -249,7 +249,10 @@ public final class QueryLibraryDB implements QueryLibrary {
 
     // AUTHENTICATION
     public synchronized Map<String, String> getuserDetails(String username) throws Exception {
-        String salt = "";
+	if (username == null || username.isEmpty()) {
+		throw new IllegalArgumentException("Username was empty");
+	}
+
         HashMap<String, String> userDetails = new HashMap<>();
 
         String query = "SELECT * FROM users WHERE user_name = ?";
